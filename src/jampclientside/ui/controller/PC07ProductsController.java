@@ -9,6 +9,8 @@ import jampclientside.entity.ProductBean;
 import jampclientside.entity.TxokoBean;
 import jampclientside.entity.UserBean;
 import jampclientside.exceptions.BusinessLogicException;
+import jampclientside.exceptions.IdNotOkException;
+import jampclientside.exceptions.NameNotOkException;
 import jampclientside.logic.EventLogic;
 import jampclientside.logic.ExpenseLogic;
 import jampclientside.logic.FTPClientLogic;
@@ -81,267 +83,253 @@ public class PC07ProductsController {
     private static final int MAX_CARACT = 255;
 
     /**
-     *
+     * Attribute to appear the information text.
      */
     private static final Logger LOGGER = Logger.getLogger("package.class");
 
-    /**
-     *
-     */
-    private final Tooltip tooltip = new Tooltip();
 
     /**
-     *
+     * Tooltip for id
      */
     private final Tooltip tooltipID = new Tooltip();
 
     /**
-     *
+     * Tooltip for the name
      */
     private final Tooltip tooltipName = new Tooltip();
 
     /**
-     *
-     */
-    private final Tooltip tooltipAddButton = new Tooltip();
-
-    /**
-     *
+     * Menu item of expense
      */
     @FXML
     private MenuItem idMenuExpense;
 
     /**
-     *
+     * Menu item of events
      */
     @FXML
     private MenuItem idMenuEvent;
 
     /**
-     *
+     * Menu item of users
      */
     @FXML
     private MenuItem idMenuUser;
 
     /**
-     *
+     * Menu item of phones
      */
     @FXML
     private MenuItem idMenuTelephon;
 
     /**
-     *
+     * the menu item client ftp
      */
     @FXML
     private MenuItem idMenuFTP;
 
     /**
-     *
+     * The menu bar
      */
     @FXML
     private MenuBar menuBar;
 
     /**
-     *
+     * The menu "menu"
      */
     @FXML
     private Menu menuMenu;
 
     /**
-     *
+     * The menu item for log out
      */
     @FXML
     private MenuItem menuLogOut;
 
     /**
-     *
+     * the menu event
      */
     @FXML
     private Menu menuEvent;
 
     /**
-     *
+     * the menu expense
      */
     @FXML
     private Menu menuExpense;
 
     /**
-     *
+     * the menu product
      */
     @FXML
     private Menu menuProduct;
 
     /**
-     *
+     * the menu user
      */
     @FXML
     private Menu menuUser;
 
     /**
-     *
+     * the menu telephone
      */
     @FXML
     private Menu menuTelephon;
 
     /**
-     *
+     * the product pane
      */
     @FXML
     private VBox productPane;
 
     /**
-     *
+     * labe for date
      */
     @FXML
     private Label lblDate;
 
     /**
-     *
+     * label for login
      */
     @FXML
     private Label lblLogin;
 
     /**
-     *
+     * label for full name
      */
     @FXML
     private Label lblFullName;
 
     /**
-     *
+     * label for email
      */
     @FXML
     private Label lblEmail;
 
     /**
-     *
+     * label for txoko
      */
     @FXML
     private Label lbllTxoko;
 
     /**
-     *
+     * the combo box search
      */
     @FXML
     private ComboBox<String> cbSearch;
 
     /**
-     *
+     * the textfield for search
      */
     @FXML
     private TextField txtSearch;
 
     /**
-     *
+     * the button search
      */
     @FXML
     private Button btnSearch;
 
     /**
-     *
+     * the label error
      */
     @FXML
     private Label labelError;
 
     /**
-     *
+     * the button for add product
      */
     @FXML
     private Button addProduct;
 
     /**
-     *
+     * the button for delete product
      */
     @FXML
     private Button delProduct;
 
     /**
-     *
+     * the button for asign product
      */
     @FXML
     private Button asignProduct;
 
     /**
-     *
+     * the button for unasign product
      */
     @FXML
     private Button unasignProduct;
 
     /**
-     *
+     * the button for printproduct report
      */
     @FXML
     private Button btnReport;
 
     /**
-     *
-     */
-    @FXML
-    private Button updateProduct;
-
-    /**
-     *
+     * th button for log out
      */
     @FXML
     private Button btnLogOut;
 
     /**
-     *
+     * th button for log out
      */
     @FXML
     private Button btnLogOut2;
 
     /**
-     *
+     * thetable view for products
      */
     @FXML
     private TableView<ProductBean> tbProducts;
 
     /**
-     *
+     * the table column fo name
      */
     @FXML
     private TableColumn tbcolName;
 
     /**
-     *
+     * the table column for description
      */
     @FXML
     private TableColumn tbcolDescription;
 
     /**
-     *
+     * the table column for price
      */
     @FXML
     private TableColumn tbcolPrice;
 
     /**
-     *
+     * the table column for stock
      */
     @FXML
     private TableColumn tbcolStock;
 
     /**
-     *
+     * the observable list for product data
      */
     private ObservableList<ProductBean> productData;
 
     /**
-     *
+     * the list of products to copy the data
      */
     private final List<ProductBean> productDatacopy = new ArrayList<>();
+    
     /**
-     *
+     * Integer to close the window
      */
     private int cerrar;
 
     /**
-     *
+     * The PorductLogic 
      */
     private ProductLogic iLogicProduct;
 
     /**
-     *
+     * the userbean user
      */
     private UserBean user;
 
@@ -390,12 +378,17 @@ public class PC07ProductsController {
     }
 
     /**
+     * User bean txoko
+     */
+    TxokoBean txoko;
+    
+    /**
      * Initializes the controller class.
      *
      * @param root root
      */
     public void initStage(Parent root) {
-        //  try {
+        try {
         LOGGER.info("Initializing Product Window.");
         Scene scene = new Scene(root);
         stage = new Stage();
@@ -421,9 +414,9 @@ public class PC07ProductsController {
         tbProducts.getSelectionModel().selectedItemProperty()
                 .addListener(this::handleUsersTableSelectionChanged);
 
-        Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellNameFactory
+     /*   Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellNameFactory
                 = (TableColumn<ProductBean, String> p) -> new EditingCell();
-        tbcolName.setCellFactory(cellNameFactory);
+        tbcolName.setCellFactory(cellNameFactory);*/
         tbcolName.setCellValueFactory(
                 new PropertyValueFactory<>("name"));
         tbcolName.setOnEditCommit(new EventHandler<CellEditEvent<ProductBean, String>>() {
@@ -439,9 +432,9 @@ public class PC07ProductsController {
             }
         });
 
-        Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellDescriptionFactory
+       /* Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellDescriptionFactory
                 = (TableColumn<ProductBean, String> p) -> new EditingCell();
-        tbcolDescription.setCellFactory(cellDescriptionFactory);
+        tbcolDescription.setCellFactory(cellDescriptionFactory);*/
         tbcolDescription.setCellValueFactory(
                 new PropertyValueFactory<>("description"));
         tbcolDescription.setOnEditCommit(new EventHandler<CellEditEvent<ProductBean, String>>() {
@@ -457,9 +450,9 @@ public class PC07ProductsController {
             }
         });
 
-        Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellPriceFactory
+        /*Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellPriceFactory
                 = (TableColumn<ProductBean, String> p) -> new EditingCell();
-        tbcolPrice.setCellFactory(cellPriceFactory);
+        tbcolPrice.setCellFactory(cellPriceFactory);*/
         tbcolPrice.setCellValueFactory(
                 new PropertyValueFactory<>("price"));
         tbcolPrice.setOnEditCommit(new EventHandler<CellEditEvent<ProductBean, String>>() {
@@ -475,9 +468,9 @@ public class PC07ProductsController {
             }
         });
 
-        Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellStockFactory
+      /*  Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellStockFactory
                 = (TableColumn<ProductBean, String> p) -> new EditingCell();
-        tbcolStock.setCellFactory(cellStockFactory);
+        tbcolStock.setCellFactory(cellStockFactory);*/
         tbcolStock.setCellValueFactory(
                 new PropertyValueFactory<>("stock"));
         tbcolStock.setOnEditCommit(new EventHandler<CellEditEvent<ProductBean, String>>() {
@@ -499,9 +492,10 @@ public class PC07ProductsController {
             e.consume();
             cerrarSesionAlert(cerrar);
         });
-        String idTxoko = "1";
+        
+        
 
-        /*  productData = FXCollections.observableArrayList(iLogicProduct.findAllProducts());
+          productData = FXCollections.observableArrayList(iLogicProduct.findAllProducts());
             if(productData.isEmpty()){
                 Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
                 dialogoAlerta.setTitle("INFORMACION");
@@ -514,7 +508,7 @@ public class PC07ProductsController {
             }
         } catch (BusinessLogicException ex) {
             Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
     }
 
     /**
@@ -531,7 +525,7 @@ public class PC07ProductsController {
         lblFullName.setText("Nombre Completo: " + user.getFullname());
         lblLogin.setText("Login: " + user.getLogin());
         lbllTxoko.setText("Txoko: " + user.getTxoko().getName());
-        
+       
         cbSearch.getItems().removeAll(cbSearch.getItems());
         cbSearch.getItems().addAll("Todos los productos del catalogo", "Todos los productos de mi txoko", "Id del producto", "Nombre del producto");
         cbSearch.getSelectionModel().selectFirst();
@@ -561,8 +555,8 @@ public class PC07ProductsController {
         btnLogOut2.setMnemonicParsing(true);
         btnLogOut2.setText("_Cerrar Sesion");
 
-        //String idTxoko = lbllTxoko.getText();
-        String idTxoko = "1";
+        txoko = user.getTxoko();
+
 
     }
 
@@ -642,8 +636,10 @@ public class PC07ProductsController {
             ProductBean selectedProduct = tbProducts.getSelectionModel().getSelectedItem();
             List<ProductBean> selectedProduct2 = new ArrayList<>();
             selectedProduct2.add(selectedProduct);
-            String idTxoko = "1";
+            String idTxoko = user.getTxoko().getIdTxoko().toString();
             List<ProductBean> productos = iLogicProduct.findAllProductsByTxoko(idTxoko);
+            List<TxokoBean> txokos = new ArrayList<>();
+            txokos.add(txoko);
 
             for (ProductBean product : productos) {
                 productequals = selectedProduct2.stream().filter(p -> p.getIdProduct().equals(product.getIdProduct())).collect(Collectors.toList());
@@ -670,12 +666,7 @@ public class PC07ProductsController {
 
                 if (result.get() == ButtonType.OK) {
 
-                    List<TxokoBean> txoko = new ArrayList<>();
-                    TxokoBean aux = new TxokoBean();
-                    idTxoko = "1";
-                    aux.setIdTxoko(Integer.parseInt(idTxoko));
-                    txoko.add(aux);
-                    selectedProduct.setTxokos(txoko);
+                    selectedProduct.setTxokos(txokos);
                     this.iLogicProduct.updateProduct(selectedProduct);
 
                     tbProducts.refresh();
@@ -724,12 +715,7 @@ public class PC07ProductsController {
 
             if (result.get() == ButtonType.OK) {
 
-                List<TxokoBean> txoko = new ArrayList<>();
-                TxokoBean aux = new TxokoBean();
-                String idTxoko = "1";
-                aux.setIdTxoko(Integer.parseInt(idTxoko));
-                txoko.remove(aux);
-                selectedProduct.setTxokos(txoko);
+                selectedProduct.setTxokos((List<TxokoBean>) txoko);
                 this.iLogicProduct.updateProduct(selectedProduct);
 
                 tbProducts.refresh();
@@ -928,7 +914,7 @@ public class PC07ProductsController {
     }
 
     /**
-     *
+     * this metho change the options when clicked in the combo box
      * @param ev
      */
     public void comboBoxOption(ActionEvent ev) {
@@ -941,8 +927,7 @@ public class PC07ProductsController {
                     addProduct.setDisable(true);
                     btnSearch.setDisable(true);
                     txtSearch.setDisable(true);
-                    //String idTxoko = lbllTxoko.getText();
-                    String idTxoko = "1";
+                    String idTxoko = user.getTxoko().getIdTxoko().toString();
                     productData = FXCollections.observableArrayList(iLogicProduct.findAllProductsByTxoko(idTxoko));
                     if (productData == null) {
                         Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
@@ -1042,6 +1027,8 @@ public class PC07ProductsController {
                         }
                     } catch (BusinessLogicException ex) {
                         Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IdNotOkException ex) {
+                        Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     txtSearch.setStyle("-fx-border-color: red;");
@@ -1062,7 +1049,7 @@ public class PC07ProductsController {
                 if (txtSearch.getText().trim().length() < MAX_CARACT) {
                     try {
                         String nameProduct = txtSearch.getText().trim();
-                        String idTxoko = "1";
+                        String idTxoko = user.getTxoko().getIdTxoko().toString();
                         productData = FXCollections.observableArrayList(iLogicProduct.findProductByName(nameProduct, idTxoko));
                         if (productData.isEmpty()) {
                             Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
@@ -1073,6 +1060,8 @@ public class PC07ProductsController {
                             tbProducts.setItems(productData);
                         }
                     } catch (BusinessLogicException ex) {
+                        Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NameNotOkException ex) {
                         Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
@@ -1299,7 +1288,7 @@ public class PC07ProductsController {
             }
         }
     }
-
+/*
     public class EditingCell extends TableCell<ProductBean, String> {
 
         private TextField textField;
@@ -1363,4 +1352,5 @@ public class PC07ProductsController {
             return getItem() == null ? "" : getItem().toString();
         }
     }
+*/
 }

@@ -13,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import messageuserbean.UserBean;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
