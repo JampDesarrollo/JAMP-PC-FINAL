@@ -50,7 +50,7 @@ public class PC06FTPClientControllerTest extends ApplicationTest {
     public void testa_goToFTPClientView() {
         write("testLogin");
         clickOn("#pfContraseña");
-        write("8ad94c7ac7");
+        write("6f724558dc");
         clickOn("#btnInicio");
         verifyThat("#userPane", isVisible());
         clickOn("#btnArchivo");
