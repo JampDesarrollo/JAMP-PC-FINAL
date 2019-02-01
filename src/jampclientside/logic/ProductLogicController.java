@@ -7,6 +7,8 @@ package jampclientside.logic;
 
 import jampclientside.entity.ProductBean;
 import jampclientside.exceptions.BusinessLogicException;
+import jampclientside.exceptions.IdNotOkException;
+import jampclientside.exceptions.NameNotOkException;
 import jampclientside.exceptions.ProductExist;
 import jampclientside.rest.ProductRESTClient;
 import java.util.List;
@@ -122,9 +124,10 @@ public class ProductLogicController implements ProductLogic {
      * @param idProduct
      * @return A product
      * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws jampclientside.exceptions.IdNotOkException 
      */
     @Override
-    public ProductBean findProductById(String idProduct) throws BusinessLogicException{
+    public ProductBean findProductById(String idProduct) throws BusinessLogicException, IdNotOkException{
             ProductBean producto = null;
         try{
             LOGGER.info("ProductImplementation: Finding products by id from REST service (XML).");
@@ -146,7 +149,7 @@ public class ProductLogicController implements ProductLogic {
      * @throws jampclientside.exceptions.BusinessLogicException 
      */
     @Override
-    public ProductBean findProductByIdByTxoko(String idProduct, String idTxoko) throws BusinessLogicException {
+    public ProductBean findProductByIdByTxoko(String idProduct, String idTxoko) throws BusinessLogicException, IdNotOkException {
            ProductBean producto = null;
         try{
             LOGGER.info("ProductImplementation: Finding products by id and txoko from REST service (XML).");
@@ -167,9 +170,10 @@ public class ProductLogicController implements ProductLogic {
      * @param idTxoko
      * @return A product
      * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws jampclientside.exceptions.NameNotOkException 
      */
     @Override
-    public List<ProductBean> findProductByName(String name, String idTxoko) throws BusinessLogicException{
+    public List<ProductBean> findProductByName(String name, String idTxoko) throws BusinessLogicException, NameNotOkException{
             List<ProductBean> productos = null;
         try{
             LOGGER.info("ProductImplementation: Finding all product from REST service (XML).");
@@ -209,7 +213,7 @@ public class ProductLogicController implements ProductLogic {
 
 
     /**
-     * 
+     * This method is for porduct exist
      * @param id
      * @throws ProductExist 
      */

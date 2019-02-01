@@ -71,201 +71,237 @@ public class PC08PhoneNumbersController{
     private static final int MAX_CARACT = 255;
 
     /**
-     * 
+     * Attribute to appear the information text.
      */
     private static final Logger LOGGER = Logger.getLogger("package.class");
-    /**
-     * 
+   
+     /**
+     * The Stage object associated to the Scene controlled by this controller.
+     * This is an utility method reference that provides quick access inside the
+     * controller to the Stage object in order to make its initialization. Note
+     * that this makes Application, Controller and Stage being tightly coupled.
      */
     private Stage stage;
+   
     /**
-     * 
+     * The TelephoneiLogic
      */
     private TelephoneLogic ilogicTelephone;
+   
     /**
-     * 
+     * The UserBean user
      */
     private UserBean user;
+
     /**
-     * 
-     */
-    private final Tooltip tooltip = new Tooltip();
-    /**
-     * 
+     * the tooltip for id
      */
     private final Tooltip tooltipID = new Tooltip();
+   
     /**
-     * 
+     * The tooltip for name
      */
     private final Tooltip tooltipName = new Tooltip();
+    
     /**
-     * 
+     * Vbox pricipaPane
      */
     @FXML
     private VBox principalPane;
+    
     /**
-     * 
+     * Menu item for expense 
      */
     @FXML
     private MenuItem idMenuExpense;
+    
     /**
-     * 
+     * Menu item for product
      */
     @FXML
     private MenuItem idMenuProduct;
+   
     /**
-     * 
+     * Menu item or user
      */
     @FXML
     private MenuItem idMenuUser;
+    
     /**
-     * 
+     * Menu item for event
      */
     @FXML
     private MenuItem idMenuEvent;
+    
     /**
-     * 
+     * Menu item for FTP
      */
     @FXML
     private MenuItem idMenuFTP;
+   
     /**
-     * 
+     * The menu bar
      */
     @FXML
     private MenuBar menuBar;
+   
     /**
-     * 
+     * The menu menu
      */
     @FXML
     private Menu menuMenu;
+   
     /**
-     * 
+     * The item for log out
      */
     @FXML
     private MenuItem menuLogOut;
+   
     /**
-     * 
+     * the menu event
      */
     @FXML
     private Menu menuEvent;
+    
     /**
-     * 
+     * the menu for expenses
      */
     @FXML
     private Menu menuGastos;
+   
     /**
-     * 
+     * the menu for products
      */
     @FXML
     private Menu menuProductos;
+   
     /**
-     * 
+     * the menu for users
      */
     @FXML
     private Menu menuUsuarios;
+   
     /**
-     * 
+     * the menu for telephones
      */
     @FXML
     private Menu menuTelefonos;
+    
     /**
-     * 
+     * the label for date
      */
     @FXML
     private Label lblDate;
+    
     /**
-     * 
+     * the lable for login
      */
     @FXML
     private Label lblLogin;
+    
     /**
-     * 
+     * the label for fullName
      */
     @FXML
     private Label lblFullName;
+    
     /**
-     * 
+     * the label for email
      */
     @FXML
     private Label lblEmail;
+   
     /**
-     * 
+     * the label for txoko
      */
     @FXML
     private Label lblTxoko;
+    
     /**
-     * 
+     * the text field for search
      */
     @FXML
     private TextField txtSearchTel;
+    
     /**
-     * 
+     * thebutton for search
      */
     @FXML
     private Button btnSearchTel;
+   
     /**
-     * 
+     * the laber for errors
      */
     @FXML
     private Label labelError;
+   
     /**
-     * 
+     * the button for add telephones
      */
     @FXML
     private Button addTelephone;
+    
     /**
-     * 
+     * the button for delete telephones
      */
     @FXML
     private Button delTelephone;
+   
     /**
-     * 
+     * the button fo log out
      */
     @FXML
     private Button btnLogOut2;
+   
     /**
-     * 
+     * the Tabe view for telephones
      */
     @FXML
     private TableView<TelephoneBean> tbTelephone;
+    
     /**
-     * 
+     * the combo box for telephones
      */
     @FXML
     private ComboBox<String> cbSearchTel;
+    
     /**
-     * 
+     * the table colum for name 
      */
     @FXML
     private TableColumn tbcolName;
+    
     /**
-     * 
+     * the table column for description
      */
     @FXML
     private TableColumn tbcolDescription;
+   
     /**
-     * 
+     * the table column for telephone number
      */
     @FXML
     private TableColumn tbcolTelephone;
+    
     /**
-     * 
+     * the table column for town
      */
     @FXML
     private TableColumn tbcolTown;
+    
     /**
-     * 
+     * the label for requiredTel
      */
     @FXML
     private Label requiredTel;
 
     /**
-     * 
+     * the obseable list for telephones data
      */
     private ObservableList<TelephoneBean> telephoneData;
     
     /**
-     * 
+     * the integer forclose window
      */
     private int cerrar;
 
@@ -280,7 +316,7 @@ public class PC08PhoneNumbersController{
     private TelephoneBean telephone;
     
     /**
-     * 
+     * the List for Telephonebean data copy
      */
     private final List<TelephoneBean> telephoneDatacopy = new ArrayList<>();
 
@@ -703,7 +739,7 @@ public class PC08PhoneNumbersController{
     }
     
     /**
-     * 
+     * this method is to go tu ftp client
      * @param ev 
      */
     public void FTPClientWindow(ActionEvent ev) {
@@ -729,6 +765,7 @@ public class PC08PhoneNumbersController{
     }
     
     /**
+     * this method is to select the cobobox options
      * 
      * @param ev 
      */
@@ -1025,6 +1062,7 @@ public class PC08PhoneNumbersController{
     
     /**
      * Method that show a confirm dialog to close session
+     * 
      * @param cerrar Difference for close app or close session
      */
     public void cerrarSesionAlert(int cerrar){
