@@ -50,9 +50,6 @@ public class AddEventController {
     private ObservableList<EventBean> eventsData;
     private static final int MAX_CARACT = 255;
     private String datePickerString;
-    @FXML
-    private DatePicker datePicker;
-
     /**
      * Stage object
      */
@@ -111,6 +108,11 @@ public class AddEventController {
      */
     @FXML
     private Label lblErrorDate;
+    /**
+     * Date picker
+     */
+    @FXML
+    private DatePicker datePicker;
 
     /**
      * Set logic for this view controller
@@ -170,8 +172,11 @@ public class AddEventController {
         tfDescription.setDisable(false);
         tfPrice.setDisable(false);
         tfImg.setDisable(false);
-        datePicker.setDisable(false);
-       
+        //no va a ser editable
+        datePicker.setEditable(false);
+        //valor por defecto del datePicker
+        datePicker.setValue(LocalDate.now());
+
     }
 
     /**
@@ -194,21 +199,13 @@ public class AddEventController {
         boolean isNotEmpty = isNotEmpty();
         //si ninguno de los campos estan vacios
         if (isNotEmpty) {
-            //que se quite el campo en rojo por si alguno tenia de antes
-            lblError.setVisible(false);
-            tfName.setStyle("-fx-border-color: -fx-box-border;");
-            tfDescription.setStyle("-fx-border-color: -fx-box-border;");
-            tfImg.setStyle("-fx-border-color: -fx-box-border;");
-            tfPrice.setStyle("-fx-border-color: -fx-box-border;");
-            hora.setStyle("-fx-border-color: -fx-box-border;");
-            lblErrorDate.setVisible(false);
-            //RECOJO EN UN STRING LA FECHA DEL DATE PICKER
+            //RECOJO EN UN STRING LA FECHA QUE HAy PUESTA EN EL DATE PICKER
             datePickerString = datePicker.getValue().toString();
             //AHORA VOY A MIRAR QUE LOS CARACTERES NO SEAN MAYORES A 255
             boolean maxCharacters = maxCharacters();
             //si los caracteres no son mayores que 255 y el formato de la hora es el correcto
             if (maxCharacters) {
-                //ai habia algun error antes
+                //si habia algun error antes
                 lblError.setVisible(false);
                 tfName.setStyle("-fx-border-color: -fx-box-border;");
                 tfDescription.setStyle("-fx-border-color: -fx-box-border;");
@@ -220,7 +217,7 @@ public class AddEventController {
                 if (horaFormat) {
                     hora.setStyle("-fx-border-color: -fx-box-border;");
                     lblError.setVisible(false);
-                    //concateno la fecha y la hora    
+                    //CONCATENO LA FECHA Y LA HORA PARA ENVIARLO TODO JUNTO COMO STRING AL SERVIDOR  
                     String fechaHora = datePickerString.concat("T").concat(hora.getText());
                     try {
 
@@ -285,7 +282,7 @@ public class AddEventController {
             lblError.setText("Todos los campos deben de estar llenos ");
             lblError.setVisible(true);
             //si cualquiera de los campos esta vacio primero
-            if (tfName.getText().trim().equals("") || tfDescription.getText().trim().equals("")  || hora.getText().equals("") || tfImg.getText().trim().equals("") || tfPrice.getText().trim().equals("")) {
+            if (tfName.getText().trim().equals("") || tfDescription.getText().trim().equals("") || hora.getText().equals("") || tfImg.getText().trim().equals("") || tfPrice.getText().trim().equals("")) {
                 //si el campo esta vacio se pone en rojo
                 if (tfName.getText().trim().equals("")) {
                     tfName.setStyle("-fx-border-color: red;");
@@ -327,7 +324,7 @@ public class AddEventController {
     public boolean isNotEmpty() {
         boolean isNotEmpty = false;
         //si estan todo llenos
-        if (!tfName.getText().trim().isEmpty() && !tfDescription.getText().trim().isEmpty()   &&   !hora.getText().isEmpty() && !tfPrice.getText().trim().isEmpty()) {
+        if (!tfName.getText().trim().isEmpty() && !tfDescription.getText().trim().isEmpty() && !hora.getText().isEmpty() && !tfImg.getText().trim().isEmpty() && !tfPrice.getText().trim().isEmpty()) {
             isNotEmpty = true;
         }
         return isNotEmpty;
@@ -343,19 +340,25 @@ public class AddEventController {
      * not
      */
     private boolean horaFormat(String hora) {
+        //paso la hora al formato que yo quiero, si da error es por que el formato no es el correcto
         SimpleDateFormat formatoHora;
         try {
+
             formatoHora = new SimpleDateFormat("HH:mm:ss");
             formatoHora.setLenient(false);
             formatoHora.parse(hora);
         } catch (ParseException e) {
             return false;
-
         }
         return true;
 
     }
-
+     /** Method to control the characters you enter in the textfield and
+     * passwordfield.
+     *
+     * @return It returns a boolean indicating if the characters are more or
+     * less than maximum characters defined
+     */ 
     private boolean maxCharacters() {
         boolean maxCharacters = false;
         if (tfName.getText().trim().length() < MAX_CARACT && tfDescription.getText().trim().length() < MAX_CARACT && tfImg.getText().trim().length() < MAX_CARACT && tfPrice.getText().trim().length() < MAX_CARACT) {

@@ -6,13 +6,16 @@
 package jampclientside.ui.controller;
 
 import jampclientside.UiApplication;
+import jampclientside.UiApplicationUser;
 import javafx.stage.Stage;
 import org.junit.Test;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
+import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
 /**
@@ -25,15 +28,42 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 public class PC04ExpenseControllerIT extends ApplicationTest {
 
     public void start(Stage stage) throws Exception {
-        new UiApplication().start(stage);//llamo a la aplicacion que me abre la ventana
+        new UiApplicationUser().start(stage);//llamo a la aplicacion que me abre la ventana
     }
 
-    //venir hasta la venta de gastos
     @Test
-    public void test0_clickOnExpenseMenuItem() {
-        clickOn("#menuGastos");
-        clickOn("#idMenuGastos");
+    public void test0_initializingAplication() {
+
+        verifyThat("#tfUsuario", isEnabled());
+        verifyThat("#tfContraseña", isEnabled());
+        verifyThat("#lblError", isInvisible());
+        doubleClickOn("#tfUsuario");
+        eraseText(20);
+        doubleClickOn("#tfUsuario");
+        eraseText(20);
+        write("pau");
+        clickOn("#pfContraseña");
+        write("fcdd6828d2");
+        clickOn("#btnInicio");
+        verifyThat("#loginPane", isVisible());
+    }
+
+    /**
+     * Go to expense window
+     */
+    @Test
+    public void test1_goToExpense() {
+
+        clickOn("#gastos");
+        clickOn("#btnExpenses");
         verifyThat("#principalPaneExpense", isVisible());
+    }
+
+    /**
+     * init stage
+     */
+    @Test
+    public void test2_InitStage() {
 
         verifyThat("#btnSeeAll", isEnabled());
         verifyThat("#btnSeeMonth", isEnabled());
@@ -43,107 +73,98 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
         verifyThat("#colType", isVisible());
         verifyThat("#colDescription", isVisible());
         verifyThat("#colPrice", isVisible());
-/*
+    }
+
+    /**
+     * click on see all
+     */
+    @Test
+    public void test3_clickOnBtnSeeAll() {
         clickOn("#btnSeeAll");
+    }
+
+    /**
+     * click on see month
+     */
+    @Test
+    public void test4_clickOnBtnSeeMonth() {
         clickOn("#btnSeeMonth");
-
-        clickOn("#btnProducts");
-        clickOn("#idMenuProductos");
-        verifyThat("#principalPaneProducts", isVisible());
-        clickOn("#menuGastos");
-        clickOn("#idMenuGastos");
-        verifyThat("#principalPaneExpense", isVisible());
-
-        clickOn("#btnUsers");
-        clickOn("#idMenuUsuarios");
-        verifyThat("#principalPaneUser", isVisible());
-        clickOn("#btnEvents");
-        clickOn("#idMenuUsuarios");
-        verifyThat("#principalPaneExpense", isVisible());
-
-        clickOn("#btnPhones");
-        clickOn("#idMenuTel");
-        verifyThat("#principalPanePhones", isVisible());
-        clickOn("#menuGastos");
-        clickOn("#idMenuGastos");
-        verifyThat("#principalPaneExpense", isVisible());
-
-        clickOn("#menuFTP");
-        clickOn("#idMenuFTP");
-        verifyThat("#signUpPane", isVisible());
-        clickOn("#menuGastos");
-        clickOn("#idMenuGastos");
-        verifyThat("#principalPaneExpense", isVisible());
-
-        clickOn("#menu");
-        clickOn("#btnLogOut");
-        clickOn("Cancelar");
-
-        clickOn("#menu");
-        clickOn("#btnLogOut");
-        clickOn("Aceptar");
-*/
     }
 
-    public void test1_InitStage() {
-        verifyThat("#btnSeeAll", isEnabled());
-        verifyThat("#btnSeeMonth", isEnabled());
-        verifyThat("#btnLogOut2", isEnabled());
-        verifyThat("#colDate", isVisible());
-        verifyThat("#colUser", isVisible());
-        verifyThat("#colType", isVisible());
-        verifyThat("#colDescription", isVisible());
-        verifyThat("#colPrice", isVisible());
-    }
+    /**
+     * go to product
+     */
     @Test
-    public void test2_clickOnBtnSeeAll() {
-        clickOn("#btnSeeAll");
-    }
-
-    public void test3_clickOnBtnSeeMonth() {
-        clickOn("btnSeeMonth");
-    }
-
     public void test5_goToProductWindow() {
         clickOn("#btnProducts");
         clickOn("#idMenuProductos");
-        verifyThat("#principalPaneProducts", isVisible());
-        clickOn("#menuGastos");
-        clickOn("#idMenuGastos");
+        verifyThat("#productPane", isVisible());
+        clickOn("#menuExpense");
+        clickOn("#idMenuExpense");
         verifyThat("#principalPaneExpense", isVisible());
     }
 
+    /**
+     * go to user
+     */
+    @Test
     public void test6_goToUserWindow() {
         clickOn("#btnUsers");
         clickOn("#idMenuUsuarios");
-        verifyThat("#principalPaneUser", isVisible());
-        clickOn("#btnEvents");
-        clickOn("#idMenuUsuarios");
+        verifyThat("#userPane", isVisible());
+        clickOn("#gastos");
+        clickOn("#btnExpenses");
         verifyThat("#principalPaneExpense", isVisible());
 
     }
 
+    /**
+     * go to phones
+     */
+    @Test
+    @Ignore
     public void test7_goToPhonesWindow() {
         clickOn("#btnPhones");
         clickOn("#idMenuTel");
-        verifyThat("#principalPanePhones", isVisible());
-        clickOn("#menuGastos");
-        clickOn("#idMenuGastos");
+        verifyThat("#telephonPane", isVisible());
+        clickOn("#menuExpense");
+        clickOn("#idMenuExpense");
         verifyThat("#principalPaneExpense", isVisible());
 
     }
 
+    /**
+     * go to ftp
+     */
+    @Test
     public void test8_goToClientFTPWindow() {
         clickOn("#menuFTP");
         clickOn("#idMenuFTP");
-        verifyThat("#signUpPane", isVisible());
+        verifyThat("#ftpPane", isVisible());
+        clickOn("#btnOut");
+        verifyThat("#principalPaneExpense", isVisible());
+
+    }
+
+    /**
+     * Go to event window
+     */
+    @Test
+    public void test9_goToEvent() {
+        clickOn("#btnEvents");
+        clickOn("#idMenuEventos");
+        verifyThat("#principalPaneEvent", isVisible());
         clickOn("#menuGastos");
         clickOn("#idMenuGastos");
         verifyThat("#principalPaneExpense", isVisible());
 
     }
 
-    public void test9_LogOut() {
+    /**
+     * log out
+     */
+    @Test
+    public void testa_LogOut() {
         clickOn("#menu");
         clickOn("#btnLogOut");
         clickOn("Cancelar");

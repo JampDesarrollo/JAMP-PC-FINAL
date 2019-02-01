@@ -83,6 +83,7 @@ public class PC05EventsController {
      * Attribute to appear the information text.
      */
     private static final Logger LOGGER = Logger.getLogger("package.class");
+    private static final int MAX_CARACT = 255;
     /**
      * Attribute for the stage.
      */
@@ -292,12 +293,12 @@ public class PC05EventsController {
      */
     @FXML
     private Button btnInforme;
-    
+
     /**
      *
      * Method that receives the ilogic param of the class application.
      *
-     * @param ILogic it receives the logic object that came from the application
+     * @param iLogic ilogic it receives the logic object that came from the application
      * class
      */
     public void setILogic(EventLogic iLogic) {
@@ -316,6 +317,7 @@ public class PC05EventsController {
      * The UserBean Object
      */
     private UserBean user;
+
     /**
      * Set the user received in Login view for this view.
      *
@@ -325,13 +327,12 @@ public class PC05EventsController {
         this.user = user;
 
     }
-    
 
     /**
      * Method that initializes the "Login" window. It receives the param root,
      * where is the fxml file.
-     *
      * @param root receives the root parameter
+     * @throws IOException exception
      */
     public void initStage(Parent root) throws IOException {
 
@@ -408,7 +409,7 @@ public class PC05EventsController {
      */
     private void handleWindowShowing(WindowEvent event) {
         LOGGER.info("Beginning Principal::windowShow");
-        
+
         lblDate.setText("Último acceso: " + user.getLastAccess());
         lblEmail.setText("Email: " + user.getEmail());
         lblFullName.setText("Nombre Completo: " + user.getFullname());
@@ -675,21 +676,26 @@ public class PC05EventsController {
         boolean isSelected = isSelected();
         if (isSelected) {
             try {
-                String idTxoko = "1";
                 //Obtenemos los datos de la fila seleccionada 
                 EventBean selectedEvent = ((EventBean) tableView.getSelectionModel().getSelectedItem());
-                eventsData = FXCollections.observableArrayList(ilogic.findAllEvents(idTxoko));
+                //voy a enviarle el txoko entero a esa fila               
                 List<TxokoBean> txoko = new ArrayList<TxokoBean>();
                 TxokoBean aux = new TxokoBean();
-                aux.setIdTxoko(Integer.parseInt(idTxoko));
+                //aux.setIdTxoko(Integer.parseInt(idTxoko));
+                aux.setIdTxoko(user.getTxoko().getIdTxoko());
+                aux.setDirection(user.getTxoko().getDirection());
+                aux.setMonthFee(user.getTxoko().getMonthFee());
+                aux.setName(user.getTxoko().getName());
+                aux.setTown(user.getTxoko().getTown());
+                //lo añado al array list
                 txoko.add(aux);
+                //le cambio al evento ese txoko
                 selectedEvent.setTxokos(txoko);
                 this.ilogic.updateEvent(selectedEvent);
                 //Deseleccionamos la fila seleccionada en la tabla
                 tableView.getSelectionModel().clearSelection();
                 //Refrescamos la tabla para que muestre los nuevos datos
                 tableView.refresh();
-
             } catch (BusinessLogicException e) {
                 Alert dialogoAlerta = new Alert(AlertType.ERROR);
                 dialogoAlerta.setTitle("ERROR");
@@ -890,7 +896,8 @@ public class PC05EventsController {
             btnDeleteEvent.setDisable(true);
             btnImgEvent.setDisable(true);
             btnInforme.setDisable(true);
-            String idTxoko = "1";
+            Integer number = user.getTxoko().getIdTxoko();
+            String idTxoko = Integer.toString(number);
             try {
                 eventsData = FXCollections.observableArrayList(ilogic.findAllEvents(idTxoko));
                 tableView.setItems(eventsData);
@@ -929,33 +936,45 @@ public class PC05EventsController {
             btnInforme.setDisable(true);
             //si no esta vacio
             if (tfIDEmpty) {
-                String idTxoko = "1";
-                try {
-                    eventsData = FXCollections.observableArrayList(ilogic.findEventByIdByTxoko(tfSearch.getText().trim(), idTxoko));
-                    tableView.setItems(eventsData);
-                    btnDeleteEvent.setDisable(false);
-                    btnImgEvent.setDisable(false);
-                } catch (BusinessLogicException ex) {
-                    eventsData = null;
-                    tableView.setItems(eventsData);
-                    Alert dialogoAlerta = new Alert(AlertType.ERROR);
-                    dialogoAlerta.setTitle("ERROR");
-                    dialogoAlerta.setContentText(" HTTP 400 Bad Request");
-                    dialogoAlerta.setHeaderText("Ver los datos");
-                    dialogoAlerta.showAndWait();
-                    btnDeleteEvent.setDisable(true);
-                    btnImgEvent.setDisable(true);
-                } catch (IdNotOkException e) {
-                    eventsData = null;
-                    tableView.setItems(eventsData);
-                    LOGGER.log(Level.SEVERE,
-                            " Error reading event BY ID: {0}",
-                            e.getMessage());
-                    btnDeleteEvent.setDisable(true);
-                    btnImgEvent.setDisable(true);
-                    tfSearch.setStyle("-fx-border-color: red;");
-                    labelError.setText("ID del evento incorrecto");
+                //VAMOS A MIRAR SI PASA DE CIERTOS CARACTERES
+                boolean maxCharacters = maxCharacters();
+                //si no pasa
+                if (maxCharacters) {
+                    //pasar el id del txoko que es un integer a un string
+                    Integer number = user.getTxoko().getIdTxoko();
+                    String idTxoko = Integer.toString(number);
+                    try {
+                        eventsData = FXCollections.observableArrayList(ilogic.findEventByIdByTxoko(tfSearch.getText().trim(), idTxoko));
+                        tableView.setItems(eventsData);
+                        btnDeleteEvent.setDisable(false);
+                        btnImgEvent.setDisable(false);
+                    } catch (BusinessLogicException ex) {
+                        eventsData = null;
+                        tableView.setItems(eventsData);
+                        Alert dialogoAlerta = new Alert(AlertType.ERROR);
+                        dialogoAlerta.setTitle("ERROR");
+                        dialogoAlerta.setContentText(" HTTP 400 Bad Request");
+                        dialogoAlerta.setHeaderText("Ver los datos");
+                        dialogoAlerta.showAndWait();
+                        btnDeleteEvent.setDisable(true);
+                        btnImgEvent.setDisable(true);
+                    } catch (IdNotOkException e) {
+                        eventsData = null;
+                        tableView.setItems(eventsData);
+                        LOGGER.log(Level.SEVERE,
+                                " Error reading event BY ID: {0}",
+                                e.getMessage());
+                        btnDeleteEvent.setDisable(true);
+                        btnImgEvent.setDisable(true);
+                        tfSearch.setStyle("-fx-border-color: red;");
+                        labelError.setText("ID del evento incorrecto");
+                        labelError.setVisible(true);
+                    }
+                }//si se pasa 
+                else {
+                    labelError.setText("Demasiados caracteres");
                     labelError.setVisible(true);
+                    tfSearch.setStyle("-fx-border-color: red;");
                 }
 
             } //si esta vecio
@@ -980,37 +999,46 @@ public class PC05EventsController {
             btnInforme.setDisable(true);
             //si no esta vacio
             if (tfNameEmpty) {
-                String idTxoko = "1";
-                try {
-                    eventsData = FXCollections.observableArrayList(ilogic.findEventByName(tfSearch.getText().trim(), idTxoko));
-                    tableView.setItems(eventsData);
-                    //si no hay ningun problema los botones de eliminar y arhivos se habilitan
-                    btnDeleteEvent.setDisable(false);
-                    btnImgEvent.setDisable(false);
-                } catch (BusinessLogicException ex) {
-                    eventsData = null;
-                    tableView.setItems(eventsData);
-                    Alert dialogoAlerta = new Alert(AlertType.ERROR);
-                    dialogoAlerta.setTitle("ERROR");
-                    dialogoAlerta.setContentText(" HTTP 400 Bad Request");
-                    dialogoAlerta.setHeaderText("Ver los datos");
-                    dialogoAlerta.showAndWait();
-                    LOGGER.log(Level.SEVERE,
-                            " Error reading event BY NAME: {0}",
-                            ex.getMessage());
-                } catch (NameNotOkException e) {
-                    //la tabla aparece sin ningun contenido
-                    eventsData = null;
-                    tableView.setItems(eventsData);
-                    btnDeleteEvent.setDisable(true);
-                    btnImgEvent.setDisable(true);
-                    LOGGER.log(Level.SEVERE,
-                            " Error reading event BY NAME: {0}",
-                            e.getMessage());
-                    tfSearch.setStyle("-fx-border-color: red;");
-                    labelError.setText("Nombre del evento incorrecto");
+                //VAMOS A MIRAR SI PASA DE CIERTOS CARACTERES
+                boolean maxCharacters = maxCharacters();
+                if (maxCharacters) {
+                    Integer number = user.getTxoko().getIdTxoko();
+                    String idTxoko = Integer.toString(number);
+                    try {
+                        eventsData = FXCollections.observableArrayList(ilogic.findEventByName(tfSearch.getText().trim(), idTxoko));
+                        tableView.setItems(eventsData);
+                        //si no hay ningun problema los botones de eliminar y arhivos se habilitan
+                        btnDeleteEvent.setDisable(false);
+                        btnImgEvent.setDisable(false);
+                    } catch (BusinessLogicException ex) {
+                        eventsData = null;
+                        tableView.setItems(eventsData);
+                        Alert dialogoAlerta = new Alert(AlertType.ERROR);
+                        dialogoAlerta.setTitle("ERROR");
+                        dialogoAlerta.setContentText(" HTTP 400 Bad Request");
+                        dialogoAlerta.setHeaderText("Ver los datos");
+                        dialogoAlerta.showAndWait();
+                        LOGGER.log(Level.SEVERE,
+                                " Error reading event BY NAME: {0}",
+                                ex.getMessage());
+                    } catch (NameNotOkException e) {
+                        //la tabla aparece sin ningun contenido
+                        eventsData = null;
+                        tableView.setItems(eventsData);
+                        btnDeleteEvent.setDisable(true);
+                        btnImgEvent.setDisable(true);
+                        LOGGER.log(Level.SEVERE,
+                                " Error reading event BY NAME: {0}",
+                                e.getMessage());
+                        tfSearch.setStyle("-fx-border-color: red;");
+                        labelError.setText("Nombre del evento incorrecto");
+                        labelError.setVisible(true);
+                        labelError.setStyle("-fx-text-inner-color: red;");
+                    }
+                } else {
+                    labelError.setText("Demasiados caracteres");
                     labelError.setVisible(true);
-                    labelError.setStyle("-fx-text-inner-color: red;");
+                    tfSearch.setStyle("-fx-border-color: red;");
                 }
             }//si esta vacio
             else {
@@ -1023,7 +1051,6 @@ public class PC05EventsController {
                 labelError.setVisible(true);
                 labelError.setStyle("-fx-text-inner-color: red;");
             }
-
         }
 
     }
@@ -1043,16 +1070,34 @@ public class PC05EventsController {
         }
         return empty;
     }
+
     /**
-     * 
-     *Method to open the report window
+     * Method to control the characters you enter in the textfield and
+     * passwordfield.
+     *
+     * @return It returns a boolean indicating if the characters are more or
+     * less than maximum characters defined
+     */
+    private boolean maxCharacters() {
+        LOGGER.info("Mirar si se pasa de los 255 caracteres");
+        boolean maxCharacters = false;
+        if (tfSearch.getText().trim().length() < MAX_CARACT) {
+            maxCharacters = true;
+        }
+        return maxCharacters;
+    }
+
+    /**
+     *
+     * Method to open the report window
+     *
      * @param ev event
      */
     public void informeGenerate(ActionEvent ev) {
         try {
             JasperReport report
                     = JasperCompileManager.compileReport(getClass()
-                            .getResourceAsStream("/jampclientside/ui/reports/newReportEvent.jrxml"));
+                            .getResourceAsStream("/jampclientside/ui/report/newReportEvent.jrxml"));
             //Data for the report: a collection of UserBean passed as a JRDataSource 
             //implementation 
             JRBeanCollectionDataSource dataItems

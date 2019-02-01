@@ -47,9 +47,9 @@ public class EventLogicController implements EventLogic {
             webClient.deleteEvent(event.getIdEvent());
         } catch (ClientErrorException e) {
             LOGGER.log(Level.SEVERE,
-                    "EventsManager: Exception finding all users, {0}",
+                    "EventsManager: Exception deleting an event, {0}",
                     e.getMessage());
-            throw new BusinessLogicException("Error finding all users:\n" + e.getMessage());
+            throw new BusinessLogicException("Error deleting an event:\n" + e.getMessage());
         }
     }
     /**
@@ -65,9 +65,9 @@ public class EventLogicController implements EventLogic {
             webClient.createEvent(event);
         } catch (ClientErrorException e) {
             LOGGER.log(Level.SEVERE,
-                    "EventsManager: Exception finding all users, {0}",
+                    "EventsManager: Exception creating an events, {0}",
                     e.getMessage());
-            throw new BusinessLogicException("Error finding all users:\n" + e.getMessage());
+            throw new BusinessLogicException("Error creating an events\n" + e.getMessage());
 
         }
     }
@@ -112,9 +112,9 @@ public class EventLogicController implements EventLogic {
             }
         } catch (ClientErrorException e) {
             LOGGER.log(Level.SEVERE,
-                    "EventsManager: Exception finding all users, {0}",
+                    "EventsManager: Exception finding a event, {0}",
                     e.getMessage());
-            throw new BusinessLogicException("Error finding all users:\n" + e.getMessage());
+            throw new BusinessLogicException("Error finding a event:\n" + e.getMessage());
         }
         return event;
     }
@@ -137,9 +137,9 @@ public class EventLogicController implements EventLogic {
             }
         } catch (ClientErrorException e) {
             LOGGER.log(Level.SEVERE,
-                    "EventsManager: Exception finding all users, {0}",
+                    "EventsManager: Exception finding a event, {0}",
                     e.getMessage());
-            throw new BusinessLogicException("Error finding all users:\n" + e.getMessage());
+            throw new BusinessLogicException("Error finding a event:\n" + e.getMessage());
         }
         return event;
     }
@@ -155,12 +155,11 @@ public class EventLogicController implements EventLogic {
             LOGGER.info("EventsManager: Finding all events from REST service (XML).");
             events = webClient.findAll(new GenericType<List<EventBean>>() {
             });
-            LOGGER.info("AQUI YA NO LLEGAS");
         } catch (ClientErrorException e) {
             LOGGER.log(Level.SEVERE,
-                    "EventsManager: Exception finding all users, {0}",
+                    "EventsManager: Exception finding all events, {0}",
                     e.getMessage());
-            throw new BusinessLogicException("Error finding all users:\n" + e.getMessage());
+            throw new BusinessLogicException("Error finding all events:\n" + e.getMessage());
         }
 
         return events;
@@ -178,9 +177,9 @@ public class EventLogicController implements EventLogic {
             webClient.update(event);
         }catch(ClientErrorException e){
             LOGGER.log(Level.SEVERE,
-                    "UsersManager: Exception updating user, {0}",
+                    "UsersManager: Exception updating event, {0}",
                     e.getMessage());
-            throw new BusinessLogicException("Error updating user:\n"+e.getMessage());
+            throw new BusinessLogicException("Error updating event:\n"+e.getMessage());
         }
     }
 

@@ -537,10 +537,10 @@ public class PC04ExpenseController {
      *
      * @param event event
      */
-    @SuppressWarnings("empty-statement")
     private void seeAll(ActionEvent event) {
         try {
-            String idTxoko = "1";
+            Integer number = user.getTxoko().getIdTxoko();
+            String idTxoko = Integer.toString(number);
             expenseData = FXCollections.observableArrayList(ilogic.findAllExpensesUsers(idTxoko));
             tabExpenses.setItems(expenseData);
             btnInforme.setDisable(false);
@@ -574,7 +574,8 @@ public class PC04ExpenseController {
     private void seeMonth(ActionEvent event) {
          btnInforme.setDisable(true);
         try {
-            String idTxoko = "1";
+            Integer number = user.getTxoko().getIdTxoko();
+            String idTxoko = Integer.toString(number);
             expenseData = FXCollections.observableArrayList(ilogic.findMonthExpensesUsers(idTxoko));
             tabExpenses.setItems(expenseData);
             if (expenseData.size() == 0) {
@@ -609,7 +610,7 @@ public class PC04ExpenseController {
        try {
             JasperReport report
                     = JasperCompileManager.compileReport(getClass()
-                            .getResourceAsStream("/jampclientside/ui/reports/newReportExpenses.jrxml"));
+                            .getResourceAsStream("/jampclientside/ui/report/newReportExpenses.jrxml"));
             //Data for the report: a collection of UserBean passed as a JRDataSource 
             //implementation 
             JRBeanCollectionDataSource dataItems
