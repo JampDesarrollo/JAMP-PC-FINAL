@@ -148,7 +148,7 @@ public class PC01LoginController {
      *
      * Method that receives the ilogic param of the class application.
      *
-     * @param ILogic it receives the logic object that came from the application
+     * @param iLogic it receives the logic object that came from the application
      * class
      */
     public void setILogic(UserLogic iLogic) {

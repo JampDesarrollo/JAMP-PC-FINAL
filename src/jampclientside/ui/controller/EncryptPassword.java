@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -33,6 +34,11 @@ public class EncryptPassword {
      * Logger for the class.
      */
     private static final Logger LOGGER = Logger.getLogger("jampclientside.ui.controller");
+    /**
+     * Public key.
+     */
+    private static final String PUBLIC = ResourceBundle.getBundle("jampclientside.ui.controller.config")
+            .getString("PUBLIC");
 
     /**
      * Method that encrypts with public key the password received.
@@ -43,7 +49,7 @@ public class EncryptPassword {
     public static byte[] encrypt(byte[] password) {
         byte[] encodedMessage = null;
         try {
-            FileInputStream fis = new FileInputStream("public.key");
+            FileInputStream fis = new FileInputStream(PUBLIC);
             byte[] byteA = new byte[fis.available()];
             fis.read(byteA);
             fis.close();

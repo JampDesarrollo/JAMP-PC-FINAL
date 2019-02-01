@@ -96,18 +96,36 @@ public class PC03UserControllerTest extends ApplicationTest {
         verifyThat("¿Estas seguro que deseas cerrar la sesión?",
                 isVisible());
         clickOn("#cancelButton");
+        
         clickOn("#eventos");
-        verifyThat("#btnEvents", isVisible());
-        moveTo("#gastos");
-        verifyThat("#btnExpenses", isVisible());
-        moveTo("#productos");
-        verifyThat("#btnProducts", isVisible());
-        moveTo("#usuarios");
-        verifyThat("#btnUsers", isVisible());
-        moveTo("#telefonos");
-        verifyThat("#btnPhones", isVisible());
-        moveTo("#btnArchivo");
-        verifyThat("#btnArchivos", isVisible());
+        clickOn("#btnEvents");
+        verifyThat("#principalPaneEvent", isVisible());
+        clickOn("#menuUsuarios");
+        clickOn("#idMenuUsuarios");
+        
+        clickOn("#gastos");
+        clickOn("#btnExpenses");
+        verifyThat("#principalPaneExpense", isVisible());
+        clickOn("#btnUsers");
+        clickOn("#idMenuUsuarios");
+        
+        clickOn("#productos");
+        clickOn("#btnProducts");
+        verifyThat("#productPane", isVisible());
+        clickOn("#menuUser");
+        clickOn("#idMenuUser");
+        
+        /*clickOn("#telefonos");
+        clickOn("#btnPhones");
+        verifyThat("#telephonPane", isVisible());
+        clickOn("#menuUser");
+        clickOn("#idMenuUser");*/
+        
+        clickOn("#btnArchivo");
+        clickOn("#btnArchivos");
+        verifyThat("#ftpPane", isVisible());
+        clickOn("#btnOut");
+        verifyThat("#userPane", isVisible());
     }
 
     /**

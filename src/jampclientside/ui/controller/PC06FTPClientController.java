@@ -133,7 +133,7 @@ public class PC06FTPClientController {
     /**
      * Setter of the logic object.
      *
-     * @param iLogic
+     * @param iLogic Ilogic object.
      */
     public void setILogic(FTPClientLogic iLogic) {
         this.iLogic = iLogic;
@@ -156,7 +156,7 @@ public class PC06FTPClientController {
     /**
      * Initializes the controller class.
      *
-     * @param root
+     * @param root Parent object.
      */
     public void initStage(Parent root) {
         LOGGER.info("ventana de registro InitStage");

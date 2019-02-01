@@ -243,7 +243,7 @@ public class PC03UserController {
     /**
      * Set logic for this view controller
      *
-     * @param iLogic
+     * @param iLogic Ilogic it receives.
      */
     public void setILogic(UserLogic iLogic) {
         this.userLogic = iLogic;
@@ -662,7 +662,7 @@ public class PC03UserController {
         try {
             TelephoneLogic iLogic = ILogicFactory.getTelephoneLogic();
             //instancio el xml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/jampclientside/ui/view/PC08PhoneNumber.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/jampclientside/ui/view/PC08PhoneNumbers.fxml"));
             //lo cargo en el root que es de tipo parent
             Parent root = (Parent) loader.load();
             //obtener el controlador
