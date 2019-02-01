@@ -525,6 +525,10 @@ public class PC01LoginController {
             returnUser = ilogic.findUserByLoginPasswPC(tfUsuario.getText(), ePassw); // el userlogin me va a devolver el usuario entero 
         } catch (BusinessLogicException ex) {
             LOGGER.log(Level.SEVERE, "LoginController: finduserforlogin {0}", ex);
+             lblError.setText("Ha habido un problema");
+            lblError.setStyle("-fx-text-inner-color: red;");
+            lblError.setVisible(true);
+            imLoading.setVisible(false);
         }
         //EXCEPCION NO ES ADMIN
         /*  } catch (UserNotExistException e) {
