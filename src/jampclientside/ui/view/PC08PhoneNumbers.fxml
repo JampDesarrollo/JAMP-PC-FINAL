@@ -25,33 +25,33 @@
       <menus>
             <Menu fx:id="menuMenu" mnemonicParsing="false" style="-fx-color: #005192;" text="Menú">
               <items>
-                <MenuItem fx:id="menuLogOut" mnemonicParsing="false" text="Cerrar Sesión" />
+                <MenuItem fx:id="menuLogOut" mnemonicParsing="false" style="-fx-text-fill: Black;" text="Cerrar Sesión" />
               </items>
             </Menu>
             <Menu fx:id="menuEvent" mnemonicParsing="false" style="-fx-color: #005192;" text="Eventos">
                 <items>
-                  <MenuItem fx:id="idMenuEvent" mnemonicParsing="false" text="Ir a la ventana de Eventos " />
+                  <MenuItem fx:id="idMenuEvent" mnemonicParsing="false" style="-fx-text-fill: Black;" text="Ir a la ventana de Eventos " />
                 </items>
             </Menu>
             <Menu fx:id="menuExpense" mnemonicParsing="false" style="-fx-color: #005192;" text="Gastos">
                <items>
-                  <MenuItem fx:id="idMenuExpense" mnemonicParsing="false" text="Ir a la ventana de Gastos" />
+                  <MenuItem fx:id="idMenuExpense" mnemonicParsing="false" style="-fx-text-fill: Black;" text="Ir a la ventana de Gastos" />
                </items>
             </Menu>
             <Menu fx:id="menuProduct" mnemonicParsing="false" style="-fx-color: #005192;" text="Productos">
                <items>
-                  <MenuItem fx:id="idMenuProduct" mnemonicParsing="false" text="Ir a la ventana de Productos" />
+                  <MenuItem fx:id="idMenuProduct" mnemonicParsing="false" style="-fx-text-fill: Black;" text="Ir a la ventana de Productos" />
                </items>
             </Menu>
             <Menu fx:id="menuUser" mnemonicParsing="false" style="-fx-color: #005192;" text="Usuarios">
                <items>
-                  <MenuItem fx:id="idMenuUser" mnemonicParsing="false" text="Ir a la ventana de Usuarios" />
+                  <MenuItem fx:id="idMenuUser" mnemonicParsing="false" style="-fx-text-fill: Black;" text="Ir a la ventana de Usuarios" />
                </items>
             </Menu>
             <Menu fx:id="menuTelephon" mnemonicParsing="false" style="-fx-color: #005192;" text="Teléfonos" />
             <Menu fx:id="menuFtp" mnemonicParsing="false" style="-fx-color: #005192;" text="Cliente FTP">
                <items>
-                  <MenuItem fx:id="idMenuFTP" mnemonicParsing="false" text="Ir a la ventana de FTP" />
+                  <MenuItem fx:id="idMenuFTP" mnemonicParsing="false" style="-fx-text-fill: Black;" text="Ir a la ventana de FTP" />
                </items>
             </Menu>
       </menus>
@@ -74,7 +74,7 @@
                </font>
             </Label>
             <Label fx:id="lblEmail" text="EMAIL" />
-            <Label text="TXOKO" />
+            <Label fx:id="lblTxoko" text="TXOKO" />
          </children>
          <padding>
             <Insets right="10.0" />

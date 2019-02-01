@@ -631,7 +631,7 @@ public class PC07ProductsController {
     private void handleAsignProduct(ActionEvent event) {
         try {
             Alert dialogoAlerta = new Alert(Alert.AlertType.CONFIRMATION);
-            int cont = 0;
+            boolean esta = false;
             List productequals = new ArrayList<>();
             ProductBean selectedProduct = tbProducts.getSelectionModel().getSelectedItem();
             List<ProductBean> selectedProduct2 = new ArrayList<>();
@@ -640,6 +640,7 @@ public class PC07ProductsController {
             List<ProductBean> productos = iLogicProduct.findAllProductsByTxoko(idTxoko);
             List<TxokoBean> txokos = new ArrayList<>();
             txokos.add(txoko);
+            selectedProduct.setTxokos(txokos);
 
             for (ProductBean product : productos) {
                 productequals = selectedProduct2.stream().filter(p -> p.getIdProduct().equals(product.getIdProduct())).collect(Collectors.toList());
@@ -649,11 +650,11 @@ public class PC07ProductsController {
                     dialogoAlerta.setContentText("El producto ya existe en el Txoko!!");
                     dialogoAlerta.setHeaderText("Añadir un producto al txoko");
                     dialogoAlerta.showAndWait();
-                    cont++;
+                    esta = true;
                     break;
                 }
             }
-            if (cont == 0) {
+            if (!esta) {
 
                 dialogoAlerta.setTitle("CONFIRMACION");
                 dialogoAlerta.setContentText("¿Estas seguro que deseas añadir el producto al txoko?");
@@ -666,7 +667,6 @@ public class PC07ProductsController {
 
                 if (result.get() == ButtonType.OK) {
 
-                    selectedProduct.setTxokos(txokos);
                     this.iLogicProduct.updateProduct(selectedProduct);
 
                     tbProducts.refresh();
@@ -714,8 +714,14 @@ public class PC07ProductsController {
             ProductBean selectedProduct = ((ProductBean) tbProducts.getSelectionModel().getSelectedItem());
 
             if (result.get() == ButtonType.OK) {
+                
+                List<TxokoBean> txoko = new ArrayList<>();
+                TxokoBean aux = new TxokoBean();
+                String idTxoko = user.getTxoko().getIdTxoko().toString();
+                aux.setIdTxoko(Integer.parseInt(idTxoko));
+                txoko.remove(aux);
+                selectedProduct.setTxokos(txoko);
 
-                selectedProduct.setTxokos((List<TxokoBean>) txoko);
                 this.iLogicProduct.updateProduct(selectedProduct);
 
                 tbProducts.refresh();
@@ -816,6 +822,7 @@ public class PC07ProductsController {
             PC05EventsController controller = (PC05EventsController) loader.getController();
             controller.setILogic(iLogicEvent);
             controller.setStage(stage);
+            controller.setUser(user);
             controller.initStage(root);
             cbSearch.requestFocus();
             stage.hide();
@@ -980,9 +987,9 @@ public class PC07ProductsController {
                 asignProduct.setDisable(false);
                 unasignProduct.setDisable(true);
                 addProduct.setDisable(true);
-                btnSearch.setDisable(false);
-                txtSearch.setText("");
-                txtSearch.setDisable(false);
+                btnSearch.setDisable(true);
+                //txtSearch.setText("");
+                txtSearch.setDisable(true);
                 txtSearch.requestFocus();
                 tooltipName.setText("Escribe el nombre del producto");
                 txtSearch.setTooltip(tooltipName);
@@ -1027,8 +1034,13 @@ public class PC07ProductsController {
                         }
                     } catch (BusinessLogicException ex) {
                         Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IdNotOkException ex) {
-                        Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IdNotOkException e) {
+                        LOGGER.log(Level.SEVERE,
+                            " Error reading event BY ID: {0}",
+                            e.getMessage());
+                        labelError.setText("Id del produco incorrecto");
+                        labelError.setVisible(true);
+                        labelError.setStyle("-fx-text-inner-color: red;");
                     }
                 } else {
                     txtSearch.setStyle("-fx-border-color: red;");
@@ -1061,8 +1073,13 @@ public class PC07ProductsController {
                         }
                     } catch (BusinessLogicException ex) {
                         Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NameNotOkException ex) {
-                        Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NameNotOkException e) {
+                        LOGGER.log(Level.SEVERE,
+                                " Error reading event BY NAME: {0}",
+                                e.getMessage());            
+                        labelError.setText("Nombre del producto incorrecto");
+                        labelError.setVisible(true);
+                        labelError.setStyle("-fx-text-inner-color: red;");
                     }
                 } else {
                     txtSearch.setStyle("-fx-border-color: red;");

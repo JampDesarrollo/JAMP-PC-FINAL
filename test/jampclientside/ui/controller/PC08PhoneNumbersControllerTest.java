@@ -5,18 +5,10 @@
  */
 package jampclientside.ui.controller;
 
-import jampclientside.UiApplicationProduct;
-import jampclientside.entity.TelephoneBean;
-import jampclientside.logic.TelephoneLogic;
-import javafx.event.ActionEvent;
+import jampclientside.UiApplicationUser;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
@@ -26,6 +18,7 @@ import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
+import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 /**
  *
@@ -41,22 +34,21 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        new UiApplicationProduct().start(stage);//llamo a la aplicacion que me abre la ventana
+        new UiApplicationUser().start(stage);//llamo a la aplicacion que me abre la ventana
     }
 
     @Test
     public void testA_initialStage() {
 
-        /*clickOn("#tfUsuario");
         write("ander");
         clickOn("#pfContraseña");
-        write("12345678");
-        clickOn("#btnInicio");*/
+        write("4463a7e7a1");
+        clickOn("#btnInicio");
         
-        //verifyThat("#principalPane", isVisible());
+        verifyThat("#userPane", isVisible());
         
-        //clickOn("#menuProductos");
-        //clickOn("#idMenuProductos");
+        clickOn("#telefonos");
+        clickOn("#btnPhones");
         
         verifyThat("#menuBar", isVisible());
         verifyThat("#menuMenu", isVisible());
@@ -74,9 +66,9 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         verifyThat("#tbcolDescription", isVisible());
         verifyThat("#tbcolNumber", isVisible());
         verifyThat("#tbcolTown", isVisible());
-        //verifyThat("#lblLogin", hasText("Login: ander"));
-        //verifyThat("#lblFullName", hasText("Nombre Completo: ander olivas"));
-        //verifyThat("#lblEmail", hasText("Email: anderolivas@gmail.com"));
+        verifyThat("#lblLogin", hasText("Login: ander"));
+        verifyThat("#lblFullName", hasText("Nombre Completo: ander olivas"));
+        verifyThat("#lblEmail", hasText("Email: anderolivas@gmail.com"));
         
         clickOn("#cbSearchTel");
         type(KeyCode.DOWN);
@@ -131,22 +123,23 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         clickOn("#menuMenu");
         clickOn("#menuLogOut");
         clickOn("#okButton");
-        //verifyThat("#loginPane", isVisible());
+        verifyThat("#userPane", isVisible());
     }
     
     /**
      * Test of initial state of login view before open PrincipalView.
      */
-    @Test @Ignore
+    @Test
     public void testC_secondLogin() {
-        clickOn("#tfUsuario");
-        write("julen");
+        write("ander");
         clickOn("#pfContraseña");
-        write("12345678");
+        write("4463a7e7a1");
         clickOn("#btnInicio");
-        verifyThat("#principalPane", isVisible());
-        //clickOn("#menuProductos");
-        //clickOn("#idMenuProductos");
+        
+        verifyThat("#userPane", isVisible());
+        
+        clickOn("#telefonos");
+        clickOn("#btnPhones");
     }
     
     /**
@@ -156,10 +149,10 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
     public void testD_goToEventPane() {
         clickOn("#menuEvent");
         clickOn("#idMenuEvent");
-        verifyThat("#eventPane", isVisible());
-        clickOn("#menuTelephone");
-        clickOn("#idMenuTelephone");
-        verifyThat("#telephonePane", isVisible());
+        verifyThat("#principalPaneEvent", isVisible());
+        clickOn("#menuProductos");
+        clickOn("#idMenuProductos");
+        verifyThat("#productPane", isVisible());
     }
     
     /**
@@ -169,23 +162,12 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
     public void testF_goToExpensePane() {
         clickOn("#menuExpense");
         clickOn("#idMenuExpense");
-        verifyThat("#expensePane", isVisible());
-        clickOn("#menuTelephone");
-        clickOn("#idMenuTelephone");
-        verifyThat("#telephonePane", isVisible());
+        verifyThat("#principalPaneExpense", isVisible());
+        clickOn("#btnProducts");
+        clickOn("#idMenuProductos");
+        verifyThat("#productPane", isVisible());
     }
-    /**
-     * Test of menu to go to user
-     */
-    @Test
-    public void testG_goToUserPane() {
-        clickOn("#menuUser");
-        clickOn("#idMenuUser");
-        verifyThat("#userPane", isVisible());
-        clickOn("#menuTelephone");
-        clickOn("#idMenuTelephone");
-        verifyThat("#telephonePane", isVisible());
-    }
+
     /**
      * Test of menu to go to telephone
      */
@@ -202,14 +184,12 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
      /**
      * Test of menu to go to clientFTP
      */
-    @Test
+    @Test @Ignore
     public void testI_goToClientFTPPane() {
         clickOn("#menuFtp");
         clickOn("#idMenuFtp");
-        verifyThat("#telephonPane", isVisible());
-        clickOn("#menuTelephone");
-        clickOn("#idMenuTelephone");
-        verifyThat("#telephonePane", isVisible());
+        verifyThat("#ftpPane", isVisible());
+        clickOn("#btnOut");
     }
     /**
      * Test of menu to go to clientFTP
