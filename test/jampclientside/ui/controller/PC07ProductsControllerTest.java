@@ -7,6 +7,7 @@ package jampclientside.ui.controller;
 
 import jampclientside.UiApplication;
 import jampclientside.UiApplicationProduct;
+import jampclientside.UiApplicationUser;
 import jampclientside.logic.ProductLogic;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -46,22 +47,21 @@ public class PC07ProductsControllerTest extends ApplicationTest {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        new UiApplicationProduct().start(stage);//llamo a la aplicacion que me abre la ventana
+        new UiApplicationUser().start(stage);//llamo a la aplicacion que me abre la ventana
     }
 
-    @Test @Ignore
+    @Test 
     public void testA_initialStage() {
 
-        /*clickOn("#tfUsuario");
         write("ander");
         clickOn("#pfContraseña");
-        write("12345678");
-        clickOn("#btnInicio");*/
+        write("4463a7e7a1");
+        clickOn("#btnInicio");
         
-        //verifyThat("#principalPane", isVisible());
+        verifyThat("#userPane", isVisible());
         
-        //clickOn("#menuProductos");
-        //clickOn("#idMenuProductos");
+        clickOn("#productos");
+        clickOn("#btnProducts");
         
         verifyThat("#menuBar", isVisible());
         verifyThat("#menuMenu", isVisible());
@@ -81,9 +81,9 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         verifyThat("#tbcolDescription", isVisible());
         verifyThat("#tbcolPrice", isVisible());
         verifyThat("#tbcolStock", isVisible());
-        //verifyThat("#lblLogin", hasText("Login: ander"));
-        //verifyThat("#lblFullName", hasText("Nombre Completo: ander olivas"));
-        //verifyThat("#lblEmail", hasText("Email: anderolivas@gmail.com"));
+        verifyThat("#lblLogin", hasText("Login: ander"));
+        verifyThat("#lblFullName", hasText("Nombre Completo: ander olivas"));
+        verifyThat("#lblEmail", hasText("Email: anderolivas@gmail.com"));
         
         clickOn("#cbSearch");
         type(KeyCode.DOWN);
@@ -135,7 +135,7 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     /**
      * Test Method to the Log Out menu item with close selection
      */
-    @Test @Ignore
+    @Test 
     public void testB_logOut() {
         clickOn("#menuMenu");
         clickOn("#menuLogOut");
@@ -150,55 +150,44 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     /**
      * Test of initial state of login view before open PrincipalView.
      */
-    @Test @Ignore
+    @Test 
     public void testC_secondLogin() {
-        clickOn("#tfUsuario");
-        write("julen");
+
+        write("ander");
         clickOn("#pfContraseña");
-        write("12345678");
+        write("4463a7e7a1");
         clickOn("#btnInicio");
-        verifyThat("#principalPane", isVisible());
-        //clickOn("#menuProductos");
-        //clickOn("#idMenuProductos");
+        verifyThat("#userPane", isVisible());
+        clickOn("#productos");
+        clickOn("#btnProducts");
     }
     
     /**
      * Test of menu to go to event
      */
-    @Test @Ignore
+    @Test 
     public void testD_goToEventPane() {
         clickOn("#menuEvent");
         clickOn("#idMenuEvent");
-        verifyThat("#eventPane", isVisible());
-        clickOn("#menuProduct");
-        clickOn("#idMenuProduct");
+        verifyThat("#principalPaneEvent", isVisible());
+        clickOn("#menuProductos");
+        clickOn("#idMenuProductos");
         verifyThat("#productPane", isVisible());
     }
     
     /**
      * Test of menu to go to expense
      */
-    @Test @Ignore
+    @Test 
     public void testF_goToExpensePane() {
         clickOn("#menuExpense");
         clickOn("#idMenuExpense");
-        verifyThat("#expensePane", isVisible());
-        clickOn("#menuProduct");
-        clickOn("#idMenuProduct");
+        verifyThat("#principalPaneExpense", isVisible());
+        clickOn("#btnProducts");
+        clickOn("#idMenuProductos");
         verifyThat("#productPane", isVisible());
     }
-    /**
-     * Test of menu to go to user
-     */
-    @Test @Ignore
-    public void testG_goToUserPane() {
-        clickOn("#menuUser");
-        clickOn("#idMenuUser");
-        verifyThat("#userPane", isVisible());
-        clickOn("#menuProduct");
-        clickOn("#idMenuProduct");
-        verifyThat("#productPane", isVisible());
-    }
+    
     /**
      * Test of menu to go to telephone
      */
@@ -219,10 +208,8 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     public void testI_goToClientFTPPane() {
         clickOn("#menuFtp");
         clickOn("#idMenuFtp");
-        verifyThat("#telephonPane", isVisible());
-        clickOn("#menuProduct");
-        clickOn("#idMenuProduct");
-        verifyThat("#productPane", isVisible());
+        verifyThat("#ftpPane", isVisible());
+        clickOn("#btnOut");
     }
 
     /**
@@ -255,7 +242,7 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         clickOn("#btnSearch");
         verifyThat("#labelError ", hasText("Tienes que escribir el id de un producto"));
         clickOn("#txtSearch");
-        write("4");
+        write("28");
         clickOn("#btnSearch");
         Node row = lookup(".table-row-cell").nth(0).query();
         assertNotNull("Row is null: table has not that row. ", row);
@@ -264,7 +251,6 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         clickOn("Aceptar");
         clickOn("Aceptar");
         clickOn("#asignProduct");
-        clickOn("Cancelar");
         clickOn("Aceptar");
     } 
     
@@ -274,7 +260,7 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     @Test
     public void testL_unasignProduct() {
         clickOn("#cbSearch");
-        type(KeyCode.DOWN);
+        type(KeyCode.UP);
         type(KeyCode.ENTER);
         Node row = lookup(".table-row-cell").nth(0).query();
         assertNotNull("Row is null: table has not that row. ", row);
@@ -290,7 +276,7 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     /**
      * Test of deleteButton
      */
-    @Test @Ignore
+    @Test
     public void testN_deleteProduct() {
         Node row = lookup(".table-row-cell").nth(0).query();
         assertNotNull("Row is null: table has not that row. ", row);
@@ -298,19 +284,19 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         clickOn("#delProduct");
         clickOn("Cancelar");
         clickOn("Aceptar");
-        clickOn("#delProduct");
+        //clickOn("#delProduct");
         //clickOn("Aceptar");
     }
    /**
      * Test to bottom_right Button for close session
      */
-    @Test @Ignore
+    @Test
     public void testZ_btnLogOut2() {
         clickOn("#btnLogOut2");
-        clickOn("#cancelButton");
+        clickOn("Cancelar");
         verifyThat("#btnLogOut2", isVisible());
         clickOn("#btnLogOut2");
-        clickOn("#okButton");
-       // verifyThat("#loginPane", isVisible());
+        clickOn("Aceptar");
+        verifyThat("#loginPane", isVisible());
     }
 }

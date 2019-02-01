@@ -23,6 +23,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+import javafx.scene.control.Alert;
 
 
 /**
@@ -34,20 +36,26 @@ import java.util.ArrayList;
  */
 public class TelephoneLogicController implements TelephoneLogic {
 
+    private static final String MONGOCLIENT = ResourceBundle.
+            getBundle("jampclientside.logic.config").getString("MONGOCLIENT");
+    private static final String MONGODB = ResourceBundle.
+            getBundle("jampclientside.logic.config").getString("MONGODB");
+    private static final String COLLECTION = ResourceBundle.
+            getBundle("jampclientside.logic.config").getString("COLLECTION");
     /**
      * 
      */
-    public static MongoClient mongoclient = MongoClients.create("mongodb://localhost:27017/jamp");
+    public static MongoClient mongoclient;
     
     /**
      * 
      */
-    public static MongoDatabase mongoDB = mongoclient.getDatabase("jamp");
+    public static MongoDatabase mongoDB;
     
     /**
      * 
      */
-    public static MongoCollection<Document> collection = mongoDB.getCollection("telephones");
+    public static MongoCollection<Document> collection;
 
 
     /**
@@ -57,13 +65,24 @@ public class TelephoneLogicController implements TelephoneLogic {
             = Logger.getLogger("jamp.pc.logic.IlogicImplementationTelephone");
 
     /**
+     *
+     */
+    @Override
+    public void startConnection(){
+
+            mongoclient = MongoClients.create(MONGOCLIENT);
+            mongoDB = mongoclient.getDatabase(MONGODB);
+            collection = mongoDB.getCollection(COLLECTION);
+
+    }
+    /**
      * this method is for delete telephones.
      * @param phone
      * @throws jampclientside.exceptions.BusinessLogicException
      */
     @Override
     public void deleteTelephone(TelephoneBean phone) throws BusinessLogicException {
-        collection.deleteOne(Filters.eq("name",phone.getName()));
+        collection.deleteOne(Filters.eq("telephone",phone.getTelephone()));
     }
 
     /**
@@ -73,18 +92,16 @@ public class TelephoneLogicController implements TelephoneLogic {
      */
     @Override
     public void updateTelephone(TelephoneBean phone) throws BusinessLogicException {
-        Document setName =  new Document("$set", new Document("name",phone.getName()));
-        collection.updateOne(new Document("idTelephone",phone.getId()), setName);
+        Document documentToSet = new Document();
         
-        Document setDescription =  new Document("$set", new Document("name",phone.getName()));
-        collection.updateOne(new Document("idTelephone",phone.getId()), setDescription);
-        
-        Document setTelephone =  new Document("$set", new Document("name",phone.getName()));
-        collection.updateOne(new Document("idTelephone",phone.getId()), setTelephone);
-        
-        Document setTown =  new Document("$set", new Document("name",phone.getName()));
-        collection.updateOne(new Document("idTelephone",phone.getId()), setTown);
-       
+        documentToSet.put("name", phone.getName());
+        documentToSet.put("description", phone.getDescription());
+        documentToSet.put("telephone", phone.getTelephone());
+        documentToSet.put("town", phone.getTown());
+         
+        Document set =  new Document("$set", documentToSet);
+        collection.updateOne(new Document("idTelephone",phone.getId()), set);
+          
     }
 
     /**

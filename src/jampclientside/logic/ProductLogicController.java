@@ -132,6 +132,9 @@ public class ProductLogicController implements ProductLogic {
         try{
             LOGGER.info("ProductImplementation: Finding products by id from REST service (XML).");
             producto = ProductWebClient.findProductById(ProductBean.class, idProduct);
+            if(producto == null){
+                throw new IdNotOkException("Id Incorrecto");
+            }
         }catch(ClientErrorException ex){
             LOGGER.log(Level.SEVERE,
                     "ProductImplementation: Exception finding products by id, {0}",
@@ -179,6 +182,9 @@ public class ProductLogicController implements ProductLogic {
             LOGGER.info("ProductImplementation: Finding all product from REST service (XML).");
             //Ask webClient for all departments' data.
             productos = ProductWebClient.findProductByName(new GenericType<List<ProductBean>>() {}, name, idTxoko);
+            if(productos == null){
+                throw new NameNotOkException("Nombre Incorrecto");
+            }
         }catch(ClientErrorException ex){
             LOGGER.log(Level.SEVERE,
                     "ProductImplementation: Exception finding all products, {0}",
