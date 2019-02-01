@@ -6,6 +6,7 @@
 package jampclientside.ui.controller;
 
 import jampclientside.UiApplication;
+import jampclientside.UiApplicationUser;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
@@ -32,14 +34,46 @@ import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 public class PC05EventsControllerIT extends ApplicationTest {
 
     public void start(Stage stage) throws Exception {
-        new UiApplication().start(stage);//llamo a la aplicacion que me abre la ventana
+        new UiApplicationUser().start(stage);//llamo a la aplicacion que me abre la ventana
+    }
+
+    /**
+     * Initializing the application and going to user window
+     *
+     */
+    @Test
+    public void test0_initializingAplication() {
+
+        verifyThat("#tfUsuario", isEnabled());
+        verifyThat("#tfContraseña", isEnabled());
+        verifyThat("#lblError", isInvisible());
+        doubleClickOn("#tfUsuario");
+        eraseText(20);
+        doubleClickOn("#tfUsuario");
+        eraseText(20);
+        write("pau");
+        clickOn("#pfContraseña");
+        write("fcdd6828d2");
+        clickOn("#btnInicio");
+        verifyThat("#loginPane", isVisible());
+    }
+
+    /**
+     * Go to events window
+     */
+    @Test
+    public void test1_goToEvents() {
+
+        clickOn("#eventos");
+        clickOn("#btnEvents");
+        verifyThat("#principalPaneEvent", isVisible());
     }
 
     /**
      * . Initializing handle WindowShowing of events
      */
     @Test
-    public void test1_initStage() {
+    public void test2_initStage() {
 
         verifyThat("#btnSearch", isEnabled());
         verifyThat("#btnSearch", (Button t) -> t.isFocused());
@@ -71,7 +105,7 @@ public class PC05EventsControllerIT extends ApplicationTest {
      * going to add an event and assign it to our txoko.
      */
     @Test
-    public void test2_clickOnBTNSearch() {
+    public void test3_clickOnBTNSearch() {
         clickOn("#btnSearch");
         verifyThat("#labelError", isInvisible());
         clickOn("#btnAddEvent");
@@ -84,9 +118,7 @@ public class PC05EventsControllerIT extends ApplicationTest {
         clickOn("#btnAdd");
         verifyThat("#lblError", isVisible());
         doubleClickOn("#tfDescription");
-        write("anyEvent");;
-        clickOn("#datePicker");
-        write("4/01/2019");
+        write("anyEvent");
         clickOn("#btnAdd");
         verifyThat("#lblError", isVisible());
         doubleClickOn("#tfImg");
@@ -112,14 +144,10 @@ public class PC05EventsControllerIT extends ApplicationTest {
         clickOn("#btnAsignar");
         clickOn("Aceptar");
         //look for 1st row in table view and click it
-        Node row = lookup(".table-row-cell").nth(6).query();
+        Node row = lookup(".table-row-cell").nth(5).query();
         assertNotNull("Row is null: table has not that row. ", row);
         clickOn(row);
         clickOn("#btnAsignar");
-        clickOn("#cbSearch");
-        type(KeyCode.DOWN);
-        type(KeyCode.ENTER);
-        clickOn("#btnSearch");
     }
 
     /**
@@ -133,17 +161,16 @@ public class PC05EventsControllerIT extends ApplicationTest {
      * an incorrect name so in the label it has to appear an error. Then we put
      * the correct name.
      */
-    @Test
-    public void test3_clickOnBTNSearchComboBoxOption2Option3Option4() {
-        //TODOS LOS EVENTOS DE MI TXOKO
+   @Test
+    public void test4_clickOnBTNSearchComboBoxOption2Option3Option4() {
+       //TODOS LOS EVENTOS DE MI TXOKO
         clickOn("#cbSearch");
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         clickOn("#btnSearch");
-        verifyThat("#labelError", isInvisible());
         clickOn("#btnDeleteEvent");
         clickOn("Aceptar");
-        Node row = lookup(".table-row-cell").nth(4).query();
+        Node row = lookup(".table-row-cell").nth(3).query();
         assertNotNull("Row is null: table has not that row. ", row);
         clickOn(row);
         clickOn("#btnDeleteEvent");
@@ -162,7 +189,7 @@ public class PC05EventsControllerIT extends ApplicationTest {
         //  verifyThat("#labelError ", org.testfx.matcher.control.LabeledMatchers.hasText("ID del evento incorrecto"));
         doubleClickOn("#tfSearch");
         eraseText(2);
-        write("2");
+        write("5");
         clickOn("#btnSearch");
         //BUSQUEDA POR NOMBRE
         clickOn("#cbSearch");
@@ -176,17 +203,16 @@ public class PC05EventsControllerIT extends ApplicationTest {
         // verifyThat("#labelError ", org.testfx.matcher.control.LabeledMatchers.hasText("Nombre del evento incorrecto"));
         doubleClickOn("#tfSearch");
         eraseText(10);
-        write("fiestas de algorta");
+        write("fiestas de zamudio");
         clickOn("#btnSearch");
         verifyThat("#labelError", isInvisible());
-
     }
 
     /**
      * Go to expenses window and go back
      */
     @Test
-    public void test4_goToExpensesWindow() {
+    public void test5_goToExpensesWindow() {
 
         clickOn("#menuGastos");
         clickOn("#idMenuGastos");
@@ -200,14 +226,14 @@ public class PC05EventsControllerIT extends ApplicationTest {
     /**
      * go to products window and go back
      */
-    @Test
-    public void test5_goToProductsWindow() {
+    @Test 
+    public void test6_goToProductsWindow() {
 
         clickOn("#menuProductos");
         clickOn("#idMenuProductos");
-        verifyThat("#principalPaneProducts", isVisible());
-        clickOn("#btnEvents");
-        clickOn("#idMenuEventos");
+        verifyThat("#productPane", isVisible());
+        clickOn("#menuEvent");
+        clickOn("#idMenuEvent");
         verifyThat("#principalPaneEvent", isVisible());
 
     }
@@ -215,14 +241,14 @@ public class PC05EventsControllerIT extends ApplicationTest {
     /**
      * go to user window and go back
      */
-    @Test
-    public void test6_goToUserWindow() {
+   @Test
+    public void test7_goToUserWindow() {
 
         clickOn("#menuUsuarios");
         clickOn("#idMenuUsuarios");
-        verifyThat("#principalPaneUser", isVisible());
+        verifyThat("#userPane", isVisible());
+        clickOn("#eventos");
         clickOn("#btnEvents");
-        clickOn("#idMenuEventos");
         verifyThat("#principalPaneEvent", isVisible());
 
     }
@@ -230,13 +256,13 @@ public class PC05EventsControllerIT extends ApplicationTest {
     /**
      * go to phones window and go back
      */
-    @Test
-    public void test7_goToPhoneWindow() {
+    @Test @Ignore
+    public void test8_goToPhoneWindow() {
 
         clickOn("#menuTelefonos");
         clickOn("#idMenuTel");
-        verifyThat("#principalPaneExpense", isVisible());
-        clickOn("#btnEvent");
+        verifyThat("#telephonPane", isVisible());
+        clickOn("#menuEvent");
         clickOn("#idMenuEvent");
         verifyThat("#principalPanePhones", isVisible());
 
@@ -246,13 +272,12 @@ public class PC05EventsControllerIT extends ApplicationTest {
      * go to ftp client window with the menu item and go back
      */
     @Test
-    public void test8_goToFTClientWindow() {
+    public void test9_goToFTClientWindow() {
 
         clickOn("#menuFTP");
         clickOn("#idMenuFTP");
-        verifyThat("#signUpPane", isVisible());
-        clickOn("#btnEvent");
-        clickOn("#idMenuEvent");
+        verifyThat("#ftpPane", isVisible());
+        clickOn("#btnOut");
         verifyThat("#principalPaneEvent", isVisible());
 
     }
@@ -261,15 +286,26 @@ public class PC05EventsControllerIT extends ApplicationTest {
     /**
      * go to the ftp client window with the button and go back
      */
-    @Test
-    public void test9_goToFTPClientWindowWithButton() {
+   @Test
+    public void testa_goToFTPClientWindowWithButton() {
         clickOn("#btnSearch");
         clickOn("#btnImgEvent");
-        verifyThat("#signUpPane", isVisible());
-        clickOn("#btnEvent");
-        clickOn("#idMenuEvent");
+        verifyThat("#ftpPane", isVisible());
+        clickOn("#btnOut");
         verifyThat("#principalPaneEvent", isVisible());
 
+    }
+
+    //IR AL INFORME
+    /**
+     * Do the report
+     */
+    @Test
+    @Ignore
+    public void testb_informe() {
+        clickOn("#btnSearch");
+        clickOn("#btnInforme");
+        verifyThat("#jasperviewer", isVisible());
     }
 
     /**
@@ -277,7 +313,7 @@ public class PC05EventsControllerIT extends ApplicationTest {
      */
     //CERRAR SESION
     @Test
-    public void testa_btnLogOut() {
+    public void testc_btnLogOut() {
         clickOn("#btnLogOut2");
         clickOn("#cancelButton");
         verifyThat("#principalPaneEvent", isVisible());

@@ -24,24 +24,24 @@
         </Menu>
             <Menu fx:id="btnEvents" mnemonicParsing="false" style="-fx-color: #005192;" text="Eventos">
                <items>
-                  <MenuItem fx:id="idMenuEventos" mnemonicParsing="false" text="Ir a la ventana de Eventos" />
+                  <MenuItem fx:id="idMenuEventos" mnemonicParsing="false" style="-fx-text-fill: Black" text="Ir a la ventana de Eventos" />
                </items></Menu>
             <Menu fx:id="btnExpenses" mnemonicParsing="false" style="-fx-color: #005192;" text="Gastos" />
             <Menu fx:id="btnProducts" mnemonicParsing="false" style="-fx-color: #005192;" text="Productos">
                <items>
-                  <MenuItem fx:id="idMenuProductos" mnemonicParsing="false" text="Ir a la ventana de Productos" />
+                  <MenuItem fx:id="idMenuProductos" mnemonicParsing="false" style="-fx-text-fill: Black" text="Ir a la ventana de Productos" />
                </items></Menu>
             <Menu fx:id="btnUsers" mnemonicParsing="false" style="-fx-color: #005192;" text="Usuarios">
                <items>
-                  <MenuItem fx:id="idMenuUsuarios" mnemonicParsing="false" text="Ir a la ventana de Usuarios " />
+                  <MenuItem fx:id="idMenuUsuarios" mnemonicParsing="false" style="-fx-text-fill: Black" text="Ir a la ventana de Usuarios " />
                </items></Menu>
             <Menu fx:id="btnPhones" mnemonicParsing="false" style="-fx-color: #005192;" text="Teléfonos">
                <items>
-                  <MenuItem fx:id="idMenuTel" mnemonicParsing="false" text="Ir a la ventana de Teléfonos" />
+                  <MenuItem fx:id="idMenuTel" mnemonicParsing="false" style="-fx-text-fill: Black" text="Ir a la ventana de Teléfonos" />
                </items></Menu>
             <Menu fx:id="menuFTP" mnemonicParsing="false" style="-fx-color: #005192;" text="Archivos">
               <items>
-                <MenuItem fx:id="idMenuFTP" mnemonicParsing="false" text="Ir a la ventana de Archivos" />
+                <MenuItem fx:id="idMenuFTP" mnemonicParsing="false" style="-fx-text-fill: Black" text="Ir a la ventana de Archivos" />
               </items>
             </Menu>
       </menus>
