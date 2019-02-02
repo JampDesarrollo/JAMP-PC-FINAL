@@ -56,10 +56,5 @@ public class TelephoneLogicControllerTEST implements TelephoneLogic {
     public List<TelephoneBean> findTelephoneByName(String name) throws BusinessLogicException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void startConnection() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

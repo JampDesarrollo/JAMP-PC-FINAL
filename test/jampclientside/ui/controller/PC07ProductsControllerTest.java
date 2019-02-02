@@ -12,6 +12,7 @@ import jampclientside.logic.ProductLogic;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.After;
@@ -53,9 +54,13 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     @Test 
     public void testA_initialStage() {
 
-        write("ander");
+        write("julen");
         clickOn("#pfContraseña");
-        write("4463a7e7a1");
+        write("914393ac3b");
+        
+        //write("testLogin");
+        //clickOn("#pfContraseña");
+        //write("4463a7e7a1");
         clickOn("#btnInicio");
         
         verifyThat("#userPane", isVisible());
@@ -71,7 +76,6 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         verifyThat("#menuUser", isVisible());
         verifyThat("#menuTelephon", isVisible());
         verifyThat("#txtSearch", isDisabled());
-        //verifyThat("#tbProducts", isEditable());
         verifyThat("#btnSearch", isDisabled());
         verifyThat("#delProduct", isDisabled());
         verifyThat("#asignProduct", isDisabled());
@@ -81,9 +85,9 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         verifyThat("#tbcolDescription", isVisible());
         verifyThat("#tbcolPrice", isVisible());
         verifyThat("#tbcolStock", isVisible());
-        verifyThat("#lblLogin", hasText("Login: ander"));
-        verifyThat("#lblFullName", hasText("Nombre Completo: ander olivas"));
-        verifyThat("#lblEmail", hasText("Email: anderolivas@gmail.com"));
+        verifyThat("#lblLogin", hasText("Login: testLogin"));
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Txoko: Pepos"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("Nombre Completo: testLoginF"));
         
         clickOn("#cbSearch");
         type(KeyCode.DOWN);
@@ -112,7 +116,6 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         verifyThat("#addProduct", isDisabled());
         verifyThat("#btnSearch", isEnabled());
         verifyThat("#txtSearch", isEnabled());
-       // verifyThat("#txtSearch", hasText(""));
         verifyThat("#labelError", isInvisible());
                 
         clickOn("#cbSearch");
@@ -128,7 +131,6 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         verifyThat("#addProduct", isDisabled());
         verifyThat("#btnSearch", isEnabled());
         verifyThat("#txtSearch", isEnabled());
-       // verifyThat("#txtSearch", hasText(""));
         verifyThat("#labelError", isInvisible());
     }
     
@@ -153,9 +155,9 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     @Test 
     public void testC_secondLogin() {
 
-        write("ander");
+        write("julen");
         clickOn("#pfContraseña");
-        write("4463a7e7a1");
+        write("914393ac3b");
         clickOn("#btnInicio");
         verifyThat("#userPane", isVisible());
         clickOn("#productos");
@@ -191,7 +193,7 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     /**
      * Test of menu to go to telephone
      */
-    @Test
+    @Test @Ignore
     public void testH_goToTelephonePane() {
         clickOn("#menuTelephon");
         clickOn("#idMenuTelephon");
@@ -216,18 +218,18 @@ public class PC07ProductsControllerTest extends ApplicationTest {
      * Test of add Button
      */
     @Test
-    public void testJ_addProduct() {
+    public void testJ_addAndUpdateProduct() {
+        clickOn("#cbSearch");
+        type(KeyCode.DOWN);
         clickOn("#addProduct");
         clickOn("Cancelar");
-        /*clickOn("#addProduct");
-        clickOn("Aceptar");
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("Fanta").query();
         assertNotNull("Row is null: table has not that row. ", row);
-        clickOn(row);
-        clickOn("#addProduct");
-        clickOn("Cancelar");
-        clickOn("#addProduct");
-        clickOn("Aceptar");*/
+        doubleClickOn(row);
+        write("Kas");
+        press(KeyCode.ENTER);
+        clickOn("Aceptar");
+        clickOn("Aceptar");
     }   
     
     /**
@@ -242,7 +244,7 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         clickOn("#btnSearch");
         verifyThat("#labelError ", hasText("Tienes que escribir el id de un producto"));
         clickOn("#txtSearch");
-        write("28");
+        write("4");
         clickOn("#btnSearch");
         Node row = lookup(".table-row-cell").nth(0).query();
         assertNotNull("Row is null: table has not that row. ", row);

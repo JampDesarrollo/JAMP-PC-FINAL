@@ -80,7 +80,7 @@ public class PC07ProductsController {
     /**
      * Maximum characters that can be inserted
      */
-    private static final int MAX_CARACT = 255;
+    private static final int MAX_CARACT = 50;
 
     /**
      * Attribute to appear the information text.
@@ -316,7 +316,7 @@ public class PC07ProductsController {
     /**
      * the list of products to copy the data
      */
-    private final List<ProductBean> productDatacopy = new ArrayList<>();
+    private List<ProductBean> productDatacopy = new ArrayList<>();
     
     /**
      * Integer to close the window
@@ -417,6 +417,7 @@ public class PC07ProductsController {
      /*   Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellNameFactory
                 = (TableColumn<ProductBean, String> p) -> new EditingCell();
         tbcolName.setCellFactory(cellNameFactory);*/
+        tbcolName.setCellFactory(TextFieldTableCell.<ProductBean>forTableColumn());
         tbcolName.setCellValueFactory(
                 new PropertyValueFactory<>("name"));
         tbcolName.setOnEditCommit(new EventHandler<CellEditEvent<ProductBean, String>>() {
@@ -435,6 +436,7 @@ public class PC07ProductsController {
        /* Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellDescriptionFactory
                 = (TableColumn<ProductBean, String> p) -> new EditingCell();
         tbcolDescription.setCellFactory(cellDescriptionFactory);*/
+        tbcolDescription.setCellFactory(TextFieldTableCell.<ProductBean>forTableColumn());
         tbcolDescription.setCellValueFactory(
                 new PropertyValueFactory<>("description"));
         tbcolDescription.setOnEditCommit(new EventHandler<CellEditEvent<ProductBean, String>>() {
@@ -453,6 +455,7 @@ public class PC07ProductsController {
         /*Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellPriceFactory
                 = (TableColumn<ProductBean, String> p) -> new EditingCell();
         tbcolPrice.setCellFactory(cellPriceFactory);*/
+        tbcolPrice.setCellFactory(TextFieldTableCell.<ProductBean>forTableColumn());
         tbcolPrice.setCellValueFactory(
                 new PropertyValueFactory<>("price"));
         tbcolPrice.setOnEditCommit(new EventHandler<CellEditEvent<ProductBean, String>>() {
@@ -471,6 +474,7 @@ public class PC07ProductsController {
       /*  Callback<TableColumn<ProductBean, String>, TableCell<ProductBean, String>> cellStockFactory
                 = (TableColumn<ProductBean, String> p) -> new EditingCell();
         tbcolStock.setCellFactory(cellStockFactory);*/
+        tbcolStock.setCellFactory(TextFieldTableCell.<ProductBean>forTableColumn());
         tbcolStock.setCellValueFactory(
                 new PropertyValueFactory<>("stock"));
         tbcolStock.setOnEditCommit(new EventHandler<CellEditEvent<ProductBean, String>>() {
@@ -504,6 +508,7 @@ public class PC07ProductsController {
                 dialogoAlerta.showAndWait();
             }else{
                 tbProducts.setItems(productData);
+                productDatacopy = refreshDatabase(productData);
                 productDatacopy.addAll(productData);
             }
         } catch (BusinessLogicException ex) {
@@ -528,12 +533,12 @@ public class PC07ProductsController {
        
         cbSearch.getItems().removeAll(cbSearch.getItems());
         cbSearch.getItems().addAll("Todos los productos del catalogo", "Todos los productos de mi txoko", "Id del producto", "Nombre del producto");
-        cbSearch.getSelectionModel().selectFirst();
         labelError.setVisible(false);
         cbSearch.requestFocus();
         txtSearch.setDisable(true);
-        tbProducts.setEditable(true);
+        tbProducts.setEditable(false);
         btnSearch.setDisable(true);
+        addProduct.setDisable(true);
         delProduct.setDisable(true);
         asignProduct.setDisable(true);
         unasignProduct.setDisable(true);
@@ -725,6 +730,7 @@ public class PC07ProductsController {
 
                 this.iLogicProduct.updateProduct(selectedProduct);
 
+                tbProducts.getItems().remove(tbProducts.getSelectionModel().getSelectedItem());
                 tbProducts.refresh();
 
                 dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
@@ -931,6 +937,8 @@ public class PC07ProductsController {
         switch (cbSearch.getSelectionModel().getSelectedItem()) {
             case "Todos los productos de mi txoko":
                 try {
+                    labelError.setVisible(false);
+                    tbProducts.setEditable(true);
                     asignProduct.setDisable(true);
                     unasignProduct.setDisable(false);
                     addProduct.setDisable(true);
@@ -952,6 +960,8 @@ public class PC07ProductsController {
                 break;
             case "Todos los productos del catalogo":
                 try {
+                    labelError.setVisible(false);
+                    tbProducts.setEditable(true);
                     asignProduct.setDisable(false);
                     unasignProduct.setDisable(true);
                     addProduct.setDisable(false);
@@ -971,7 +981,8 @@ public class PC07ProductsController {
                 }
                 break;
             case "Id del producto":
-                //tbProducts.getItems().clear();
+                labelError.setVisible(false);
+                tbProducts.setEditable(false);
                 asignProduct.setDisable(false);
                 unasignProduct.setDisable(true);
                 addProduct.setDisable(true);
@@ -985,7 +996,9 @@ public class PC07ProductsController {
                 txtSearch.setStyle("-fx-border-color: -fx-box-border;");
                 break;
             case "Nombre del producto":
-                // tbProducts.getItems().clear();
+                labelError.setVisible(false);
+                tbProducts.setEditable(false);
+                tbProducts.getItems().remove(0, productData.size());
                 asignProduct.setDisable(false);
                 unasignProduct.setDisable(true);
                 addProduct.setDisable(true);
@@ -1046,7 +1059,7 @@ public class PC07ProductsController {
                     }
                 } else {
                     txtSearch.setStyle("-fx-border-color: red;");
-                    labelError.setText("Se ha introducido un numero superior de caracteres al permitido");
+                    labelError.setText("Demasiados Caracteres!!!");
                     labelError.setVisible(true);
                     labelError.setStyle("-fx-text-inner-color: red;");
                 }
@@ -1085,7 +1098,7 @@ public class PC07ProductsController {
                     }
                 } else {
                     txtSearch.setStyle("-fx-border-color: red;");
-                    labelError.setText("Se ha introducido un numero superior de caracteres al permitido");
+                    labelError.setText("Demasiados Caracteres!!!");
                     labelError.setVisible(true);
                     labelError.setStyle("-fx-text-inner-color: red;");
                 }
@@ -1108,24 +1121,47 @@ public class PC07ProductsController {
      *
      */
     private void addUpdateProduct() throws BusinessLogicException {
+        labelError.setVisible(false);
         List<ProductBean> productos = tbProducts.getItems();
+        boolean modif = false;
+        String idTxoko = user.getTxoko().getIdTxoko().toString();
 
         for (ProductBean product : productos) {
             if (product.getName() != null && !product.getName().trim().isEmpty()
                     && product.getDescription() != null && !product.getDescription().trim().isEmpty()
                     && product.getPrice() != null && !product.getPrice().trim().isEmpty()
                     && product.getStock() != null && !product.getStock().trim().isEmpty()) {
-
                 List productequals = productDatacopy.stream().filter(p -> p.getIdProduct().equals(product.getIdProduct())).collect(Collectors.toList());
                 if (productequals.isEmpty()) {
                     addProduct(product);
+                    modif = true;
+                    break;
                 } else if (!productequals.get(0).equals(product)) {
                     updateProduct(product);
+                    modif = true;
+                    break;
                 }
             }
         }
+        if(modif==true){
+            switch(cbSearch.getSelectionModel().getSelectedItem()){
+                case "Todos los productos de mi txoko":
+                    productDatacopy = iLogicProduct.findAllProductsByTxoko(idTxoko);
+                    break;
+                default:
+                    productDatacopy = iLogicProduct.findAllProducts();
+                    break;
+            }
+            
+        }
     }
 
+    private List<ProductBean> refreshDatabase(ObservableList<ProductBean> productData) {
+        productDatacopy.clear();
+        
+        productDatacopy.addAll(productData);
+        return productDatacopy;
+    }
     /**
      * This method is to add the selected product in the table. First ask for
      * the confirmation, if it is positive, add the product and confirm it in a
@@ -1148,14 +1184,21 @@ public class PC07ProductsController {
         cancelButton.setId("buttonCancel");
 
         if (result.get() == ButtonType.OK) {
+            if (product.getName().trim().length() < MAX_CARACT && product.getDescription().trim().length() < MAX_CARACT &&
+                    product.getPrice().trim().length() < MAX_CARACT && product.getStock().trim().length() < MAX_CARACT) {
+                
+                iLogicProduct.createProduct(product);
 
-            iLogicProduct.createProduct(product);
-
-            dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlerta.setTitle("INFORMACION");
-            dialogoAlerta.setContentText("El producto " + product.getName() + " " + product.getDescription() + " ha sido añadido.");
-            dialogoAlerta.setHeaderText("Añadir un producto");
-            dialogoAlerta.showAndWait();
+                dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
+                dialogoAlerta.setTitle("INFORMACION");
+                dialogoAlerta.setContentText("El producto " + product.getName() + " " + product.getDescription() + " ha sido añadido.");
+                dialogoAlerta.setHeaderText("Añadir un producto");
+                dialogoAlerta.showAndWait();
+            }else{
+                labelError.setText("Demasiados Caracteres!!!");
+                labelError.setVisible(true);
+                labelError.setStyle("-fx-text-inner-color: red;");
+            }
         } else {
 
             dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
@@ -1189,7 +1232,8 @@ public class PC07ProductsController {
         cancelButton.setId("buttonCancel");
 
         if (result.get() == ButtonType.OK) {
-
+            if (product.getName().trim().length() < MAX_CARACT && product.getDescription().trim().length() < MAX_CARACT &&
+                    product.getPrice().trim().length() < MAX_CARACT && product.getStock().trim().length() < MAX_CARACT) {
             iLogicProduct.updateProduct(product);
 
             dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
@@ -1197,6 +1241,11 @@ public class PC07ProductsController {
             dialogoAlerta.setContentText("El producto " + product.getName() + " " + product.getDescription() + " ha sido actualizado.");
             dialogoAlerta.setHeaderText("Actualizar un producto");
             dialogoAlerta.showAndWait();
+            }else{
+                labelError.setText("Demasiados caracteres!!!");
+                labelError.setVisible(true);
+                labelError.setStyle("-fx-text-inner-color: red;");
+            }
         } else {
 
             dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
@@ -1216,31 +1265,53 @@ public class PC07ProductsController {
      */
     @FXML
     private void handlePrintAction(ActionEvent event) {
-        try {
-            JasperReport report
-                    = JasperCompileManager.compileReport(getClass()
-                            .getResourceAsStream("/jampclientside/ui/reports/products.jrxml"));
-            //Data for the report: a collection of UserBean passed as a JRDataSource 
-            //implementation 
-            JRBeanCollectionDataSource dataItems
-                    = new JRBeanCollectionDataSource((Collection<ProductBean>) this.tbProducts.getItems());
-            //Map of parameter to be passed to the report
-            Map<String, Object> parameters = new HashMap<>();
-            //Fill report with data
-            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
-            //Create and show the report window. The second parameter false value makes 
-            //report window not to close app.
-            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
-            jasperViewer.setVisible(true);
-            // jasperViewer.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        } catch (JRException ex) {
-            //If there is an error show message and
-            //log it.
+        Alert dialogoAlerta = new Alert(Alert.AlertType.CONFIRMATION);
+        dialogoAlerta.setTitle("CONFIRMACION");
+        dialogoAlerta.setContentText("¿Estas seguro que deseas imprimir la lista de productos?");
+        dialogoAlerta.setHeaderText("Imprimir Reporte");
+        Optional<ButtonType> resultado = dialogoAlerta.showAndWait();
+        Button okButton = (Button) dialogoAlerta.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("buttonDelete");
+        Button cancelButton = (Button) dialogoAlerta.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelButton.setId("buttonNotDelete");
+        
+        if (resultado.get() == ButtonType.OK) {
+            try {
+                JasperReport report
+                        = JasperCompileManager.compileReport(getClass()
+                                .getResourceAsStream("/jampclientside/ui/report/products.jrxml"));
+                //Data for the report: a collection of UserBean passed as a JRDataSource 
+                //implementation 
+                JRBeanCollectionDataSource dataItems
+                        = new JRBeanCollectionDataSource((Collection<ProductBean>) this.tbProducts.getItems());
+                //Map of parameter to be passed to the report
+                Map<String, Object> parameters = new HashMap<>();
+                //Fill report with data
+                JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
+                //Create and show the report window. The second parameter false value makes 
+                //report window not to close app.
+                JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+                jasperViewer.setVisible(true);
+                // jasperViewer.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+            } catch (JRException ex) {
+                    dialogoAlerta = new Alert(Alert.AlertType.ERROR);
+                    dialogoAlerta.setTitle("ERROR");
+                    dialogoAlerta.setContentText("No se ha podido imprimir el informe!!");
+                    dialogoAlerta.setHeaderText("Imprimir Informe");
+                    dialogoAlerta.showAndWait();
+                LOGGER.log(Level.SEVERE,
+                        "PC07ProductsController: Error printing report: {0}",
+                        ex.getMessage());
+            }
+        } else {
 
-            LOGGER.log(Level.SEVERE,
-                    "PC07ProductsController: Error printing report: {0}",
-                    ex.getMessage());
+            dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlerta.setTitle("INFORMACION");
+            dialogoAlerta.setContentText("No has imprimido el informe!!");
+            dialogoAlerta.setHeaderText("Imprimir Informe");
+            dialogoAlerta.showAndWait();
         }
+
     }
 
     /**
@@ -1372,4 +1443,6 @@ public class PC07ProductsController {
         }
     }
 */
+
+
 }

@@ -45,17 +45,17 @@ public class TelephoneLogicController implements TelephoneLogic {
     /**
      * 
      */
-    public static MongoClient mongoclient;
+    public static MongoClient mongoclient = MongoClients.create(MONGOCLIENT);;
     
     /**
      * 
      */
-    public static MongoDatabase mongoDB;
+    public static MongoDatabase mongoDB  = mongoclient.getDatabase(MONGODB);
     
     /**
      * 
      */
-    public static MongoCollection<Document> collection;
+    public static MongoCollection<Document> collection = mongoDB.getCollection(COLLECTION);;
 
 
     /**
@@ -64,17 +64,11 @@ public class TelephoneLogicController implements TelephoneLogic {
     private static final Logger LOGGER
             = Logger.getLogger("jamp.pc.logic.IlogicImplementationTelephone");
 
-    /**
-     *
-     */
-    @Override
-    public void startConnection(){
+    /*mongoclient = MongoClients.create(MONGOCLIENT);
+    mongoDB = mongoclient.getDatabase(MONGODB);
+    collection = mongoDB.getCollection(COLLECTION);*/
 
-            mongoclient = MongoClients.create(MONGOCLIENT);
-            mongoDB = mongoclient.getDatabase(MONGODB);
-            collection = mongoDB.getCollection(COLLECTION);
-
-    }
+   
     /**
      * This method is for delete telephones.
      * 

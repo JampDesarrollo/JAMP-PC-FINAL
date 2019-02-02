@@ -318,7 +318,7 @@ public class PC08PhoneNumbersController{
     /**
      * the List for Telephonebean data copy
      */
-    private final List<TelephoneBean> telephoneDatacopy = new ArrayList<>();
+    private List<TelephoneBean> telephoneDatacopy = new ArrayList<>();
 
     /**
      * Getter of stage
@@ -473,23 +473,24 @@ public class PC08PhoneNumbersController{
                 cerrarSesionAlert(cerrar);
                 
             });
-            ilogicTelephone.startConnection();
             
             telephoneData = FXCollections.observableArrayList(iLogicTelephone.findAllTelephone());
-            tbTelephone.setItems(telephoneData);
-            
-            telephoneDatacopy.addAll(telephoneData);
+            if(telephoneData.isEmpty()){
+                cbSearchTel.setDisable(true);
+                addTelephone.setDisable(true);
+                Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
+                dialogoAlerta.setTitle("ATENCION");
+                dialogoAlerta.setContentText("Comprueba tu conexion a Mongo!!!");
+                dialogoAlerta.setHeaderText("Ventana Telefonos");
+                dialogoAlerta.showAndWait();
+            }else{
+                tbTelephone.setItems(telephoneData);
+                telephoneDatacopy.addAll(telephoneData);
+            }
+
             
         } catch (BusinessLogicException ex) {
             Logger.getLogger(PC08PhoneNumbersController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            cbSearchTel.setDisable(true);
-            addTelephone.setDisable(true);
-            Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
-            dialogoAlerta.setTitle("ATENCION");
-            dialogoAlerta.setContentText("Comprueba tu conexion a Mongo!!!");
-            dialogoAlerta.setHeaderText("Ventana Telefonos");
-            dialogoAlerta.showAndWait();
         }
     }
 
@@ -509,13 +510,13 @@ public class PC08PhoneNumbersController{
         
         cbSearchTel.getItems().removeAll(cbSearchTel.getItems());
         cbSearchTel.getItems().addAll("Todos los telefonos del catalogo", "Id del telefono", "Nombre del telefono");
-        cbSearchTel.getSelectionModel().selectFirst();
         labelError.setVisible(false);
         cbSearchTel.requestFocus();
         txtSearchTel.setDisable(true);
         tbTelephone.setEditable(true);
         btnSearchTel.setDisable(true);
         delTelephone.setDisable(true);
+        addTelephone.setDisable(true);
         addTelephone.setMnemonicParsing(true);
         addTelephone.setText("_Añadir Telefono");
         delTelephone.setMnemonicParsing(true);
@@ -934,7 +935,8 @@ public class PC08PhoneNumbersController{
      */
     private void addUpdateTelephone() throws BusinessLogicException {
         List<TelephoneBean> telephones = tbTelephone.getItems();
-      
+        boolean modif = false;
+        
         for(TelephoneBean tel: telephones){
             if(tel.getName()!=null && !tel.getName().trim().isEmpty()&& 
               tel.getDescription()!=null && !tel.getDescription().trim().isEmpty()&& 
@@ -945,12 +947,22 @@ public class PC08PhoneNumbersController{
                     List telephoneEquals = telephoneDatacopy.stream().filter(t -> t.getTelephone().equals(tel.getTelephone())).collect(Collectors.toList());
                     if(telephoneEquals.isEmpty()){
                         addTelephone(tel);
+                        modif = true;
+                        break;
                     }else if(!telephoneEquals.get(0).equals(tel)){
                         updateTelephone(tel);
+                        modif = true;
+                        break;
                     }
             }
         }
+        if(modif==true){
+            telephoneDatacopy = iLogicTelephone.findAllTelephone();
+        }
+            
     }
+    
+    
 
     /**
      * This method is to add the selected telephone in the table. 
@@ -973,17 +985,23 @@ public class PC08PhoneNumbersController{
             cancelButton.setId("buttonCancel");
         
             if (result.get() == ButtonType.OK) {
-                
-                try {
-                    iLogicTelephone.createTelephone(telephone);
-                    
-                    dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoAlerta.setTitle("INFORMACION");
-                    dialogoAlerta.setContentText("El teléfono "+telephone.getName()+" ha sido añadido.");
-                    dialogoAlerta.setHeaderText("Añadir un teléfono");
-                    dialogoAlerta.showAndWait();
-                } catch (BusinessLogicException ex) {
-                    Logger.getLogger(PC08PhoneNumbersController.class.getName()).log(Level.SEVERE, null, ex);
+                if (telephone.getName().trim().length() < MAX_CARACT && telephone.getDescription().trim().length() < MAX_CARACT &&
+                        telephone.getTelephone().trim().length() < MAX_CARACT && telephone.getTown().trim().length()< MAX_CARACT) {
+                    try {
+                        iLogicTelephone.createTelephone(telephone);
+
+                        dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
+                        dialogoAlerta.setTitle("INFORMACION");
+                        dialogoAlerta.setContentText("El teléfono "+telephone.getName()+" ha sido añadido.");
+                        dialogoAlerta.setHeaderText("Añadir un teléfono");
+                        dialogoAlerta.showAndWait();
+                    } catch (BusinessLogicException ex) {
+                        Logger.getLogger(PC08PhoneNumbersController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else{
+                    labelError.setText("Demasiados caracteres!!!");
+                    labelError.setVisible(true);
+                    labelError.setStyle("-fx-text-inner-color: red;");
                 }
             }else{
                 
@@ -1019,15 +1037,22 @@ public class PC08PhoneNumbersController{
             cancelButton.setId("buttonCancel");
         
             if (result.get() == ButtonType.OK) {
+                if (telephone.getName().trim().length() < MAX_CARACT && telephone.getDescription().trim().length() < MAX_CARACT &&
+                    telephone.getTelephone().trim().length() < MAX_CARACT && telephone.getTown().trim().length()< MAX_CARACT) {
                 
-                iLogicTelephone.updateTelephone(telephone);
- 
-                dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
-                dialogoAlerta.setTitle("INFORMACION");
-                dialogoAlerta.setContentText("El telefono "+telephone.getName()
-                        +" "+telephone.getDescription()+" ha sido actualizado.");
-                dialogoAlerta.setHeaderText("Actualizar un telefono");
-                dialogoAlerta.showAndWait();
+                    iLogicTelephone.updateTelephone(telephone);
+
+                    dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoAlerta.setTitle("INFORMACION");
+                    dialogoAlerta.setContentText("El telefono "+telephone.getName()
+                            +" "+telephone.getDescription()+" ha sido actualizado.");
+                    dialogoAlerta.setHeaderText("Actualizar un telefono");
+                    dialogoAlerta.showAndWait();
+                }else{
+                    labelError.setText("Demasiados caracteres!!!");
+                    labelError.setVisible(true);
+                    labelError.setStyle("-fx-text-inner-color: red;");
+                }
             }else{
                 
                 dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);

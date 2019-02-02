@@ -17,7 +17,6 @@ import java.util.List;
  */
 public interface TelephoneLogic {
 
-    public void startConnection() throws Exception;
     /**
      * This method is for delete telephone
      * 
