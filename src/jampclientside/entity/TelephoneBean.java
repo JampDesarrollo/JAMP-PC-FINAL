@@ -49,11 +49,11 @@ public class TelephoneBean implements Serializable{
      }
     
     /**
-     * 
-     * @param name
-     * @param description
-     * @param telephone
-     * @param town 
+     * Public Constructor
+     * @param name name of the telephone
+     * @param description descriptionn of the telephone
+     * @param telephone telephone of the telephone
+     * @param town town of the telephone
      */
     public TelephoneBean(String name,
                     String description,
@@ -70,6 +70,8 @@ public class TelephoneBean implements Serializable{
     }
     
     /**
+     * Getter of the id 
+     * 
      * @return the id
      */
     public String getId() {
@@ -77,13 +79,17 @@ public class TelephoneBean implements Serializable{
     }
 
     /**
-     * @param id the id to set
+     * Setter for set Id
+     * 
+     * @param idTelephone the id to set
      */
     public void setId(String idTelephone) {
         this.idTelephone.set(idTelephone);
     }
 
     /**
+     * Getter of the name
+     * 
      * @return the nombre
      */
     public String getName() {
@@ -91,6 +97,8 @@ public class TelephoneBean implements Serializable{
     }
 
     /**
+     * Setter od the name
+     * 
      * @param nombre the nombre to set
      */
     public void setName(String nombre) {
@@ -98,6 +106,8 @@ public class TelephoneBean implements Serializable{
     }
 
     /**
+     * Getter of the name
+     * 
      * @return the telephon
      */
     public String getTelephone() {
@@ -105,14 +115,17 @@ public class TelephoneBean implements Serializable{
     }
 
     /**
-     * @param telephone
-     * @param telephon the telephon to set
+     * Setter for telephone
+     * 
+     * @param telephone the telephone to set
      */
     public void setTelephone(String telephone) {
         this.telephone.set(telephone);
     }
 
     /**
+     * Getter for description
+     * 
      * @return the description
      */
     public String getDescription() {
@@ -120,6 +133,8 @@ public class TelephoneBean implements Serializable{
     }
     
     /**
+     * Setter to descrption
+     * 
      * @param description the description to set
      */
     public void setDescription(String description) {
@@ -127,14 +142,17 @@ public class TelephoneBean implements Serializable{
     }
     
     /**
+     * Getter for town
      * 
-     * @return 
+     * @return the town
      */
     public String getTown() {
         return this.town.get();
     }
 
     /**
+     * Setter for the town
+     * 
      * @param town the town to set
      */
     public void setTown(String town) {

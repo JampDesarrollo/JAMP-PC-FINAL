@@ -65,7 +65,8 @@ public class UserLogicController implements UserLogic {
     /**
      * This method returns a collection of UserBeans, containing all users data.
      *
-     * @return @throws BusinessLogicException If there is any error while
+     * @return all users
+     * @throws BusinessLogicException If there is any error while
      * processing.
      */
     @Override

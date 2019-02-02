@@ -50,6 +50,7 @@ public class EventRESTClient {
      * Get a list of events's entities XML representation from the event RESTful
      * web service and return it as a generic type object.
      *
+     * @param <T> Generic
      * @param responseType The Class object of the returning instance.
      * @param idTxoko the id of our txoko
      * @return A generic type, normally a list, containing the data.
@@ -66,6 +67,7 @@ public class EventRESTClient {
      * Get a event's entity XML representation from the event RESTful web service
      * and return it as a generic type object.
      *
+     * @param <T> Generic
      * @param responseType The Class object of the returning instance.
      * @param name The name of the event
      * @param idTxoko the id of the txoko
@@ -120,6 +122,7 @@ public class EventRESTClient {
      * Get a event's entity XML representation from the event RESTful web service
      * and return it as a generic type object.
      *
+     * @param <T> Generic
      * @param responseType The Class object of the returning instance.
      * @param idEvent The id of the event
      * @return The object containing the data.
@@ -134,6 +137,7 @@ public class EventRESTClient {
      /**
      * Get a event's entity XML representation from the event RESTful web service and 
      * return it as a generic type object.
+     * @param <T>Generic
      * @param responseType The Class object of the returning instance. 
      * @return The object containing the data.
      * @throws ClientErrorException If there is an error while processing. The error is wrapped in a HTTP error response.  
@@ -145,6 +149,7 @@ public class EventRESTClient {
  /**
      * Get a event's entity XML representation from the event RESTful web service and 
      * return it as a generic type object.
+     * @param <T> Generic
      * @param responseType The Class object of the returning instance. 
      * @param idEvent The id of the event
      * @param idTxoko the id of the txoko

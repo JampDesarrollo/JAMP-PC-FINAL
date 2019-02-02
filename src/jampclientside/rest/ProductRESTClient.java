@@ -28,7 +28,14 @@ import javax.ws.rs.core.GenericType;
  */
 public class ProductRESTClient {
 
+    /**
+     * 
+     */
     private WebTarget webTarget;
+    
+    /**
+     * 
+     */
     private Client client;
     /**
      * Get URI from properties' values file.
@@ -45,40 +52,44 @@ public class ProductRESTClient {
     }
 
     /**
+     * This method is for delete product
      * 
-     * @param idProduct
-     * @throws ClientErrorException 
+     * @param idProduct the id of poduct we want to delete
+     * @throws ClientErrorException throws this exceptions if something is wrong.
      */
     public void deleteProduct(Integer idProduct) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("idProducto/{0}", new Object[]{idProduct})).request().delete();
     }
 
     /**
+     * this method is for update product
      * 
-     * @param requestEntity
-     * @throws ClientErrorException 
+     * @param requestEntity request entity
+     * @throws ClientErrorException throws this exceptions if something is wrong.
      */
     public void updateProduct(Object requestEntity) throws ClientErrorException {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
 
     /**
+     * This method is for create product
      * 
-     * @param requestEntity
-     * @throws ClientErrorException 
+     * @param requestEntity request entity
+     * @throws ClientErrorException throws this exceptions if something is wrong.
      */
     public void createProduct(Object requestEntity) throws ClientErrorException {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
     
     /**
+     * This method is for find prodcut by id and by txoko
      * 
-     * @param <T>
-     * @param responseType
-     * @param idProduct
-     * @param idTxoko
-     * @return
-     * @throws ClientErrorException 
+     * @param <T> generic type
+     * @param responseType response type
+     * @param idProduct the id of the product
+     * @param idTxoko the id of the txoko
+     * @return the product with id and txoko
+     * @throws ClientErrorException throws this exceptions if something is wrong.
      */
     public <T> T findProductByIdByTxoko(Class<T> responseType, String idProduct, String idTxoko) throws ClientErrorException {
         WebTarget resource = webTarget;
@@ -87,13 +98,14 @@ public class ProductRESTClient {
     }
 
     /**
+     * This method is for find product by name
      * 
-     * @param <T>
-     * @param responseType
-     * @param name
-     * @param idTxoko
-     * @return
-     * @throws ClientErrorException 
+     * @param <T> GenericType
+     * @param responseType responseType
+     * @param name the name of the product
+     * @param idTxoko the id of the txoko
+     * @return the product by name
+     * @throws ClientErrorException throws this exceptions if something is wrong.
      */
     public <T> T findProductByName(GenericType<T> responseType, String name, String idTxoko) throws ClientErrorException {
         WebTarget resource = webTarget;
@@ -102,11 +114,12 @@ public class ProductRESTClient {
     }
 
     /**
+     * This method return all products
      * 
-     * @param <T>
-     * @param responseType
-     * @return
-     * @throws ClientErrorException 
+     * @param <T> genericType
+     * @param responseType responseType
+     * @return responseType
+     * @throws ClientErrorException throws this exceptions if something is wrong.
      */
     public <T> T findAllProducts(GenericType<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
@@ -114,12 +127,13 @@ public class ProductRESTClient {
     }
     
     /**
+     * This methd is for find allproducts by one txoko
      * 
-     * @param <T>
-     * @param responseType
-     * @param idTxoko
-     * @return
-     * @throws ClientErrorException 
+     * @param <T> generic Type
+     * @param responseType responsetype
+     * @param idTxoko the id of the txoko
+     * @return all products of the txoko
+     * @throws ClientErrorException throws this exceptions if something is wrong.
      */
     public <T> T findAllProductsByTxoko(GenericType<T> responseType, String idTxoko) throws ClientErrorException {
         WebTarget resource = webTarget;
@@ -128,10 +142,11 @@ public class ProductRESTClient {
     }
 
     /**
+     * This method find products by id
      * 
-     * @param responseType
-     * @param idProduct
-     * @return 
+     * @param responseType responsetype
+     * @param idProduct the id of the product
+     * @return product found by id
      */
     public ProductBean findProductById(Class<ProductBean> responseType, String idProduct) {
         WebTarget resource = webTarget;
@@ -140,7 +155,7 @@ public class ProductRESTClient {
     }
     
     /**
-     * 
+     * This method is to close rest
      */
     public void close() {
         client.close();

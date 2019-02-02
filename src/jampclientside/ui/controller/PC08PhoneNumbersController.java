@@ -290,7 +290,7 @@ public class PC08PhoneNumbersController{
     private TableColumn tbcolTown;
     
     /**
-     * the label for requiredTel
+     * The label for requiredTel
      */
     @FXML
     private Label requiredTel;
@@ -321,32 +321,36 @@ public class PC08PhoneNumbersController{
     private final List<TelephoneBean> telephoneDatacopy = new ArrayList<>();
 
     /**
+     * Getter of stage
      * 
-     * @return 
+     * @return stage
      */
     public Stage getStage() {
         return stage;
     }
 
     /**
+     * Setter stage
      * 
-     * @param stage 
+     * @param stage the stage
      */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     /**
+     * Setter ilogicTelephone
      * 
-     * @param iLogicTelephone 
+     * @param iLogicTelephone iLogicTelephone
      */
     public void setILogic(TelephoneLogic iLogicTelephone) {
         this.iLogicTelephone = iLogicTelephone;
     }
 
     /**
+     * Setter for user
      * 
-     * @param user
+     * @param user the user wo is login
      */
     public void setUser(UserBean user) {
         this.user = user;
@@ -547,7 +551,7 @@ public class PC08PhoneNumbersController{
      * It validates new user data, send it to the business logic 
      * tier and updates telephone table view with new telephone data.
      * 
-     * @param ev 
+     * @param ev event for add telephone
      */
     public void handleAddTelephone(ActionEvent ev) {
         try{
@@ -595,7 +599,7 @@ public class PC08PhoneNumbersController{
      * delete, sends delete message to the business logic tier and updates user
      * table view.
      * 
-     * @param ev 
+     * @param ev event for delete telephone
      */
     public void handleDeleteTelephone(ActionEvent ev) {
         boolean isSelected = isSelected();
@@ -646,7 +650,7 @@ public class PC08PhoneNumbersController{
     /**
      * This method is to go to the eventPane
      * 
-     * @param ev 
+     * @param ev event to go to event window
      */
     public void eventWindow(ActionEvent ev) {
         LOGGER.info("clickOn Event Menu");
@@ -668,7 +672,7 @@ public class PC08PhoneNumbersController{
     /**
      * This method is to go to the productPane
      * 
-     * @param ev 
+     * @param ev evet to go to prodcut window
      */
     public void productWindow(ActionEvent ev) {
         LOGGER.info("clickOn Telephone Menu");
@@ -698,7 +702,7 @@ public class PC08PhoneNumbersController{
     /**
      * This method is to go to the expensePane
      * 
-     * @param ev 
+     * @param ev event to go to expense window
      */
     public void expenseWindow(ActionEvent ev) {
         LOGGER.info("clickOn Gastos Menu");
@@ -727,7 +731,7 @@ public class PC08PhoneNumbersController{
     /**
      * This method is to go to the userPane
      * 
-     * @param ev 
+     * @param ev event to go to user window
      */
     public void usersWindow(ActionEvent ev) {
         LOGGER.info("clickOn User Menu");
@@ -754,8 +758,9 @@ public class PC08PhoneNumbersController{
     }
     
     /**
-     * this method is to go tu ftp client
-     * @param ev 
+     * This method is to go to ftp client
+     * 
+     * @param ev event to go to ftp client
      */
     public void FTPClientWindow(ActionEvent ev) {
         LOGGER.info("clickOn FTP Client btn");
@@ -780,9 +785,9 @@ public class PC08PhoneNumbersController{
     }
     
     /**
-     * this method is to select the cobobox options
+     * This method is to select the cobobox options
      * 
-     * @param ev 
+     * @param ev event to combobox
      */
     public void comboBoxOption(ActionEvent ev) {
         LOGGER.info("clickOn combo box");
@@ -839,7 +844,7 @@ public class PC08PhoneNumbersController{
      * If the conditions are ok, the method stores the telephones in a collection,
      * if the collection is empty, a dialogue with the message appears.
      * 
-     * @param ev 
+     * @param ev event to sarch button
      */
     public void searchButton(ActionEvent ev) {
         LOGGER.info("clickOn search button");

@@ -25,7 +25,7 @@ public interface ProductLogic {
      * This method is for delete product
      * 
      * @param product the product we want to delete
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public void deleteProduct(ProductBean product) throws BusinessLogicException;
     
@@ -33,7 +33,7 @@ public interface ProductLogic {
      * This method is for update product
      * 
      * @param product the product we want to update
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public void updateProduct(ProductBean product) throws BusinessLogicException;
     
@@ -41,7 +41,7 @@ public interface ProductLogic {
      * This method is for delete product
      * 
      * @param product the product we want to create
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public void createProduct(ProductBean product) throws BusinessLogicException;
     
@@ -50,7 +50,8 @@ public interface ProductLogic {
      * 
      * @param idProduct the id prodcut to find
      * @return the product found by id
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
+     * @throws IdNotOkException throws this exceptions if id is wrong.
      */
     public ProductBean findProductById(String idProduct) throws BusinessLogicException, IdNotOkException;
     
@@ -60,7 +61,8 @@ public interface ProductLogic {
      * @param idProduct the product to find
      * @param idTxoko the txoko to find
      * @return the prouct foud by id and by txoko
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
+     * @throws IdNotOkException throws this exceptions if id is wrong.
      */
     public ProductBean findProductByIdByTxoko(String idProduct, String idTxoko) throws BusinessLogicException, IdNotOkException;
     
@@ -70,7 +72,8 @@ public interface ProductLogic {
      * @param name the name to find
      * @param idTxoko the txoko to find
      * @return the product found by name
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
+     * @throws NameNotOkException throws this exceptions if name is wrong.
      */
     public List<ProductBean> findProductByName(String name, String idTxoko) throws BusinessLogicException, NameNotOkException;
     
@@ -78,7 +81,7 @@ public interface ProductLogic {
      * this method is for find all prodcuts
      * 
      * @return Lis of productBean all founds
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public List<ProductBean> findAllProducts () throws BusinessLogicException;
     
@@ -87,7 +90,7 @@ public interface ProductLogic {
      * 
      * @param idTxoko the txoko to find
      * @return List of productBean found all products by txoko
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public List<ProductBean> findAllProductsByTxoko(String idTxoko) throws BusinessLogicException;
 
@@ -95,7 +98,7 @@ public interface ProductLogic {
      * This method is for view is product exist
      * 
      * @param id the id to find
-     * @throws ProductExist 
+     * @throws ProductExist throws this exceptions if product no exist.
      */
     public void isProductExist(Integer id) throws ProductExist;
 

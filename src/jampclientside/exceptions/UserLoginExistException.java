@@ -13,7 +13,7 @@ package jampclientside.exceptions;
 public class UserLoginExistException extends Exception {
     /**
      * Exception constructor with msg
-     * @param msg 
+     * @param msg the message of the exception
      */
     public UserLoginExistException(String msg) {
         super(msg);

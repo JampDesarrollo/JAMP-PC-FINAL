@@ -28,7 +28,8 @@ public interface UserLogic {
     /**
      * This method returns a collection of UserBeans, containing all users data.
      *
-     * @return @throws BusinessLogicException If there is any error while
+     * @return Collection of all users
+     * @throws BusinessLogicException If there is any error while
      * processing.
      */
     public Collection<UserBean> findAll() throws BusinessLogicException;

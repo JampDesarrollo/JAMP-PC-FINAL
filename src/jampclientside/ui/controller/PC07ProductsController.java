@@ -362,7 +362,7 @@ public class PC07ProductsController {
     /**
      * Set logic for this view controller
      *
-     * @param iLogicProduct
+     * @param iLogicProduct iogicProduct
      */
     public void setILogicProduct(ProductLogic iLogicProduct) {
         this.iLogicProduct = iLogicProduct;
@@ -598,6 +598,7 @@ public class PC07ProductsController {
 
             if (result.get() == ButtonType.OK) {
 
+                tbProducts.setEditable(true);
                 ProductBean product = new ProductBean();
 
                 Platform.runLater(new Runnable() {
@@ -811,7 +812,7 @@ public class PC07ProductsController {
     /**
      * This method is to go to the eventPane
      *
-     * @param ev
+     * @param ev event
      */
     public void eventWindow(ActionEvent ev) {
         LOGGER.info("clickOn Products Menu");
@@ -834,7 +835,7 @@ public class PC07ProductsController {
     /**
      * This method is to go to the telephonePane
      *
-     * @param ev
+     * @param ev event
      */
     public void telephoneWindow(ActionEvent ev) {
         LOGGER.info("clickOn Telephone Menu");
@@ -857,7 +858,7 @@ public class PC07ProductsController {
     /**
      * This method is to go to the expensePane
      *
-     * @param ev
+     * @param ev event
      */
     public void expenseWindow(ActionEvent ev) {
         LOGGER.info("clickOn Gastos Menu");
@@ -880,7 +881,7 @@ public class PC07ProductsController {
     /**
      * This method is to go to the userPane .
      *
-     * @param ev
+     * @param ev event
      */
     public void usersWindow(ActionEvent ev) {
         LOGGER.info("clickOn User Menu");
@@ -903,7 +904,7 @@ public class PC07ProductsController {
     /**
      * This method is to go to the ftpWindow
      *
-     * @param ev
+     * @param ev event
      */
     public void ftpClientWindow(ActionEvent ev) {
         LOGGER.info("clickOn FTP Client btn");
@@ -921,8 +922,9 @@ public class PC07ProductsController {
     }
 
     /**
-     * this metho change the options when clicked in the combo box
-     * @param ev
+     * This metho change the options when clicked in the combo box
+     * 
+     * @param ev event
      */
     public void comboBoxOption(ActionEvent ev) {
         LOGGER.info("clickOn combo box");
@@ -1009,7 +1011,7 @@ public class PC07ProductsController {
      * a collection, if the collection is empty, a dialogue with the message
      * appears.
      *
-     * @param ev
+     * @param ev event
      */
     public void searchButton(ActionEvent ev) {
         txtSearch.setDisable(false);

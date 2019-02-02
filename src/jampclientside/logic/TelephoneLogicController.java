@@ -76,9 +76,10 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     }
     /**
-     * this method is for delete telephones.
-     * @param phone
-     * @throws jampclientside.exceptions.BusinessLogicException
+     * This method is for delete telephones.
+     * 
+     * @param phone the phone to delete
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public void deleteTelephone(TelephoneBean phone) throws BusinessLogicException {
@@ -87,8 +88,9 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for update telephones.
-     * @param phone 
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * 
+     * @param phone the phne to update
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public void updateTelephone(TelephoneBean phone) throws BusinessLogicException {
@@ -106,8 +108,9 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for create tellephones
-     * @param phone 
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * 
+     * @param phone the phone to create
+     * @throws BusinessLogicException throws this exceptions if something is wrong. 
      */
     @Override
     public void createTelephone(TelephoneBean phone) throws BusinessLogicException {
@@ -123,8 +126,9 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for find all telephones.
+     * 
      * @return Collection of telephones 
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public List<TelephoneBean> findAllTelephone() throws BusinessLogicException {
@@ -161,9 +165,10 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for find telephones by Id.
-     * @param idTelephone
+     * 
+     * @param idTelephone the id of telephone
      * @return a telephone
-     * @throws BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public TelephoneBean findTelephoneById(Integer idTelephone) throws BusinessLogicException {
@@ -189,9 +194,10 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for find telephones by name.
-     * @param name
+     * 
+     * @param name the name of the telephone
      * @return Collecion of telephones
-     * @throws BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public List<TelephoneBean> findTelephoneByName(String name) throws BusinessLogicException {
