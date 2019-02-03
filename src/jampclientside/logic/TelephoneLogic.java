@@ -67,6 +67,12 @@ public interface TelephoneLogic {
      */
     public List<TelephoneBean> findTelephoneByName(String name)throws BusinessLogicException;
     
+    /**
+     * This method es for start connection with MongoDB
+     * 
+     * @return boolean
+     * @throws Exception this throw isconnection is wrong
+     */
     public boolean startConnection() throws Exception;
     
 

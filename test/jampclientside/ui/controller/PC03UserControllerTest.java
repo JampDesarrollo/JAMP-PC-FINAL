@@ -71,7 +71,7 @@ public class PC03UserControllerTest extends ApplicationTest {
         verifyThat("#btnEditUser", isDisabled());
         verifyThat("#btnLogOut2", isEnabled());
         verifyThat("#lblErrorUser", isInvisible());
-        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Txoko: Pepos"));
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Txoko: JAMP Txoko"));
         verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("Nombre Completo: testLoginF"));
         verifyThat("#menuBar", isEnabled());
         verifyThat("#tabUsers", isVisible());

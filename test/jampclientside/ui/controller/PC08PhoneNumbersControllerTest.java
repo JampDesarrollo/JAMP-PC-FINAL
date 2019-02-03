@@ -11,7 +11,6 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
@@ -21,8 +20,9 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 /**
- *
- * @author Administrador
+ * Test for PC08PhoneNumbersController Controller
+ * 
+ * @author Julen
  */
 public class PC08PhoneNumbersControllerTest extends ApplicationTest {
      
@@ -37,16 +37,21 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         new UiApplicationUser().start(stage);//llamo a la aplicacion que me abre la ventana
     }
 
+    /**
+     * Test for initialStage
+     */
     @Test
     public void testA_initialStage() {
 
-        write("julen");
+        //write("julen");
+        //clickOn("#pfContraseña");
+        //write("815a76e046");
+
+        write("testLogin");
         clickOn("#pfContraseña");
-        write("914393ac3b");
-        clickOn("#btnInicio");
-        
+        write("6f724558dc");
         verifyThat("#userPane", isVisible());
-        
+        clickOn("#btnInicio");
         clickOn("#telefonos");
         clickOn("#btnPhones");
         
@@ -58,7 +63,6 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         verifyThat("#menuUser", isVisible());
         verifyThat("#menuTelephon", isVisible());
         verifyThat("#txtSearchTel", isDisabled());
-        //verifyThat("#tbProducts", isEditable());
         verifyThat("#btnSearchTel", isDisabled());
         verifyThat("#delTelephone", isDisabled());
         verifyThat("#tbTelephone", isVisible());
@@ -93,7 +97,6 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         verifyThat("#addTelephone", isDisabled());
         verifyThat("#btnSearchTel", isEnabled());
         verifyThat("#txtSearchTel", isEnabled());
-       // verifyThat("#txtSearch", hasText(""));
         verifyThat("#labelError", isInvisible());
                 
         clickOn("#cbSearchTel");
@@ -107,7 +110,6 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         verifyThat("#addTelephone", isDisabled());
         verifyThat("#btnSearchTel", isEnabled());
         verifyThat("#txtSearchTel", isEnabled());
-       // verifyThat("#txtSearch", hasText(""));
         verifyThat("#labelError", isInvisible());
     }
     
@@ -131,9 +133,12 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
      */
     @Test
     public void testC_secondLogin() {
-        write("julen");
+        //write("julen");
+        //clickOn("#pfContraseña");
+        //write("815a76e046");
+        write("testLogin");
         clickOn("#pfContraseña");
-        write("914393ac3b");
+        write("6f724558dc");
         clickOn("#btnInicio");
         
         verifyThat("#userPane", isVisible());
@@ -150,29 +155,29 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         clickOn("#menuEvent");
         clickOn("#idMenuEvent");
         verifyThat("#principalPaneEvent", isVisible());
-        clickOn("#menuProductos");
-        clickOn("#idMenuProductos");
-        verifyThat("#productPane", isVisible());
+        clickOn("#menuTelefonos");
+        clickOn("#idMenuTel");
+        verifyThat("#telephonPane", isVisible());
     }
     
     /**
      * Test of menu to go to expense
      */
     @Test
-    public void testF_goToExpensePane() {
+    public void testE_goToExpensePane() {
         clickOn("#menuExpense");
         clickOn("#idMenuExpense");
         verifyThat("#principalPaneExpense", isVisible());
-        clickOn("#btnProducts");
-        clickOn("#idMenuProductos");
-        verifyThat("#productPane", isVisible());
+        clickOn("#btnPhones");
+        clickOn("#idMenuTel");
+        verifyThat("#telephonPane", isVisible());
     }
 
     /**
      * Test of menu to go to telephone
      */
     @Test
-    public void testH_goToProductPane() {
+    public void testF_goToProductPane() {
         clickOn("#menuProduct");
         clickOn("#idMenuProduct");
         verifyThat("#productPane", isVisible());
@@ -184,8 +189,8 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
      /**
      * Test of menu to go to clientFTP
      */
-    @Test @Ignore
-    public void testI_goToClientFTPPane() {
+    @Test
+    public void testG_goToClientFTPPane() {
         clickOn("#menuFtp");
         clickOn("#idMenuFtp");
         verifyThat("#ftpPane", isVisible());
@@ -195,12 +200,15 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
      * Test of menu to go to clientFTP
      */
     @Test
-    public void testJ_deleteProduct() {
-        clickOn("#delTelephone");
-        clickOn("Aceptar");
+    public void testH_deleteProduct() {
         Node row = lookup(".table-row-cell").nth(2).query();
         assertNotNull("Row is null: table has not that row. ", row);
-    }
+        clickOn("#delTelephone");
+        clickOn("Cancelar");
+        clickOn("Aceptar");
+        //clickOn("#delProduct");
+        //clickOn("Aceptar");
+}
     
  
    /**
@@ -215,4 +223,5 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         clickOn("#okButton");
        // verifyThat("#loginPane", isVisible());
     }
+
 }

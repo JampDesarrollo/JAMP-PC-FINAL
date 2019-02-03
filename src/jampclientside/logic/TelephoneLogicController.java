@@ -30,8 +30,7 @@ import java.util.logging.Level;
 
 /**
  *
- * Class that implements the logic
- * interface.
+ * Class that implements the logic interface.
  *
  * @author Julen
  */
@@ -50,21 +49,26 @@ public class TelephoneLogicController implements TelephoneLogic {
     private static final String COLLECTION = ResourceBundle.
             getBundle("jampclientside.logic.config").getString("COLLECTION");
     /**
-     * 
+     * Mongo Client attribute
      */
     public static MongoClient mongoclient = MongoClients.create(MONGOCLIENT);;
     
     /**
-     * 
+     * Mongo Database Attribute
      */
     public static MongoDatabase mongoDB  = mongoclient.getDatabase(MONGODB);
     
     /**
-     * 
+     * Mongo Documents Collection
      */
     public static MongoCollection<Document> collection = mongoDB.getCollection(COLLECTION);;
 
 
+    /**
+     * This method is for compare entity attributes
+     * 
+     * @return boolean 
+     */
     @Override
     public boolean startConnection(){
         boolean ok = false;

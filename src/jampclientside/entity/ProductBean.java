@@ -14,7 +14,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
- *
+ * Data Transfer Object used in UI and client side for representing User entity.
+ * It is also used as data model for a TableView in the UI.
+ * 
  * @author Julen
  */
 @XmlRootElement (name = "product")
@@ -72,12 +74,16 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Getter of the id
+     * 
      * @return the idProduct
      */
     public Integer getIdProduct() {
         return this.idProduct.get();
     }
     /**
+     * Setter for set idProduct
+     * 
      * @param idProduct the idProduct to set
      */
     public void setIdProduct(Integer idProduct) {
@@ -85,6 +91,8 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Getter of the stock
+     * 
      * @return the stock
      */
     public String getStock() {
@@ -92,6 +100,8 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Setter of the stock
+     * 
      * @param stock the stock to set
      */
     public void setStock(String stock) {
@@ -99,6 +109,8 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Getter of the name
+     * 
      * @return the name
      */
     public String getName() {
@@ -106,6 +118,8 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Setter for set Name
+     * 
      * @param name the name to set
      */
     public void setName(String name) {
@@ -113,6 +127,8 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Getter ofthe price
+     * 
      * @return the price
      */
     public String getPrice() {
@@ -120,6 +136,8 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Setter for set the price
+     * 
      * @param price the price to set
      */
     public void setPrice(String price) {
@@ -127,6 +145,8 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Getter of the Description
+     * 
      * @return the description
      */
     public String getDescription() {
@@ -134,6 +154,8 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Setter for set the Description
+     * 
      * @param description the description to set
      */
     public void setDescription(String description) {
@@ -141,6 +163,8 @@ public class ProductBean implements Serializable{
     }    
 
     /**
+     * Getter of the Txokos
+     * 
      * @return the txokos
      */
     public List<TxokoBean> getTxokos() {
@@ -148,13 +172,21 @@ public class ProductBean implements Serializable{
     }
 
     /**
+     * Setter for set the txokos
+     * 
      * @param txokos the txokos to set
      */
     public void setTxokos(List<TxokoBean> txokos) {
         this.txokos = txokos;
     }
 
-        @Override
+    /**
+     * This method is for compare entity attributes
+     * 
+     * @param object th bject we want to compare
+     * @return boolean
+     */
+    @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ProductBean)) {

@@ -29,12 +29,12 @@ import javax.ws.rs.core.GenericType;
 public class ProductRESTClient {
 
     /**
-     * 
+     * WebTarget attribute
      */
     private WebTarget webTarget;
     
     /**
-     * 
+     * Client attribute
      */
     private Client client;
     /**
@@ -44,7 +44,7 @@ public class ProductRESTClient {
             .getString("URI");
 
     /**
-     * 
+     * ProductRestClient
      */
     public ProductRESTClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
@@ -62,7 +62,7 @@ public class ProductRESTClient {
     }
 
     /**
-     * this method is for update product
+     * This method is for update product
      * 
      * @param requestEntity request entity
      * @throws ClientErrorException throws this exceptions if something is wrong.

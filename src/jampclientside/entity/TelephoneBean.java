@@ -9,7 +9,9 @@ import java.io.Serializable;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- *
+ * Data transfer Object used in UI and client side for represernt Telephone Bean
+ * It is also used as data model for a TableView in the UI.
+ * 
  * @author Julen
  */
 public class TelephoneBean implements Serializable{
@@ -38,7 +40,7 @@ public class TelephoneBean implements Serializable{
     private SimpleStringProperty town;
 
     /**
-     * 
+     * Emprty Constructor
      */
     public TelephoneBean(){
         this.idTelephone = new SimpleStringProperty();
@@ -50,6 +52,7 @@ public class TelephoneBean implements Serializable{
     
     /**
      * Public Constructor
+     * 
      * @param name name of the telephone
      * @param description descriptionn of the telephone
      * @param telephone telephone of the telephone
@@ -97,7 +100,7 @@ public class TelephoneBean implements Serializable{
     }
 
     /**
-     * Setter od the name
+     * Setter of the name
      * 
      * @param nombre the nombre to set
      */
@@ -159,7 +162,13 @@ public class TelephoneBean implements Serializable{
         this.town.set(town);
     }
 
-        public boolean equals(Object object) {
+    /**
+     * This method is for compare entity attributes
+     * 
+     * @param object the objet we want to compare
+     * @return boolean 
+     */
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof TelephoneBean)) {
             return false;

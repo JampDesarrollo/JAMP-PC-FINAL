@@ -33,7 +33,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 /**
- * Test class for PC07Products Controller
+ * Test for PC07Products Controller
  * 
  * @author Julen
  */
@@ -54,13 +54,12 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     @Test 
     public void testA_initialStage() {
 
-        write("julen");
-        clickOn("#pfContraseña");
-        write("914393ac3b");
-        
-        //write("testLogin");
+        //write("julen");
         //clickOn("#pfContraseña");
-        //write("4463a7e7a1");
+        //write("815a76e046");
+        write("testLogin");
+        clickOn("#pfContraseña");
+        write("6f724558dc");
         clickOn("#btnInicio");
         
         verifyThat("#userPane", isVisible());
@@ -86,7 +85,7 @@ public class PC07ProductsControllerTest extends ApplicationTest {
         verifyThat("#tbcolPrice", isVisible());
         verifyThat("#tbcolStock", isVisible());
         verifyThat("#lblLogin", hasText("Login: testLogin"));
-        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Txoko: Pepos"));
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Txoko: JAMP Txoko"));
         verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("Nombre Completo: testLoginF"));
         
         clickOn("#cbSearch");
@@ -155,9 +154,12 @@ public class PC07ProductsControllerTest extends ApplicationTest {
     @Test 
     public void testC_secondLogin() {
 
-        write("julen");
+        //write("julen");
+        //clickOn("#pfContraseña");
+        //write("815a76e046");
+        write("testLogin");
         clickOn("#pfContraseña");
-        write("914393ac3b");
+        write("6f724558dc");
         clickOn("#btnInicio");
         verifyThat("#userPane", isVisible());
         clickOn("#productos");
