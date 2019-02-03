@@ -44,7 +44,7 @@ public class ProductLogicController implements ProductLogic {
      * This method deletes data for an existing product. 
      * This is done by sending a DELETE request to a RESTful web service.
      * @param product The ProductBean object to be deleted.
-     * @throws jampclientside.exceptions.BusinessLogicException
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public void deleteProduct(ProductBean product) throws BusinessLogicException {
@@ -62,7 +62,7 @@ public class ProductLogicController implements ProductLogic {
      * This method updates data for an existing Product. 
      * This is done by sending a PUT request to a RESTful web service.
      * @param product The PrductBean object to be updated.
-     * @throws jampclientside.exceptions.BusinessLogicException
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public void updateProduct(ProductBean product) throws BusinessLogicException {
@@ -81,7 +81,7 @@ public class ProductLogicController implements ProductLogic {
      * This method adds a new created Product. This is done by sending a POST 
      * request to a RESTful web service.
      * @param product The UserBean object to be added.
-     * @throws jampclientside.exceptions.BusinessLogicException
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public void createProduct(ProductBean product) throws BusinessLogicException {
@@ -100,7 +100,7 @@ public class ProductLogicController implements ProductLogic {
     /**
      * This method returns a all products.
      * @return A collection of Product.
-     * @throws jampclientside.exceptions.BusinessLogicException
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public List<ProductBean> findAllProducts() throws BusinessLogicException{
@@ -121,10 +121,10 @@ public class ProductLogicController implements ProductLogic {
 
     /**
      * This method returns a all products by id.
-     * @param idProduct
+     * @param idProduct thed of the product
      * @return A product
-     * @throws jampclientside.exceptions.BusinessLogicException 
-     * @throws jampclientside.exceptions.IdNotOkException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong. 
+     * @throws IdNotOkException throws this exceptions if id is wrong.
      */
     @Override
     public ProductBean findProductById(String idProduct) throws BusinessLogicException, IdNotOkException{
@@ -146,10 +146,11 @@ public class ProductLogicController implements ProductLogic {
 
     /**
      * This method returns a product by id and by txoko.
-     * @param idProduct
-     * @param idTxoko
+     * 
+     * @param idProduct the id of the product
+     * @param idTxoko the id of the txoko
      * @return A product
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public ProductBean findProductByIdByTxoko(String idProduct, String idTxoko) throws BusinessLogicException, IdNotOkException {
@@ -169,11 +170,12 @@ public class ProductLogicController implements ProductLogic {
 
     /**
      * This method returns products by name.
-     * @param name
-     * @param idTxoko
+     * 
+     * @param name the name of the product
+     * @param idTxoko the name of the txoko
      * @return A product
-     * @throws jampclientside.exceptions.BusinessLogicException 
-     * @throws jampclientside.exceptions.NameNotOkException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
+     * @throws NameNotOkException throws this exceptions if name is wrong.
      */
     @Override
     public List<ProductBean> findProductByName(String name, String idTxoko) throws BusinessLogicException, NameNotOkException{
@@ -196,9 +198,10 @@ public class ProductLogicController implements ProductLogic {
 
     /**
      * This method returns all products by the txoko.
-     * @param idTxoko
+     * 
+     * @param idTxoko the id of the txoko
      * @return A product
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public List<ProductBean> findAllProductsByTxoko(String idTxoko) throws BusinessLogicException {
@@ -220,8 +223,9 @@ public class ProductLogicController implements ProductLogic {
 
     /**
      * This method is for porduct exist
-     * @param id
-     * @throws ProductExist 
+     * 
+     * @param id the id of the product
+     * @throws ProductExist throws this exceptions if product is wrong.
      */
     @Override
     public void isProductExist(Integer id) throws ProductExist{

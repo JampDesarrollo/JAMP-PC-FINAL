@@ -21,7 +21,7 @@ public class UiApplication extends Application {
 
     /**
      * Method that throws the first stage and receives the stage.
-     * @param stage
+     * @param stage stage
      * @throws Exception throws Exception
      */
     @Override

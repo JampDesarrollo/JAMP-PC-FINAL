@@ -22,9 +22,10 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.regex;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.scene.control.Alert;
+import java.util.logging.Level;
 
 
 /**
@@ -35,6 +36,12 @@ import javafx.scene.control.Alert;
  * @author Julen
  */
 public class TelephoneLogicController implements TelephoneLogic {
+    
+    /**
+     * Attribute to appear the information text.
+     */
+    private static final Logger LOGGER
+            = Logger.getLogger("jamp.pc.logic.IlogicImplementationTelephone");
 
     private static final String MONGOCLIENT = ResourceBundle.
             getBundle("jampclientside.logic.config").getString("MONGOCLIENT");
@@ -45,40 +52,48 @@ public class TelephoneLogicController implements TelephoneLogic {
     /**
      * 
      */
-    public static MongoClient mongoclient;
+    public static MongoClient mongoclient = MongoClients.create(MONGOCLIENT);;
     
     /**
      * 
      */
-    public static MongoDatabase mongoDB;
+    public static MongoDatabase mongoDB  = mongoclient.getDatabase(MONGODB);
     
     /**
      * 
      */
-    public static MongoCollection<Document> collection;
+    public static MongoCollection<Document> collection = mongoDB.getCollection(COLLECTION);;
 
 
-    /**
-     * Attribute to appear the information text.
-     */
-    private static final Logger LOGGER
-            = Logger.getLogger("jamp.pc.logic.IlogicImplementationTelephone");
-
-    /**
-     *
-     */
     @Override
-    public void startConnection(){
-
+    public boolean startConnection(){
+        boolean ok = false;
+        try{
             mongoclient = MongoClients.create(MONGOCLIENT);
             mongoDB = mongoclient.getDatabase(MONGODB);
             collection = mongoDB.getCollection(COLLECTION);
+            ok = true;
+        }catch(Exception e){
+                LOGGER.log(Level.SEVERE,
+                       "TelephoneLoginController: Error Connection: {0}",
+                       e.getMessage());
+        }
+        
+        return ok;
 
     }
+
+
+    /*mongoclient = MongoClients.create(MONGOCLIENT);
+    mongoDB = mongoclient.getDatabase(MONGODB);
+    collection = mongoDB.getCollection(COLLECTION);*/
+
+   
     /**
-     * this method is for delete telephones.
-     * @param phone
-     * @throws jampclientside.exceptions.BusinessLogicException
+     * This method is for delete telephones.
+     * 
+     * @param phone the phone to delete
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public void deleteTelephone(TelephoneBean phone) throws BusinessLogicException {
@@ -87,8 +102,9 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for update telephones.
-     * @param phone 
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * 
+     * @param phone the phne to update
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public void updateTelephone(TelephoneBean phone) throws BusinessLogicException {
@@ -106,8 +122,9 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for create tellephones
-     * @param phone 
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * 
+     * @param phone the phone to create
+     * @throws BusinessLogicException throws this exceptions if something is wrong. 
      */
     @Override
     public void createTelephone(TelephoneBean phone) throws BusinessLogicException {
@@ -123,8 +140,9 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for find all telephones.
+     * 
      * @return Collection of telephones 
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public List<TelephoneBean> findAllTelephone() throws BusinessLogicException {
@@ -161,24 +179,34 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for find telephones by Id.
-     * @param idTelephone
+     * 
+     * @param idTelephone the id of telephone
      * @return a telephone
-     * @throws BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public TelephoneBean findTelephoneById(Integer idTelephone) throws BusinessLogicException {
         FindIterable<Document> fi;
         MongoCursor<Document> cursor;
-        fi = collection.find();
+        Document itera;
+        fi = collection.find(eq("idTxoko", idTelephone));
         cursor = fi.iterator();
         TelephoneBean telephone = new TelephoneBean();
             try {
                 if (!cursor.hasNext()) {
-                    System.out.println("No se ha encontrado el telefono");
+                    LOGGER.log(Level.SEVERE,
+                       "No se han encontrado telefonos");
                 }
                 int i = 0;
                 while (cursor.hasNext()) {
-                    //telephones.add(cursor.next());
+                    itera = cursor.next();
+                    
+                    telephone.setId(itera.getString("id"));
+                    telephone.setName(itera.getString("name"));
+                    telephone.setDescription(itera.getString("description"));
+                    telephone.setTown(itera.getString("town"));
+                    telephone.setTelephone(itera.getString("telephone"));
+
                 }
             } finally {
                 cursor.close();
@@ -189,25 +217,36 @@ public class TelephoneLogicController implements TelephoneLogic {
 
     /**
      * This method is for find telephones by name.
-     * @param name
+     * 
+     * @param name the name of the telephone
      * @return Collecion of telephones
-     * @throws BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
     public List<TelephoneBean> findTelephoneByName(String name) throws BusinessLogicException {
         FindIterable<Document> fi;
         MongoCursor<Document> cursor;
         Document itera;
-        fi = collection.find();
+        fi = collection.find(regex("name", name));
         cursor = fi.iterator();
         List<TelephoneBean> telephones = new ArrayList<>();
             try {
                 if (!cursor.hasNext()) {
-                    System.out.println("No se ha encontrado el telefono");
+                    LOGGER.log(Level.SEVERE,
+                       "No se han encontrado telefonos");
                 }
                 int i = 0;
                 while (cursor.hasNext()) {
-                    //telephones.add(cursor.next());
+                    itera = cursor.next();
+                    TelephoneBean telephone= new TelephoneBean();
+                    telephone.setId(itera.getString("id"));
+                    telephone.setName(itera.getString("name"));
+                    telephone.setDescription(itera.getString("description"));
+                    telephone.setTown(itera.getString("town"));
+                    telephone.setTelephone(itera.getString("telephone"));
+
+                    
+                    telephones.add(telephone);
                 }
             } finally {
                 cursor.close();

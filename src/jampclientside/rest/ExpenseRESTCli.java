@@ -46,6 +46,7 @@ public class ExpenseRESTCli {
      * Get a list of expenses entities XML representation from the expense RESTful
      * web service and return it as a generic type object.
      *
+     * @param <T> Generic
      * @param responseType The Class object of the returning instance.
      * @param idTxoko the id of our txoko
      * @return A generic type, normally a list, containing the data.
@@ -61,6 +62,7 @@ public class ExpenseRESTCli {
      * Get a expense entity XML representation from the expense RESTful web service
      * and return it as a generic type object.
      *
+     * @param <T> Generic
      * @param responseType The Class object of the returning instance.
      * @param idUser The id of the user
      * @return The object containing the data.
@@ -87,6 +89,7 @@ public class ExpenseRESTCli {
      * Get a list of expenses entities XML representation from the expense RESTful
      * web service and return it as a generic type object.
      *
+     * @param <T> Generic
      * @param responseType The Class object of the returning instance.
      * @param idTxoko the id of our txoko
      * @return A generic type, normally a list, containing the data.

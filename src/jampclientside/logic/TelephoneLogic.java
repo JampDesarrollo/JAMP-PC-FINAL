@@ -17,12 +17,11 @@ import java.util.List;
  */
 public interface TelephoneLogic {
 
-    public void startConnection() throws Exception;
     /**
-     * this method is for delete telephone
+     * This method is for delete telephone
      * 
      * @param phone the phone we want to delete
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public void deleteTelephone(TelephoneBean phone) throws BusinessLogicException;
     
@@ -30,7 +29,7 @@ public interface TelephoneLogic {
      * This method is to update telephone
      * 
      * @param phone the phonne we want to update
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public void updateTelephone(TelephoneBean phone) throws BusinessLogicException;
     
@@ -38,7 +37,7 @@ public interface TelephoneLogic {
      * This method is to create a telephone
      * 
      * @param phone the telephone we want to create
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public void createTelephone(TelephoneBean phone) throws BusinessLogicException;
     
@@ -46,7 +45,7 @@ public interface TelephoneLogic {
      * This method to find all telephones
      * 
      * @return List of TelephoneBean with all telephones founds
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public List<TelephoneBean> findAllTelephone()throws BusinessLogicException;
     
@@ -55,7 +54,7 @@ public interface TelephoneLogic {
      * 
      * @param idTelephone the telephone we want to find
      * @return TelephoneBean found
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public TelephoneBean findTelephoneById(Integer idTelephone)throws BusinessLogicException;
     
@@ -64,9 +63,11 @@ public interface TelephoneLogic {
      * 
      * @param name the name of telephone we want to found
      * @return List of telephoneBean with the name
-     * @throws jampclientside.exceptions.BusinessLogicException 
+     * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     public List<TelephoneBean> findTelephoneByName(String name)throws BusinessLogicException;
+    
+    public boolean startConnection() throws Exception;
     
 
     

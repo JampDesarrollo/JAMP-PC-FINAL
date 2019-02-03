@@ -15,7 +15,7 @@ public class UserNotExistException extends Exception {
 
     /**
      * Exception constructor with msg
-     * @param msg
+     * @param msg the message of the exception
      */
     public UserNotExistException(String msg) {
 

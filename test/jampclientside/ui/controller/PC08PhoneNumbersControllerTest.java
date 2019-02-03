@@ -40,9 +40,9 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
     @Test
     public void testA_initialStage() {
 
-        write("ander");
+        write("julen");
         clickOn("#pfContraseña");
-        write("4463a7e7a1");
+        write("914393ac3b");
         clickOn("#btnInicio");
         
         verifyThat("#userPane", isVisible());
@@ -73,7 +73,7 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         clickOn("#cbSearchTel");
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
-        verifyThat("#tbProducts", isVisible());
+        verifyThat("#tbTelephone", isVisible());
         verifyThat("#tbcolName", isVisible());
         verifyThat("#tbcolDescription", isVisible());
         verifyThat("#tbcolNumber", isVisible());
@@ -85,7 +85,7 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
         clickOn("#cbSearchTel");
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
-        verifyThat("#tbProducts", isVisible());
+        verifyThat("#tbTelephone", isVisible());
         verifyThat("#tbcolName", isVisible());
         verifyThat("#tbcolDescription", isVisible());
         verifyThat("#tbcolNumber", isVisible());
@@ -131,9 +131,9 @@ public class PC08PhoneNumbersControllerTest extends ApplicationTest {
      */
     @Test
     public void testC_secondLogin() {
-        write("ander");
+        write("julen");
         clickOn("#pfContraseña");
-        write("4463a7e7a1");
+        write("914393ac3b");
         clickOn("#btnInicio");
         
         verifyThat("#userPane", isVisible());

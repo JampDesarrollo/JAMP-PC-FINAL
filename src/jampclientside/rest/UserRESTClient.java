@@ -46,6 +46,7 @@ public class UserRESTClient {
      * Get login from the user RESTful web service and return a boolean as a
      * generic type object.
      *
+     * @param <T> Generic clas
      * @param responseType The Class object of the returning instance.
      * @param login Login of the user to find.
      * @return The object containing the data.
@@ -62,6 +63,7 @@ public class UserRESTClient {
      * Get a users entities' idtxoko and return a list of users as a generic
      * type object.
      *
+     * @param <T> GenericType
      * @param responseType The Class object of the returning instance.
      * @param idTxoko IdTxoko of the users to be found.
      * @return A generic type, normally a list, containing the data.
@@ -78,6 +80,7 @@ public class UserRESTClient {
      * Get a user entity XML representation from the user RESTful web service
      * and return it as a generic type object.
      *
+     * @param <T> GenericType
      * @param responseType The Class object of the returning instance.
      * @param login Login of the user.
      * @param password Password of the user.
@@ -107,6 +110,7 @@ public class UserRESTClient {
      * Get a User entity XML representation from the user RESTful web service
      * and return it as a generic type object.
      *
+     * @param <T> Generic Class
      * @param responseType The object containing data to be updated.
      * @param idUser Id of the user.
      * @return The object containing the data.
@@ -135,6 +139,7 @@ public class UserRESTClient {
      * Get a User entity XML representation from the user RESTful web service to
      * change the users password.
      *
+     * @param <T> generic Class
      * @param responseType The Class object of the returning instance.
      * @param idUser Id of the user.
      * @param oldPassw Users old password.
@@ -165,6 +170,7 @@ public class UserRESTClient {
      * Get a list of user's entities XML representation from the user RESTful
      * web service and return it as a generic type object.
      *
+     * @param <T> Generic Class
      * @param responseType The Class object of the returning instance.
      * @return A generic type, normally a list, containing the data.
      * @throws ClientErrorException If there is an error while processing. The
@@ -180,6 +186,7 @@ public class UserRESTClient {
      * Get a user entity XML representation from the user RESTful web service
      * and return it as a generic type object.
      *
+     * @param <T> Generic Class
      * @param responseType The Class object of the returning instance.
      * @param login Users login
      * @param password Users password.
