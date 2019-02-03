@@ -67,6 +67,8 @@ public interface TelephoneLogic {
      */
     public List<TelephoneBean> findTelephoneByName(String name)throws BusinessLogicException;
     
+    public boolean startConnection() throws Exception;
+    
 
     
 }

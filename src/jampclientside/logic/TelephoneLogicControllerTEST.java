@@ -7,9 +7,6 @@ package jampclientside.logic;
 
 import jampclientside.entity.TelephoneBean;
 import jampclientside.exceptions.BusinessLogicException;
-import jampclientside.exceptions.CreateException;
-import jampclientside.exceptions.DeleteException;
-import jampclientside.exceptions.UpdateException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +51,11 @@ public class TelephoneLogicControllerTEST implements TelephoneLogic {
 
     @Override
     public List<TelephoneBean> findTelephoneByName(String name) throws BusinessLogicException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean startConnection() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

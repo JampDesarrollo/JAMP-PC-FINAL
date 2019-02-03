@@ -22,9 +22,10 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.regex;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.scene.control.Alert;
+import java.util.logging.Level;
 
 
 /**
@@ -35,6 +36,12 @@ import javafx.scene.control.Alert;
  * @author Julen
  */
 public class TelephoneLogicController implements TelephoneLogic {
+    
+    /**
+     * Attribute to appear the information text.
+     */
+    private static final Logger LOGGER
+            = Logger.getLogger("jamp.pc.logic.IlogicImplementationTelephone");
 
     private static final String MONGOCLIENT = ResourceBundle.
             getBundle("jampclientside.logic.config").getString("MONGOCLIENT");
@@ -58,11 +65,24 @@ public class TelephoneLogicController implements TelephoneLogic {
     public static MongoCollection<Document> collection = mongoDB.getCollection(COLLECTION);;
 
 
-    /**
-     * Attribute to appear the information text.
-     */
-    private static final Logger LOGGER
-            = Logger.getLogger("jamp.pc.logic.IlogicImplementationTelephone");
+    @Override
+    public boolean startConnection(){
+        boolean ok = false;
+        try{
+            mongoclient = MongoClients.create(MONGOCLIENT);
+            mongoDB = mongoclient.getDatabase(MONGODB);
+            collection = mongoDB.getCollection(COLLECTION);
+            ok = true;
+        }catch(Exception e){
+                LOGGER.log(Level.SEVERE,
+                       "TelephoneLoginController: Error Connection: {0}",
+                       e.getMessage());
+        }
+        
+        return ok;
+
+    }
+
 
     /*mongoclient = MongoClients.create(MONGOCLIENT);
     mongoDB = mongoclient.getDatabase(MONGODB);
@@ -168,16 +188,25 @@ public class TelephoneLogicController implements TelephoneLogic {
     public TelephoneBean findTelephoneById(Integer idTelephone) throws BusinessLogicException {
         FindIterable<Document> fi;
         MongoCursor<Document> cursor;
-        fi = collection.find();
+        Document itera;
+        fi = collection.find(eq("idTxoko", idTelephone));
         cursor = fi.iterator();
         TelephoneBean telephone = new TelephoneBean();
             try {
                 if (!cursor.hasNext()) {
-                    System.out.println("No se ha encontrado el telefono");
+                    LOGGER.log(Level.SEVERE,
+                       "No se han encontrado telefonos");
                 }
                 int i = 0;
                 while (cursor.hasNext()) {
-                    //telephones.add(cursor.next());
+                    itera = cursor.next();
+                    
+                    telephone.setId(itera.getString("id"));
+                    telephone.setName(itera.getString("name"));
+                    telephone.setDescription(itera.getString("description"));
+                    telephone.setTown(itera.getString("town"));
+                    telephone.setTelephone(itera.getString("telephone"));
+
                 }
             } finally {
                 cursor.close();
@@ -198,16 +227,26 @@ public class TelephoneLogicController implements TelephoneLogic {
         FindIterable<Document> fi;
         MongoCursor<Document> cursor;
         Document itera;
-        fi = collection.find();
+        fi = collection.find(regex("name", name));
         cursor = fi.iterator();
         List<TelephoneBean> telephones = new ArrayList<>();
             try {
                 if (!cursor.hasNext()) {
-                    System.out.println("No se ha encontrado el telefono");
+                    LOGGER.log(Level.SEVERE,
+                       "No se han encontrado telefonos");
                 }
                 int i = 0;
                 while (cursor.hasNext()) {
-                    //telephones.add(cursor.next());
+                    itera = cursor.next();
+                    TelephoneBean telephone= new TelephoneBean();
+                    telephone.setId(itera.getString("id"));
+                    telephone.setName(itera.getString("name"));
+                    telephone.setDescription(itera.getString("description"));
+                    telephone.setTown(itera.getString("town"));
+                    telephone.setTelephone(itera.getString("telephone"));
+
+                    
+                    telephones.add(telephone);
                 }
             } finally {
                 cursor.close();
