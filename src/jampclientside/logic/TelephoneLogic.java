@@ -56,7 +56,7 @@ public interface TelephoneLogic {
      * @return TelephoneBean found
      * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
-    public TelephoneBean findTelephoneById(Integer idTelephone)throws BusinessLogicException;
+    public List<TelephoneBean> findTelephoneByTown(String poblacion)throws BusinessLogicException;
     
     /**
      * This method finnd telephones by name

@@ -29,9 +29,7 @@ import java.util.logging.Level;
 
 
 /**
- *
- * Class that implements the logic
- * interface.
+ * Class that implements the logic interface.
  *
  * @author Julen
  */
@@ -82,12 +80,6 @@ public class TelephoneLogicController implements TelephoneLogic {
         return ok;
 
     }
-
-
-    /*mongoclient = MongoClients.create(MONGOCLIENT);
-    mongoDB = mongoclient.getDatabase(MONGODB);
-    collection = mongoDB.getCollection(COLLECTION);*/
-
    
     /**
      * This method is for delete telephones.
@@ -116,7 +108,7 @@ public class TelephoneLogicController implements TelephoneLogic {
         documentToSet.put("town", phone.getTown());
          
         Document set =  new Document("$set", documentToSet);
-        collection.updateOne(new Document("idTelephone",phone.getId()), set);
+        collection.updateOne(new Document("telephone",phone.getTelephone()), set);
           
     }
 
@@ -180,18 +172,18 @@ public class TelephoneLogicController implements TelephoneLogic {
     /**
      * This method is for find telephones by Id.
      * 
-     * @param idTelephone the id of telephone
+     * @param poblacion the town of the telephone
      * @return a telephone
      * @throws BusinessLogicException throws this exceptions if something is wrong.
      */
     @Override
-    public TelephoneBean findTelephoneById(Integer idTelephone) throws BusinessLogicException {
+    public List<TelephoneBean> findTelephoneByTown(String poblacion) throws BusinessLogicException {
         FindIterable<Document> fi;
         MongoCursor<Document> cursor;
         Document itera;
-        fi = collection.find(eq("idTxoko", idTelephone));
+        fi = collection.find(regex("town", poblacion));
         cursor = fi.iterator();
-        TelephoneBean telephone = new TelephoneBean();
+        List<TelephoneBean> telephones = new ArrayList<>();
             try {
                 if (!cursor.hasNext()) {
                     LOGGER.log(Level.SEVERE,
@@ -200,19 +192,21 @@ public class TelephoneLogicController implements TelephoneLogic {
                 int i = 0;
                 while (cursor.hasNext()) {
                     itera = cursor.next();
-                    
+                    TelephoneBean telephone= new TelephoneBean();
                     telephone.setId(itera.getString("id"));
                     telephone.setName(itera.getString("name"));
                     telephone.setDescription(itera.getString("description"));
                     telephone.setTown(itera.getString("town"));
                     telephone.setTelephone(itera.getString("telephone"));
+                    
+                    telephones.add(telephone);
 
                 }
             } finally {
                 cursor.close();
             }
         
-        return telephone;
+        return telephones;
     }
 
     /**

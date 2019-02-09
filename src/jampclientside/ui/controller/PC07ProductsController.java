@@ -68,6 +68,8 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
+import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.NumberStringConverter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -216,7 +218,7 @@ public class PC07ProductsController {
      * label for txoko
      */
     @FXML
-    private Label lbllTxoko;
+    private Label lblTxoko;
 
     /**
      * the combo box search
@@ -297,13 +299,13 @@ public class PC07ProductsController {
     private TableColumn tbcolName;
 
     /**
-     * the table column for description
+     * The table column for description
      */
     @FXML
     private TableColumn tbcolDescription;
 
     /**
-     * the table column for price
+     * The table column for price
      */
     @FXML
     private TableColumn tbcolPrice;
@@ -314,6 +316,9 @@ public class PC07ProductsController {
     @FXML
     private TableColumn tbcolStock;
     
+    /**
+     * The date picker for last access
+     */
     @FXML
     private DatePicker datePicker;
 
@@ -467,13 +472,14 @@ public class PC07ProductsController {
         tbcolPrice.setCellFactory(TextFieldTableCell.<ProductBean>forTableColumn());
         tbcolPrice.setCellValueFactory(
                 new PropertyValueFactory<>("price"));
+        //tbcolPrice.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
         tbcolPrice.setOnEditCommit(new EventHandler<CellEditEvent<ProductBean, String>>() {
             @Override
             public void handle(CellEditEvent<ProductBean, String> e) {
                 try {
                     ((ProductBean) tbProducts.getItems().get(
                             e.getTablePosition().getRow())).setPrice(e.getNewValue());
-                    addUpdateProduct();
+                            addUpdateProduct();
                 } catch (BusinessLogicException ex) {
                     Logger.getLogger(PC07ProductsController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -517,7 +523,6 @@ public class PC07ProductsController {
                 dialogoAlerta.showAndWait();
             }else{
                 tbProducts.setItems(productData);
-                productDatacopy = refreshDatabase(productData);
                 productDatacopy.addAll(productData);
             }
         } catch (BusinessLogicException ex) {
@@ -542,12 +547,10 @@ public class PC07ProductsController {
             LocalDate local = timeStamp.toLocalDateTime().toLocalDate();
 
             datePicker.setValue(local);
+            datePicker.getEditor().setDisable(true);
             
-            lblDate.setText("Último acceso: " + user.getLastAccess());
-            lblEmail.setText("Email: " + user.getEmail());
-            lblFullName.setText("Nombre Completo: " + user.getFullname());
-            lblLogin.setText("Login: " + user.getLogin());
-            lbllTxoko.setText("Txoko: " + user.getTxoko().getName());
+            lblFullName.setText(user.getFullname());
+            lblTxoko.setText(user.getTxoko().getName());
             
             cbSearch.getItems().removeAll(cbSearch.getItems());
             cbSearch.getItems().addAll("Todos los productos del catalogo", "Todos los productos de mi txoko");
@@ -555,9 +558,7 @@ public class PC07ProductsController {
             labelError.setVisible(false);
             cbSearch.requestFocus();
             txtSearch.setDisable(true);
-            tbProducts.setEditable(false);
             btnSearch.setDisable(true);
-            addProduct.setDisable(true);
             delProduct.setDisable(true);
             asignProduct.setDisable(true);
             unasignProduct.setDisable(true);
@@ -1097,19 +1098,15 @@ public class PC07ProductsController {
                 case "Todos los productos de mi txoko":
                     productDatacopy = iLogicProduct.findAllProductsByTxoko(idTxoko);
                     break;
+                case "Todos los productos del catalogo":
+                    productDatacopy = iLogicProduct.findAllProducts();
+                    break;
                 default:
                     productDatacopy = iLogicProduct.findAllProducts();
                     break;
             }
             
         }
-    }
-
-    private List<ProductBean> refreshDatabase(ObservableList<ProductBean> productData) {
-        productDatacopy.clear();
-        
-        productDatacopy.addAll(productData);
-        return productDatacopy;
     }
     /**
      * This method is to add the selected product in the table. First ask for
@@ -1159,7 +1156,7 @@ public class PC07ProductsController {
 
         Alert dialogoAlerta = new Alert(Alert.AlertType.CONFIRMATION);
         dialogoAlerta.setTitle("CONFIRMACION");
-        dialogoAlerta.setContentText("¿Estas seguro que deseas actualizar el producto " + product.getName() + " " + product.getDescription() + "?");
+        dialogoAlerta.setContentText("¿Estas seguro que deseas actualizar al producto " + product.getName() + " " + product.getDescription() + "?");
         dialogoAlerta.setHeaderText("Actualizar un producto");
         Optional<ButtonType> result = dialogoAlerta.showAndWait();
         Button okButton = (Button) dialogoAlerta.getDialogPane().lookupButton(ButtonType.OK);
@@ -1177,7 +1174,7 @@ public class PC07ProductsController {
                 labelError.setStyle("-fx-text-inner-color: red;");
             }
         }else{
-            
+            tbProducts.refresh();
         }
     }
 

@@ -45,7 +45,7 @@ public class TelephoneLogicControllerTEST implements TelephoneLogic {
     }
 
     @Override
-    public TelephoneBean findTelephoneById(Integer idTelephone) throws BusinessLogicException {
+    public List<TelephoneBean> findTelephoneByTown(String poblacion) throws BusinessLogicException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
