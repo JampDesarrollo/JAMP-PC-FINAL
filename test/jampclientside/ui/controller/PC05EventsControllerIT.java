@@ -22,6 +22,8 @@ import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
+
+//import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 /**
@@ -47,13 +49,9 @@ public class PC05EventsControllerIT extends ApplicationTest {
         verifyThat("#tfUsuario", isEnabled());
         verifyThat("#tfContraseña", isEnabled());
         verifyThat("#lblError", isInvisible());
-        doubleClickOn("#tfUsuario");
-        eraseText(20);
-        doubleClickOn("#tfUsuario");
-        eraseText(20);
         write("pau");
         clickOn("#pfContraseña");
-        write("fcdd6828d2");
+        write("5cc17afe95");
         clickOn("#btnInicio");
         verifyThat("#loginPane", isVisible());
     }
@@ -74,7 +72,6 @@ public class PC05EventsControllerIT extends ApplicationTest {
      */
     @Test
     public void test2_initStage() {
-
         verifyThat("#btnSearch", isEnabled());
         verifyThat("#btnSearch", (Button t) -> t.isFocused());
         verifyThat("#tfSearch", isDisabled());
@@ -83,6 +80,7 @@ public class PC05EventsControllerIT extends ApplicationTest {
         verifyThat("#btnDeleteEvent", isDisabled());
         verifyThat("#btnAsignar", isDisabled());
         verifyThat("#btnImgEvent", isDisabled());
+        verifyThat("#btnInforme", isDisabled());
         verifyThat("#tbcolName", isVisible());
         verifyThat("#tbcolDescription", isVisible());
         verifyThat("#tbcolDate", isVisible());
@@ -97,7 +95,12 @@ public class PC05EventsControllerIT extends ApplicationTest {
         verifyThat("#menuProductos", isVisible());
         verifyThat("#menuUsuarios", isVisible());
         verifyThat("#menuTelefonos", isVisible());
-
+        /*
+        verifyThat("#lbllTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Txoko: Pepos"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("Nombre Completo: testLoginF"));
+         */
+        verifyThat("#lbllTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
     }
 
     /**
@@ -108,7 +111,18 @@ public class PC05EventsControllerIT extends ApplicationTest {
     public void test3_clickOnBTNSearch() {
         clickOn("#btnSearch");
         verifyThat("#labelError", isInvisible());
+        verifyThat("#btnAddEvent", isEnabled());
+        verifyThat("#btnDeleteEvent", isEnabled());
+        verifyThat("#btnAsignar", isEnabled());
+        verifyThat("#btnImgEvent", isEnabled());
+        verifyThat("#btnInforme", isEnabled());
         clickOn("#btnAddEvent");
+        verifyThat("#tfName", hasText(""));
+        verifyThat("#tfDescription", hasText(""));
+        verifyThat("#hora", hasText(""));
+        verifyThat("#tfImg", hasText(""));
+        verifyThat("#tfPrice", hasText(""));
+        verifyThat("#lblError", isInvisible());
         verifyThat("#addEvent", isEnabled());
         verifyThat("#btnSalir", isEnabled());
         clickOn("#btnAdd");
@@ -138,9 +152,18 @@ public class PC05EventsControllerIT extends ApplicationTest {
         write("17:00");
         clickOn("#btnAdd");
         clickOn("Aceptar");
-        clickOn("#btnSalir");
         verifyThat("#principalPaneEvent", isVisible());
+        verifyThat("#btnAddEvent", isDisabled());
+        verifyThat("#btnDeleteEvent", isDisabled());
+        verifyThat("#btnAsignar", isDisabled());
+        verifyThat("#btnImgEvent", isDisabled());
+        verifyThat("#btnInforme", isDisabled());
         clickOn("#btnSearch");
+        verifyThat("#btnAddEvent", isEnabled());
+        verifyThat("#btnDeleteEvent", isEnabled());
+        verifyThat("#btnAsignar", isEnabled());
+        verifyThat("#btnImgEvent", isEnabled());
+        verifyThat("#btnInforme", isEnabled());
         clickOn("#btnAsignar");
         clickOn("Aceptar");
         //look for 1st row in table view and click it
@@ -161,14 +184,22 @@ public class PC05EventsControllerIT extends ApplicationTest {
      * an incorrect name so in the label it has to appear an error. Then we put
      * the correct name.
      */
-   @Test
+    @Test
     public void test4_clickOnBTNSearchComboBoxOption2Option3Option4() {
-       //TODOS LOS EVENTOS DE MI TXOKO
+        //TODOS LOS EVENTOS DE MI TXOKO
         clickOn("#cbSearch");
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
+        verifyThat("#btnAddEvent", isDisabled());
+        verifyThat("#btnDeleteEvent", isDisabled());
+        verifyThat("#btnAsignar", isDisabled());
+        verifyThat("#btnImgEvent", isDisabled());
+        verifyThat("#btnInforme", isDisabled());
+        verifyThat("#labelError", isInvisible());
         clickOn("#btnSearch");
-        clickOn("#btnDeleteEvent");
+        verifyThat("#btnDeleteEvent", isEnabled());
+        verifyThat("#btnImgEvent", isEnabled());
+          clickOn("#btnDeleteEvent");
         clickOn("Aceptar");
         Node row = lookup(".table-row-cell").nth(3).query();
         assertNotNull("Row is null: table has not that row. ", row);
@@ -177,34 +208,28 @@ public class PC05EventsControllerIT extends ApplicationTest {
         clickOn("Cancelar");
         clickOn("#btnDeleteEvent");
         clickOn("Aceptar");
-        //BUSQUEDA POR ID
-        clickOn("#cbSearch");
-        type(KeyCode.DOWN);
-        type(KeyCode.ENTER);
-        clickOn("#btnSearch");
-        verifyThat("#labelError ", org.testfx.matcher.control.LabeledMatchers.hasText("Campo requerido"));
-        doubleClickOn("#tfSearch");
-        write("50");
-        clickOn("#btnSearch");
-        //  verifyThat("#labelError ", org.testfx.matcher.control.LabeledMatchers.hasText("ID del evento incorrecto"));
-        doubleClickOn("#tfSearch");
-        eraseText(2);
-        write("5");
-        clickOn("#btnSearch");
         //BUSQUEDA POR NOMBRE
         clickOn("#cbSearch");
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
+        verifyThat("#btnAddEvent", isDisabled());
+        verifyThat("#btnDeleteEvent", isDisabled());
+        verifyThat("#btnAsignar", isDisabled());
+        verifyThat("#btnImgEvent", isDisabled());
+        verifyThat("#btnInforme", isDisabled());
+        verifyThat("#labelError", isInvisible());
         clickOn("#btnSearch");
         verifyThat("#labelError ", org.testfx.matcher.control.LabeledMatchers.hasText("Campo requerido"));
         doubleClickOn("#tfSearch");
         write("fiestas");
         clickOn("#btnSearch");
-        // verifyThat("#labelError ", org.testfx.matcher.control.LabeledMatchers.hasText("Nombre del evento incorrecto"));
+        verifyThat("#labelError ", org.testfx.matcher.control.LabeledMatchers.hasText("Nombre del evento incorrecto"));
         doubleClickOn("#tfSearch");
         eraseText(10);
-        write("fiestas de zamudio");
+        write("dsf");
         clickOn("#btnSearch");
+        verifyThat("#btnDeleteEvent", isEnabled());
+        verifyThat("#btnImgEvent", isEnabled());
         verifyThat("#labelError", isInvisible());
     }
 
@@ -217,16 +242,21 @@ public class PC05EventsControllerIT extends ApplicationTest {
         clickOn("#menuGastos");
         clickOn("#idMenuGastos");
         verifyThat("#principalPaneExpense", isVisible());
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
         clickOn("#btnEvents");
         clickOn("#idMenuEventos");
         verifyThat("#principalPaneEvent", isVisible());
+        verifyThat("#lbllTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
 
     }
 
     /**
      * go to products window and go back
      */
-    @Test 
+    @Test
+
     public void test6_goToProductsWindow() {
 
         clickOn("#menuProductos");
@@ -235,13 +265,16 @@ public class PC05EventsControllerIT extends ApplicationTest {
         clickOn("#menuEvent");
         clickOn("#idMenuEvent");
         verifyThat("#principalPaneEvent", isVisible());
+        verifyThat("#lbllTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
 
     }
 
     /**
      * go to user window and go back
      */
-   @Test
+    @Test
+
     public void test7_goToUserWindow() {
 
         clickOn("#menuUsuarios");
@@ -250,13 +283,16 @@ public class PC05EventsControllerIT extends ApplicationTest {
         clickOn("#eventos");
         clickOn("#btnEvents");
         verifyThat("#principalPaneEvent", isVisible());
+        verifyThat("#lbllTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
 
     }
 
     /**
      * go to phones window and go back
      */
-    @Test @Ignore
+    @Test
+    @Ignore
     public void test8_goToPhoneWindow() {
 
         clickOn("#menuTelefonos");
@@ -265,6 +301,8 @@ public class PC05EventsControllerIT extends ApplicationTest {
         clickOn("#menuEvent");
         clickOn("#idMenuEvent");
         verifyThat("#principalPanePhones", isVisible());
+        verifyThat("#lbllTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
 
     }
 
@@ -272,6 +310,7 @@ public class PC05EventsControllerIT extends ApplicationTest {
      * go to ftp client window with the menu item and go back
      */
     @Test
+
     public void test9_goToFTClientWindow() {
 
         clickOn("#menuFTP");
@@ -279,6 +318,8 @@ public class PC05EventsControllerIT extends ApplicationTest {
         verifyThat("#ftpPane", isVisible());
         clickOn("#btnOut");
         verifyThat("#principalPaneEvent", isVisible());
+        verifyThat("#lbllTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
 
     }
 
@@ -286,13 +327,16 @@ public class PC05EventsControllerIT extends ApplicationTest {
     /**
      * go to the ftp client window with the button and go back
      */
-   @Test
+    @Test
+
     public void testa_goToFTPClientWindowWithButton() {
         clickOn("#btnSearch");
         clickOn("#btnImgEvent");
         verifyThat("#ftpPane", isVisible());
         clickOn("#btnOut");
         verifyThat("#principalPaneEvent", isVisible());
+        verifyThat("#lbllTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
 
     }
 
@@ -305,7 +349,7 @@ public class PC05EventsControllerIT extends ApplicationTest {
     public void testb_informe() {
         clickOn("#btnSearch");
         clickOn("#btnInforme");
-        verifyThat("#jasperviewer", isVisible());
+     //   verifyThat("#jasperviewer", isVisible());
     }
 
     /**
