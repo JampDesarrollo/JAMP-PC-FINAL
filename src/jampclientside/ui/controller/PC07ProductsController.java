@@ -547,7 +547,7 @@ public class PC07ProductsController {
             LocalDate local = timeStamp.toLocalDateTime().toLocalDate();
 
             datePicker.setValue(local);
-            datePicker.getEditor().setDisable(true);
+            datePicker.setDisable(true);
             
             lblFullName.setText(user.getFullname());
             lblTxoko.setText(user.getTxoko().getName());
