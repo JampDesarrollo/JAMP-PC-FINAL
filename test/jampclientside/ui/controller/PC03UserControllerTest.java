@@ -208,8 +208,8 @@ public class PC03UserControllerTest extends ApplicationTest {
         assertEquals("The row has not been deleted", rowCount - 1, table.getItems().size());
         UserBean userFin = (UserBean)table.getItems().get(table.getItems().size()-1);
         assertNotEquals("The user has not been deleted!!!",
-                     selectedUser.getFullname(),
-                     userFin.getFullname());
+                     selectedUser,
+                     userFin);
     }
 
     /**
@@ -254,9 +254,9 @@ public class PC03UserControllerTest extends ApplicationTest {
         //int selectedIndex=table.getSelectionModel().getSelectedIndex();
         
         //Modify user data
-        UserBean modifiedUser=new UserBean();
+        //UserBean modifiedUser=(UserBean)table.getSelectionModel().getSelectedItem();
         
-        modifiedUser.setFullname("modificado");
+        //modifiedUser.setFullname("modificado");
 
         doubleClickOn(row);
         write("modificado");
@@ -268,9 +268,10 @@ public class PC03UserControllerTest extends ApplicationTest {
                 isVisible());
         clickOn("#okButton");
         verifyThat("#lblErrorUser", org.testfx.matcher.control.LabeledMatchers.hasText("Usuario modificado"));
+        UserBean modifiedUser=(UserBean)table.getSelectionModel().getSelectedItem();
         assertNotEquals("The user has not been modified!!!",
-                     modifiedUser.getFullname(),
-                     selectedUser.getFullname());
+                     modifiedUser,
+                     selectedUser);
     }
 
     /**
