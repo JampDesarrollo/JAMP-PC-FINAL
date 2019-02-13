@@ -6,6 +6,7 @@
 package jampclientside.ui.controller;
 
 import jampclientside.UiApplicationUser;
+import jampclientside.entity.UserBean;
 import javafx.scene.Node;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
@@ -71,8 +72,8 @@ public class PC03UserControllerTest extends ApplicationTest {
         verifyThat("#btnEditUser", isDisabled());
         verifyThat("#btnLogOut2", isEnabled());
         verifyThat("#lblErrorUser", isInvisible());
-        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Txoko: Pepos"));
-        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("Nombre Completo: testLoginF"));
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("JAMP Txoko"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("testLoginF"));
         verifyThat("#menuBar", isEnabled());
         verifyThat("#tabUsers", isVisible());
         verifyThat("#colIdUser", isVisible());
@@ -89,7 +90,7 @@ public class PC03UserControllerTest extends ApplicationTest {
     /**
      * Test the menu bar.
      */
-    @Test
+   /* @Test
     public void testb_menuBarTest() {
         clickOn("#menu");
         clickOn("#btnLogOut");
@@ -115,11 +116,13 @@ public class PC03UserControllerTest extends ApplicationTest {
         clickOn("#menuUser");
         clickOn("#idMenuUser");
         
-        /*clickOn("#telefonos");
+        clickOn("#telefonos");
         clickOn("#btnPhones");
         verifyThat("#telephonPane", isVisible());
+        clickOn("Aceptar");
+        
         clickOn("#menuUser");
-        clickOn("#idMenuUser");*/
+        clickOn("#idMenuUser");
         
         clickOn("#btnArchivo");
         clickOn("#btnArchivos");
@@ -131,7 +134,7 @@ public class PC03UserControllerTest extends ApplicationTest {
     /**
      * Test selecting an item enables/disabled buttons.
      */
-    @Test
+   /* @Test
     public void testc_selectTableItemButtonsEnabledDisabled() {
         //check that table view has rows
         TableView table = lookup("#tabUsers").queryTableView();
@@ -180,7 +183,7 @@ public class PC03UserControllerTest extends ApplicationTest {
      * Test deleting a user.
      */
     @Test
-    @Ignore
+    //@Ignore
     public void teste_deleteUser() {
         //check that table view has rows
         TableView table = lookup("#tabUsers").queryTableView();
@@ -189,17 +192,24 @@ public class PC03UserControllerTest extends ApplicationTest {
         assertNotEquals("Table has no data: Cannot test.",
                 rowCount, 0);
         //look for 1st row in table view and click it
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup(".table-row-cell").nth(rowCount-1).query();
         assertNotNull("Row is null: table has not that row. ", row);
         clickOn(row);
+        //get selected int
+        UserBean selectedUser=(UserBean)table.getSelectionModel().getSelectedItem();
+        
         verifyThat("#btnDeleteUser", isEnabled());
         verifyThat("#btnEditUser", isEnabled());
         clickOn("#btnDeleteUser");
         verifyThat("¿Estas seguro que deseas borrar el usuario?",
                 isVisible());
         clickOn("#okButton");
-        verifyThat("#lblError", org.testfx.matcher.control.LabeledMatchers.hasText("Usuario eliminado"));
+        verifyThat("#lblErrorUser", org.testfx.matcher.control.LabeledMatchers.hasText("Usuario eliminado"));
         assertEquals("The row has not been deleted", rowCount - 1, table.getItems().size());
+        UserBean userFin = (UserBean)table.getItems().get(table.getItems().size()-1);
+        assertNotEquals("The user has not been deleted!!!",
+                     selectedUser.getFullname(),
+                     userFin.getFullname());
     }
 
     /**
@@ -228,7 +238,7 @@ public class PC03UserControllerTest extends ApplicationTest {
      * Test updating a user.
      */
     @Test
-    @Ignore
+    //@Ignore
     public void testg_updateUser() {
         //check that table view has rows
         TableView table = lookup("#tabUsers").queryTableView();
@@ -236,22 +246,37 @@ public class PC03UserControllerTest extends ApplicationTest {
         int rowCount = table.getItems().size();
         assertNotEquals("Table has no data: Cannot test.",
                 rowCount, 0);
-        Node row = lookup(".table-row-cell").nth(3).query();
+        Node row = lookup("paModificar").query();
         assertNotNull("Row is null: table has not that row. ", row);
-        clickOn(row);
+        //get selected int
+        UserBean selectedUser=(UserBean)table.getSelectionModel().getSelectedItem();
+        
+        //int selectedIndex=table.getSelectionModel().getSelectedIndex();
+        
+        //Modify user data
+        UserBean modifiedUser=new UserBean();
+        
+        modifiedUser.setFullname("modificado");
+
+        doubleClickOn(row);
+        write("modificado");
+        press(KeyCode.ENTER);
         verifyThat("#btnDeleteUser", isEnabled());
         verifyThat("#btnEditUser", isEnabled());
         clickOn("#btnEditUser");
         verifyThat("¿Estas seguro que deseas actualizar el usuario?",
                 isVisible());
         clickOn("#okButton");
-        verifyThat("#lblError", org.testfx.matcher.control.LabeledMatchers.hasText("Usuario modificado"));
+        verifyThat("#lblErrorUser", org.testfx.matcher.control.LabeledMatchers.hasText("Usuario modificado"));
+        assertNotEquals("The user has not been modified!!!",
+                     modifiedUser.getFullname(),
+                     selectedUser.getFullname());
     }
 
     /**
      * Test updating a user.
      */
-    @Test
+    /*@Test
     public void testh_updateUserLongName() {
         //check that table view has rows
         TableView table = lookup("#tabUsers").queryTableView();
@@ -259,7 +284,7 @@ public class PC03UserControllerTest extends ApplicationTest {
         int rowCount = table.getItems().size();
         assertNotEquals("Table has no data: Cannot test.",
                 rowCount, 0);
-        Node row = lookup("testLoginF").query();
+        Node row = lookup("Pepon").query();
         assertNotNull("Row is null: table has not that row. ", row);
         doubleClickOn(row);
         write(OVERSIZED_TEXT);
@@ -276,14 +301,14 @@ public class PC03UserControllerTest extends ApplicationTest {
     /**
      * Test creating a new report works.
      */
-    @Test
+    /*@Test
     @Ignore
     public void testi_btnReportWorks() {
         verifyThat("#btnPrint", isEnabled());
         clickOn("#btnPrint");
         //verifyThat(lookup("JasperViewer"), isVisible());
         lookup("JasperViewer");
-    }
+    }*/
 
     /**
      * Test log out button.

@@ -101,6 +101,11 @@ public class PC06FTPClientController {
     @FXML
     private Label lblInfo;
     /**
+     * Label where you're connected to.
+     */
+    @FXML
+    private Label lblConnect;
+    /**
      * Button to log out.
      */
     @FXML
@@ -201,15 +206,15 @@ public class PC06FTPClientController {
         System.out.println(USERNAME + " " + PASS);
         Boolean connected = iLogic.connectFTP(IP, PORT, USERNAME, PASS);
         if (connected) {
-            lblInfo.setText("Conectado a Servidor FTP");
-            lblInfo.setTextFill(Color.GREEN);
-            lblInfo.setVisible(true);
+            lblConnect.setText("Conectado a " + IP + ":" + PORT);
+            lblConnect.setTextFill(Color.GREEN);
+            lblConnect.setVisible(true);
             //Lista de files
             listFiles();
         } else {
-            lblInfo.setText("No se ha podido conectar a ServidorFTP");
-            lblInfo.setTextFill(Color.RED);
-            lblInfo.setVisible(true);
+            lblConnect.setText("No se ha podido conectar a ServidorFTP");
+            lblConnect.setTextFill(Color.RED);
+            lblConnect.setVisible(true);
         }
         stage.show();
     }
@@ -283,6 +288,7 @@ public class PC06FTPClientController {
             btnDeleteDir.setDisable(true);
             btnUpload.setDisable(true);
             btnCreateDir.setDisable(true);
+            lblConnect.setText("Conectado a " + IP + ":" + PORT);
         } else {
             if (!selectedItem.getValue().isIsDirectory()) {
                 btnDownload.setDisable(false);
@@ -290,14 +296,17 @@ public class PC06FTPClientController {
                 btnDeleteDir.setDisable(true);
                 btnUpload.setDisable(true);
                 btnCreateDir.setDisable(true);
+                lblConnect.setText("Conectado a " + IP + ":" + PORT+"   "+selectedItem.getValue().getPath());
             } else {
                 btnDownload.setDisable(true);
                 btnDeleteFile.setDisable(true);
+                lblConnect.setText("Conectado a " + IP + ":" + PORT);
             }
             if (selectedItem.getValue().isIsDirectory()) {
                 btnDeleteDir.setDisable(false);
                 btnUpload.setDisable(false);
                 btnCreateDir.setDisable(false);
+                lblConnect.setText("Conectado a " + IP + ":" + PORT+"   "+selectedItem.getValue().getPath());
             } else {
                 btnDeleteDir.setDisable(true);
             }
@@ -495,8 +504,8 @@ public class PC06FTPClientController {
                 LOGGER.log(Level.SEVERE, "FTPClient: io exception borrando directorio ",
                         ex.getCause());
                 lblInfo.setText("Ha habido un problema borrando la carpeta");
-                    lblInfo.setTextFill(Color.RED);
-                    lblInfo.setVisible(true);
+                lblInfo.setTextFill(Color.RED);
+                lblInfo.setVisible(true);
             }
         }
     }

@@ -50,7 +50,7 @@ public class PC06FTPClientControllerTest extends ApplicationTest {
     public void testa_goToFTPClientView() {
         write("testLogin");
         clickOn("#pfContraseña");
-        write("6f724558dc");
+        write("4463a7e7a1");
         clickOn("#btnInicio");
         verifyThat("#userPane", isVisible());
         clickOn("#btnArchivo");
@@ -69,8 +69,8 @@ public class PC06FTPClientControllerTest extends ApplicationTest {
         verifyThat("#btnDeleteFile", isDisabled());
         verifyThat("#btnCreateDir", isDisabled());
         verifyThat("#btnDeleteDir", isDisabled());
-        verifyThat("#lblInfo", org.testfx.matcher.control.LabeledMatchers
-                .hasText("Conectado a Servidor FTP"));
+        verifyThat("#lblConnect", org.testfx.matcher.control.LabeledMatchers
+                .hasText("Conectado a localhost:147"));
         TreeView tView = lookup("#tView").query();
         assertNotEquals("TreeView has no data: Cannot test.",
                 tView.getRoot().getChildren().size(), 0);
@@ -189,7 +189,7 @@ public class PC06FTPClientControllerTest extends ApplicationTest {
      * Test deleting a file.
      */
     @Test
-    @Ignore
+    //@Ignore
     public void testh_deleteFile() {
         TreeView tView = lookup("#tView").query();
         int rowCount = tView.getRoot().getChildren().size();

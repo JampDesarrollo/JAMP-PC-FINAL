@@ -17,22 +17,26 @@
       </Label>
       <HBox prefHeight="19.0" prefWidth="639.0" spacing="20.0">
          <children>
-            <Button fx:id="btnUpload" mnemonicParsing="false" text="Subir Archivo" />
-            <Button fx:id="btnDownload" mnemonicParsing="false" text="Descargar Archivo" />
-            <Button fx:id="btnDeleteFile" alignment="CENTER_RIGHT" mnemonicParsing="false" style="-fx-background-color: red;" text="Eliminar Archivo" textAlignment="CENTER" textFill="WHITE">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Button>
+            <Label fx:id="lblConnect" prefHeight="17.0" prefWidth="575.0" text="Label" textFill="#31c300" />
          </children>
+         <padding>
+            <Insets left="30.0" />
+         </padding>
       </HBox>
-      <HBox prefHeight="19.0" prefWidth="639.0" spacing="20.0">
+      <HBox alignment="CENTER" prefHeight="351.0" prefWidth="581.0" spacing="30.0">
          <children>
-            <Button fx:id="btnCreateDir" mnemonicParsing="false" text="Crear Directorio" />
-            <Button fx:id="btnDeleteDir" mnemonicParsing="false" style="-fx-background-color: red;" text="Eliminar Directorio" textFill="WHITE" />
+            <TreeView fx:id="tView" prefHeight="307.0" prefWidth="407.0" />
+            <VBox alignment="CENTER" prefHeight="345.0" prefWidth="149.0" spacing="25.0">
+               <children>
+                  <Button fx:id="btnUpload" mnemonicParsing="false" text="Subir Archivo" />
+                  <Button fx:id="btnDownload" mnemonicParsing="false" text="Descargar Archivo" />
+                  <Button fx:id="btnCreateDir" mnemonicParsing="false" text="Crear Directorio" />
+                  <Button fx:id="btnDeleteFile" alignment="CENTER_RIGHT" mnemonicParsing="false" style="-fx-background-color: red;" text="Eliminar Archivo" textAlignment="CENTER" textFill="WHITE" />
+                  <Button fx:id="btnDeleteDir" mnemonicParsing="false" style="-fx-background-color: red;" text="Eliminar Directorio" textFill="WHITE" />
+               </children>
+            </VBox>
          </children>
       </HBox>
-      <TreeView fx:id="tView" prefHeight="301.0" prefWidth="480.0" />
       <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="745.0" spacing="10.0">
          <children>
             <Label fx:id="lblInfo" minWidth="-Infinity" prefHeight="23.0" prefWidth="601.0" text="Mensaje Informativo" textFill="#31c300" />
