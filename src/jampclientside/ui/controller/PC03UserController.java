@@ -18,7 +18,15 @@ import jampclientside.logic.ProductLogic;
 import jampclientside.logic.TelephoneLogic;
 import jampclientside.logic.UserLogic;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -36,12 +44,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -191,6 +201,11 @@ public class PC03UserController {
      */
     @FXML
     private TableColumn<UserBean, UserPrivilege> colPriv;
+    /**
+     * Date picker controler.
+     */
+    @FXML
+    private DatePicker datePicker;
     /**
      * ObservableList of UserBeans.
      */
@@ -345,25 +360,35 @@ public class PC03UserController {
      * @param event WindowEvent event
      */
     private void windowShow(WindowEvent event) {
-        LOGGER.info("Beginning Principal::windowShow");
+        try {
+            LOGGER.info("Beginning Principal::windowShow");
 
-        lblDate.setText("Último acceso: " + user.getLastAccess());
-        lblEmail.setText("Email: " + user.getEmail());
-        lblFullName.setText("Nombre Completo: " + user.getFullname());
-        lblLogin.setText("Login: " + user.getLogin());
-        lblTxoko.setText("Txoko: " + user.getTxoko().getName());
-        menu.setMnemonicParsing(true);
-        menu.setText("_Menu");
-
-        btnLogOut.setMnemonicParsing(true);
-        btnLogOut.setText("_Cerrar Sesion");
-        btnLogOut.setAccelerator(
-                new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
-
-        btnLogOut2.setMnemonicParsing(true);
-        btnLogOut2.setText("_Cerrar Sesion");
-        btnDeleteUser.setDisable(true);
-        btnEditUser.setDisable(true);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            Date parsedDate = dateFormat.parse(user.getLastAccess());
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            LocalDate date = timestamp.toLocalDateTime().toLocalDate();
+            //HACER DE TIMESTAMP A LOCALDATE
+            datePicker.setDisable(true);
+            datePicker.setValue(date);
+            lblFullName.setText(user.getFullname());
+            lblTxoko.setText(user.getTxoko().getName());
+            menu.setMnemonicParsing(true);
+            menu.setText("_Menu");
+            btnLogOut.setMnemonicParsing(true);
+            btnLogOut.setText("_Cerrar Sesion");
+            btnLogOut.setAccelerator(
+                    new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
+            btnLogOut2.setMnemonicParsing(true);
+            btnLogOut2.setText("_Cerrar Sesion");
+            btnDeleteUser.setDisable(true);
+            btnEditUser.setDisable(true);
+            Tooltip t = new Tooltip("Nombre y/o Privilegio editable");
+            btnEditUser.setTooltip(t);
+        } catch (ParseException ex) {
+            LOGGER.log(Level.SEVERE,
+                    "UI GestionUsuariosController: Error parsing date: {0}",
+                    ex.getMessage());
+        }
     }
 
     /**
@@ -508,6 +533,7 @@ public class PC03UserController {
 
     /**
      * Method that handles event for Printing report.
+     *
      * @param event
      */
     private void printAction(ActionEvent event) {
