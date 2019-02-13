@@ -58,11 +58,25 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import jampclientside.logic.ProductLogic;
 import jampclientside.logic.TelephoneLogic;
 import jampclientside.logic.UserLogic;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableCell;
+import static javafx.scene.input.KeyCode.T;
+import javafx.util.Callback;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -293,13 +307,15 @@ public class PC05EventsController {
      */
     @FXML
     private Button btnInforme;
+    @FXML
+    private DatePicker datePicker;
 
     /**
      *
      * Method that receives the ilogic param of the class application.
      *
-     * @param iLogic ilogic it receives the logic object that came from the application
-     * class
+     * @param iLogic ilogic it receives the logic object that came from the
+     * application class
      */
     public void setILogic(EventLogic iLogic) {
         this.ilogic = iLogic;
@@ -331,10 +347,11 @@ public class PC05EventsController {
     /**
      * Method that initializes the "Login" window. It receives the param root,
      * where is the fxml file.
+     *
      * @param root receives the root parameter
      * @throws IOException exception
      */
-    public void initStage(Parent root) throws IOException {
+    public void initStage(Parent root)  {
 
         LOGGER.info("Initializing Principal stage.");
         //Create a scene associated to the node graph root.
@@ -409,15 +426,17 @@ public class PC05EventsController {
      */
     private void handleWindowShowing(WindowEvent event) {
         LOGGER.info("Beginning Principal::windowShow");
-
-        lblDate.setText("Último acceso: " + user.getLastAccess());
-        lblEmail.setText("Email: " + user.getEmail());
-        lblFullName.setText("Nombre Completo: " + user.getFullname());
-        lblLogin.setText("Login: " + user.getLogin());
-        lbllTxoko.setText("Txoko: " + user.getTxoko().getName());
-
+        try{
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date parsedDate = dateFormat.parse(user.getLastAccess());
+        Timestamp timeStamp = new java.sql.Timestamp(parsedDate.getTime());
+        LocalDate local = timeStamp.toLocalDateTime().toLocalDate();
+        datePicker.setValue(local);
+        datePicker.setDisable(true);
+        lblFullName.setText(user.getFullname());
+        lbllTxoko.setText(user.getTxoko().getName());
         cbSearch.getItems().removeAll(cbSearch.getItems());
-        cbSearch.getItems().addAll("Todos los eventos", "Todos los eventos de mi txoko", "Id del evento", "Nombre del evento");
+        cbSearch.getItems().addAll("Todos los eventos", "Todos los eventos de mi txoko", "Nombre del evento");
         //por defecto aparezca la primera opcion seleccionada
         cbSearch.getSelectionModel().select(0);
         btnSearch.setDisable(false);
@@ -438,9 +457,15 @@ public class PC05EventsController {
         menuLogOut.setText("_Cerrar Sesion");
         menuLogOut.setAccelerator(
                 new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
+        //que me aparezcan datos ya de primeras
+        
 
         btnLogOut2.setMnemonicParsing(true);
         btnLogOut2.setText("_Cerrar Sesion");
+        }catch(ParseException e){
+             LOGGER.log(Level.SEVERE, "Error haciendo el formato de la fecha {0}", e.getCause());
+        
+        }
     }
 
     /**
@@ -653,11 +678,12 @@ public class PC05EventsController {
             AddEventController controller = (AddEventController) loader.getController();
             //le mando el objeto logica al controlador 
             controller.setILogic(ilogic);
+             controller.setUser(user);
             //a ese controlador le paso el stage
             controller.setStage(stage);
             //inizializo el stage
             controller.initStage(root);
-            //que aparezca como al principio
+            stage.hide();
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Error accediendo a la ventana {0}", ex.getCause());
         }
@@ -793,32 +819,56 @@ public class PC05EventsController {
     public void comboBoxOption(ActionEvent ev) {
         LOGGER.info("clickOn combo box");
         if (cbSearch.getSelectionModel().getSelectedItem().equals("Todos los eventos")) {
+            eventsData = null;
+            tableView.setItems(eventsData);
             //si anteriormente hay algun texto, quitarlo
             tfSearch.setText("");
             //deshabilitar el textfield
             tfSearch.setDisable(true);
             btnSearch.requestFocus();
+            btnDeleteEvent.setDisable(true);
+            btnAddEvent.setDisable(true);
+            btnInforme.setDisable(true);
+            btnAsignar.setDisable(true);
+            btnInforme.setDisable(true);
+            btnImgEvent.setDisable(true);
             //que se quite lo rojo si anteriormente habia SELECCIONADO algo y daba error
             //para que en el momento de seleccion en el combobox no haya nada en rojo
             labelError.setVisible(false);
             tfSearch.setStyle("-fx-border-color: -fx-box-border;");
         } else if (cbSearch.getSelectionModel().getSelectedItem().equals("Todos los eventos de mi txoko")) {
+            eventsData = null;
+            tableView.setItems(eventsData);
             //si anteriormente hay algun texto, quitarlo
             tfSearch.setText("");
             //deshabilitar el textfield
             tfSearch.setDisable(true);
             btnSearch.requestFocus();
+            btnDeleteEvent.setDisable(true);
+            btnAddEvent.setDisable(true);
+            btnInforme.setDisable(true);
+            btnAsignar.setDisable(true);
+            btnInforme.setDisable(true);
+            btnImgEvent.setDisable(true);
             //que se quite lo rojo si anteriormente habia seleccionado algo y daba error
             //para que en el momento de seleccion en el combobox no haya nada en rojo
             labelError.setVisible(false);
             tfSearch.setStyle("-fx-border-color: -fx-box-border;");
         } else if (cbSearch.getSelectionModel().getSelectedItem().equals("Id del evento")) {
+            eventsData = null;
+            tableView.setItems(eventsData);
             //si anteriormente hay algun texto, quitarlo
             tfSearch.setText("");
             //habilitar el textfield
             tfSearch.setDisable(false);
             //que se ponga el foco en el text field
             tfSearch.requestFocus();
+             btnDeleteEvent.setDisable(true);
+            btnAddEvent.setDisable(true);
+            btnInforme.setDisable(true);
+            btnAsignar.setDisable(true);
+            btnInforme.setDisable(true);
+            btnImgEvent.setDisable(true);
             tooltipID.setText("Escribe el ID del evento");
             tfSearch.setTooltip(tooltipID);
             //que se quite lo rojo si anteriormente habia seleccionado algo y daba error
@@ -826,12 +876,20 @@ public class PC05EventsController {
             labelError.setVisible(false);
             tfSearch.setStyle("-fx-border-color: -fx-box-border;");
         } else if (cbSearch.getSelectionModel().getSelectedItem().equals("Nombre del evento")) {
+            eventsData = null;
+            tableView.setItems(eventsData);
             //si anteriormente hay algun texto, quitarlo
             tfSearch.setText("");
             //habilitar el textfield
             tfSearch.setDisable(false);
             //que se ponga el foco en el text field
             tfSearch.requestFocus();
+             btnDeleteEvent.setDisable(true);
+            btnAddEvent.setDisable(true);
+            btnInforme.setDisable(true);
+            btnAsignar.setDisable(true);
+            btnInforme.setDisable(true);
+            btnImgEvent.setDisable(true);
             tooltipName.setText("Escribe el nombre del evento");
             tfSearch.setTooltip(tooltipName);
             //que se quite lo rojo si anteriormente habia seleccionado algo y daba error

@@ -5,6 +5,8 @@
  */
 package jampclientside.ui.controller;
 
+
+import jampclientside.entity.EventBean;
 import jampclientside.entity.ExpenseBean;
 import jampclientside.entity.UserBean;
 import jampclientside.exceptions.BusinessLogicException;
@@ -43,8 +45,15 @@ import javafx.stage.WindowEvent;
 import jampclientside.logic.ProductLogic;
 import jampclientside.logic.TelephoneLogic;
 import jampclientside.logic.UserLogic;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableCell;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -202,6 +211,8 @@ public class PC04ExpenseController {
     private MenuItem idMenuFTP;
     @FXML
     private Button btnInforme;
+    @FXML
+    private DatePicker datePicker;
 
     /**
      * To close app or session
@@ -321,12 +332,15 @@ public class PC04ExpenseController {
      */
     private void windowShow(WindowEvent event) {
         LOGGER.info("Beginning PrincipalExpense::windowShow");
-        
-        lblDate.setText("Último acceso: " + user.getLastAccess());
-        lblEmail.setText("Email: " + user.getEmail());
-        lblFullName.setText("Nombre Completo: " + user.getFullname());
-        lblLogin.setText("Login: " + user.getLogin());
-        lblTxoko.setText("Txoko: " + user.getTxoko().getName());
+        try{
+         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date parsedDate = dateFormat.parse(user.getLastAccess());
+        Timestamp timeStamp = new java.sql.Timestamp(parsedDate.getTime());
+        LocalDate local = timeStamp.toLocalDateTime().toLocalDate();
+        datePicker.setValue(local);
+        datePicker.setDisable(true);
+        lblFullName.setText(user.getFullname());
+        lblTxoko.setText(user.getTxoko().getName());
         
         menu.setMnemonicParsing(true);
         menu.setText("_Menu");
@@ -343,6 +357,9 @@ public class PC04ExpenseController {
         btnInforme.setDisable(true);
         btnLogOut2.setDisable(false);
         tabExpenses.setEditable(false);
+        }catch(ParseException e){
+             LOGGER.log(Level.SEVERE, "Error haciendo el formato de la fecha {0}", e.getCause());
+        }
 
     }
 

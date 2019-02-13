@@ -14,6 +14,8 @@ import org.junit.Ignore;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
+
+import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
@@ -37,13 +39,9 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
         verifyThat("#tfUsuario", isEnabled());
         verifyThat("#tfContraseña", isEnabled());
         verifyThat("#lblError", isInvisible());
-        doubleClickOn("#tfUsuario");
-        eraseText(20);
-        doubleClickOn("#tfUsuario");
-        eraseText(20);
         write("pau");
         clickOn("#pfContraseña");
-        write("fcdd6828d2");
+        write("5cc17afe95");
         clickOn("#btnInicio");
         verifyThat("#loginPane", isVisible());
     }
@@ -68,11 +66,14 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
         verifyThat("#btnSeeAll", isEnabled());
         verifyThat("#btnSeeMonth", isEnabled());
         verifyThat("#btnLogOut2", isEnabled());
+        verifyThat("#btnInforme", isDisabled());
         verifyThat("#colDate", isVisible());
         verifyThat("#colUser", isVisible());
         verifyThat("#colType", isVisible());
         verifyThat("#colDescription", isVisible());
         verifyThat("#colPrice", isVisible());
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
     }
 
     /**
@@ -81,6 +82,7 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
     @Test
     public void test3_clickOnBtnSeeAll() {
         clickOn("#btnSeeAll");
+        verifyThat("#btnInforme", isEnabled());
     }
 
     /**
@@ -89,6 +91,7 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
     @Test
     public void test4_clickOnBtnSeeMonth() {
         clickOn("#btnSeeMonth");
+        verifyThat("#btnInforme", isDisabled());
     }
 
     /**
@@ -102,6 +105,8 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
         clickOn("#menuExpense");
         clickOn("#idMenuExpense");
         verifyThat("#principalPaneExpense", isVisible());
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
     }
 
     /**
@@ -115,6 +120,8 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
         clickOn("#gastos");
         clickOn("#btnExpenses");
         verifyThat("#principalPaneExpense", isVisible());
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
 
     }
 
@@ -130,6 +137,8 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
         clickOn("#menuExpense");
         clickOn("#idMenuExpense");
         verifyThat("#principalPaneExpense", isVisible());
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
 
     }
 
@@ -143,6 +152,8 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
         verifyThat("#ftpPane", isVisible());
         clickOn("#btnOut");
         verifyThat("#principalPaneExpense", isVisible());
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
 
     }
 
@@ -157,6 +168,9 @@ public class PC04ExpenseControllerIT extends ApplicationTest {
         clickOn("#menuGastos");
         clickOn("#idMenuGastos");
         verifyThat("#principalPaneExpense", isVisible());
+        verifyThat("#lblTxoko", org.testfx.matcher.control.LabeledMatchers.hasText("Jamp"));
+        verifyThat("#lblFullName", org.testfx.matcher.control.LabeledMatchers.hasText("paula"));
+
 
     }
 

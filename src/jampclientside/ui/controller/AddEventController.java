@@ -6,6 +6,7 @@
 package jampclientside.ui.controller;
 
 import jampclientside.entity.EventBean;
+import jampclientside.entity.UserBean;
 import jampclientside.exceptions.BusinessLogicException;
 import jampclientside.logic.EventLogic;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
@@ -24,10 +26,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -132,6 +136,17 @@ public class AddEventController {
         this.stage = stage;
     }
 
+     private UserBean user;
+
+    /**
+     * Set the user received in Login view for this view.
+     *
+     * @param user Userbean user
+     */
+    public void setUser(UserBean user) {
+        this.user = user;
+
+    }
     /**
      * Initializes the controller class.
      *
@@ -193,7 +208,7 @@ public class AddEventController {
      *
      * @param ev event
      */
-    public void addEvent(ActionEvent ev) {
+    public void addEvent(ActionEvent ev)  {
         LOGGER.info("clickOn addevent");
         lblError.setVisible(false);
         boolean isNotEmpty = isNotEmpty();
@@ -220,7 +235,8 @@ public class AddEventController {
                     //CONCATENO LA FECHA Y LA HORA PARA ENVIARLO TODO JUNTO COMO STRING AL SERVIDOR  
                     String fechaHora = datePickerString.concat("T").concat(hora.getText());
                     try {
-
+                        LOGGER.log(Level.SEVERE,
+                                "  creating an event: {0}");
                         EventBean event;
                         event = new EventBean(tfName.getText(), tfDescription.getText(), fechaHora, tfImg.getText(), tfPrice.getText());
                         this.ilogic.createEvent(event);
@@ -229,10 +245,27 @@ public class AddEventController {
                         dialogoAlerta.setContentText("Evento creado");
                         dialogoAlerta.setHeaderText("Crear un evento");
                         dialogoAlerta.showAndWait();
-                        LOGGER.log(Level.SEVERE,
-                                "  creating an event: {0}");
-
-                    } catch (BusinessLogicException e) {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/jampclientside/ui/view/PC05Events.fxml"));
+                        //lo cargo en el root que es de tipo parent
+                        Parent root = (Parent) loader.load();
+                        //obtener el controlador
+                        PC05EventsController controller = (PC05EventsController) loader.getController();
+                        //le mando el objeto logica 
+                        controller.setILogic(ilogic);
+                        controller.setUser(user);
+                        controller.setStage(stage);                      
+                        controller.initStage(root);                        
+                        stage.hide();
+                    } catch(IOException e){
+                     Alert dialogoAlerta = new Alert(Alert.AlertType.ERROR);
+                        dialogoAlerta.setTitle("ERROR");
+                        dialogoAlerta.setContentText("Error volviendo a la ventana de eventos");
+                        dialogoAlerta.setHeaderText("Volver a  eventos");
+                        dialogoAlerta.showAndWait();
+                     LOGGER.log(Level.SEVERE,
+                                " Error volviendo a la ventana de eventos: {0}",
+                                e.getMessage());
+                    }catch (BusinessLogicException e) {
                         Alert dialogoAlerta = new Alert(Alert.AlertType.ERROR);
                         dialogoAlerta.setTitle("ERROR");
                         dialogoAlerta.setContentText("Error a la hora de crear un evento");
